@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<classpath>
-	<classpathentry kind="src" path="src/java"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="/swordfish_libs/lib/commons-logging-1.0.4.jar"/>
-	<classpathentry kind="lib" path="/swordfish_libs/lib/stax-api-1.0.1.jar"/>
-	<classpathentry kind="output" path="target/eclipse-classes"/>
-</classpath>
