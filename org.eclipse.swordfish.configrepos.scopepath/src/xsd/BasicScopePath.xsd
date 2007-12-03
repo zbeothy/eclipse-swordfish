@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--============================================================================
+    Copyright (c) 2007 Deutsche Post AG.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+    
+    Contributors:
+       Deutsche Post AG - initial API and implementation
+ ============================================================================-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:bsp="http://types.sopware.org/configuration/BasicScopePath/1.0"
+    targetNamespace="http://types.sopware.org/configuration/BasicScopePath/1.0"
+    version="1.0"
+    xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" jaxb:version="1.0">
+    <xs:annotation>
+        <xs:appinfo>
+            <jaxb:schemaBindings>
+                <jaxb:package name="org.eclipse.swordfish.configrepos.scopepath.basic">
+                    <jaxb:javadoc><![CDATA[<body><p>This package provides the library for defining basic scope paths
+                        exchangeable via XML.</p><p>The PAPI developer can create a ScopePath and insert a number of
+                        PathParts into it, which will allow the SOP Configuration Repository feature to lookup 
+                        configurations / resources according to the structure defined for the related tree in the
+                        repository.</p></body>]]></jaxb:javadoc>
+                </jaxb:package>
+            </jaxb:schemaBindings>
+        </xs:appinfo>
+    </xs:annotation>
+    <!--
+        Path Definition
+    -->
+    <xs:element name="ScopePath" type="bsp:PathType"/>
+    <xs:complexType name="PathType" id="scopepath">
+        <xs:sequence>
+            <xs:element ref="bsp:PathPart" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="separator" type="xs:string" default="/"/>
+    </xs:complexType>
+    <!--
+        PathPart Definition
+    -->
+    <xs:element name="PathPart" type="bsp:PathPartType"/>
+    <xs:complexType name="PathPartType" id="scopepath.pathpart" mixed="false" abstract="false">
+        <xs:attribute name="value" type="xs:string" use="required"/>
+        <xs:attribute name="type" type="xs:string" use="required"/>
+    </xs:complexType>
+</xs:schema>

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--============================================================================
+    Copyright (c) 2007 Deutsche Post AG.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+    
+    Contributors:
+       Deutsche Post AG - initial API and implementation
+ ============================================================================-->
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:bsp="http://types.sopware.org/configuration/BasicScopePath/1.0" xmlns:cfg="http://types.sopware.org/configuration/ConfigurationQuery/1.0" xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" targetNamespace="http://types.sopware.org/configuration/ConfigurationQuery/1.0" jaxb:version="1.0">
+	<xsd:import namespace="http://types.sopware.org/configuration/BasicScopePath/1.0" schemaLocation="./BasicScopePath.xsd"/>
+	<xsd:annotation>
+		<xsd:appinfo>
+			<jaxb:schemaBindings>
+				<jaxb:package name="org.eclipse.swordfish.configrepos.query">
+					<jaxb:javadoc><![CDATA[<body><p>This package provides the library for defining 
+					queries for participant configurations and resource access.</p></body>]]></jaxb:javadoc>
+				</jaxb:package>
+			</jaxb:schemaBindings>
+		</xsd:appinfo>
+	</xsd:annotation>
+	<!--
+	ConfigurationQuery Definition
+	-->
+	<xsd:element name="ConfigurationQuery" type="cfg:ConfigurationQueryType"/>
+	<xsd:complexType name="ConfigurationQueryType">
+		<xsd:sequence>
+			<xsd:element ref="bsp:ScopePath"/>
+			<xsd:element name="tree" type="xsd:string"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!--
+	ResourceQuery Definition
+	-->
+	<xsd:element name="ResourceQuery" type="cfg:ResourceQueryType"/>
+	<xsd:complexType name="ResourceQueryType">
+		<xsd:sequence>
+			<xsd:element ref="bsp:ScopePath"/>
+			<xsd:element name="tree" type="xsd:string"/>
+			<xsd:element name="componentId" type="xsd:string"/>
+			<xsd:element name="resourceId" type="xsd:string"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!--
+	StoreConfigurationQuery Definition
+	-->
+	<xsd:element name="StoreConfigurationQuery" type="cfg:StoreConfigurationQueryType"/>
+	<xsd:complexType name="StoreConfigurationQueryType">
+		<xsd:sequence>
+			<xsd:element ref="bsp:ScopePath"/>
+			<xsd:element name="tree" type="xsd:string"/>
+			<xsd:element name="content" type="xsd:string"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!--
+	StoreResourceQuery Definition
+	-->
+	<xsd:element name="StoreResourceQuery" type="cfg:StoreResourceQueryType"/>
+	<xsd:complexType name="StoreResourceQueryType">
+		<xsd:sequence>
+			<xsd:element ref="bsp:ScopePath"/>
+			<xsd:element name="tree" type="xsd:string"/>
+			<xsd:element name="componentId" type="xsd:string"/>
+			<xsd:element name="resourceId" type="xsd:string"/>
+			<xsd:element name="content" type="xsd:string"/>		
+		</xsd:sequence>
+	</xsd:complexType>
+	<!--
+	ComponentQuery Definition
+	-->
+	<xsd:element name="ComponentQuery" type="cfg:ComponentQueryType"/>
+	<xsd:complexType name="ComponentQueryType">
+		<xsd:sequence>
+			<xsd:element ref="bsp:ScopePath"/>
+			<xsd:element name="tree" type="xsd:string"/>
+			<xsd:element name="componentId" type="xsd:string"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!--
+	ComponentIdQuery Definition
+	-->
+	<xsd:element name="ComponentIdQuery" type="cfg:ComponentIdQueryType"/>
+	<xsd:complexType name="ComponentIdQueryType">
+		<xsd:sequence>
+			<xsd:element ref="bsp:ScopePath"/>
+			<xsd:element name="tree" type="xsd:string"/>
+			<xsd:element name="componentId" type="xsd:string"/>
+			<xsd:element name="id" type="xsd:string"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!--
+	StoreComponentQuery Definition
+	-->
+	<xsd:element name="StoreComponentQuery" type="cfg:StoreComponentQueryType"/>
+	<xsd:complexType name="StoreComponentQueryType">
+		<xsd:sequence>
+			<xsd:element ref="bsp:ScopePath"/>
+			<xsd:element name="tree" type="xsd:string"/>
+			<xsd:element name="componentId" type="xsd:string"/>
+			<xsd:element name="content" type="xsd:string"/>
+		</xsd:sequence>
+	</xsd:complexType>
+		<!--
+	CopyComponentQuery Definition
+	-->
+	<xsd:element name="CopyComponentQuery" type="cfg:CopyComponentQueryType"/>
+	<xsd:complexType name="CopyComponentQueryType">
+		<xsd:sequence>
+			<xsd:element ref="bsp:ScopePath"/>
+			<xsd:element name="tree" type="xsd:string"/>
+			<xsd:element name="componentId" type="xsd:string"/>
+			<xsd:element name="id" type="xsd:string"/>
+			<xsd:element name="level" type="xsd:int"/>
+		</xsd:sequence>
+	</xsd:complexType>
+</xsd:schema>
