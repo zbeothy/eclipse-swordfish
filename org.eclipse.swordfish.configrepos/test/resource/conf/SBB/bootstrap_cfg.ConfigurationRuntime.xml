@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--============================================================================
+    Copyright (c) 2007 Deutsche Post AG.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+    
+    Contributors:
+       Deutsche Post AG - initial API and implementation
+ ============================================================================-->
+<configuration xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:sopcs="http://schemas.sopware.org/configuration/generic/1.0">
+	<Participant sopcs:name="Application=ConfigurationRuntime">
+		<ConfigurationRepositoryManager>
+			<Location>Prague</Location>
+			<SkipRemoteConfigCall>true</SkipRemoteConfigCall>
+		</ConfigurationRepositoryManager>
+	</Participant>
+	<!-- LocalEndpoints>
+		<Service namespace="http://www.sopware.org/2005/locator" name="ServiceA">
+		<Port name="p1">
+		<Address>http://localhost:8080</Address>
+		</Port>
+		</Service>
+		<Service namespace="http://www.sopware.org/2005/locator" name="ServiceB">
+		<Port name="p2">
+		<Address>jms://localhost:4711</Address>
+		</Port>
+		</Service>
+		<Service namespace="http://www.sopware.org/2005/locator" name="ServiceC">
+		<Port name="p3">
+		<Address>http://localhost:8080</Address>
+		</Port>
+		<Port name="p4">
+		<Address>locator://localhost:8080</Address>
+		</Port>
+		</Service>
+		</LocalEndpoints-->
+</configuration>

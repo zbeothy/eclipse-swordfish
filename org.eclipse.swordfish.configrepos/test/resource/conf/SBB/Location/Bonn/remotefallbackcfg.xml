@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--============================================================================
+    Copyright (c) 2007 Deutsche Post AG.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+    
+    Contributors:
+       Deutsche Post AG - initial API and implementation
+ ============================================================================-->
+<tns:configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://schemas.sopware.org/configuration/core/instance.remote/2.1.0"
+	xmlns:tns="http://schemas.sopware.org/configuration/core/instance.remote/2.1.0"
+	xmlns:sbbap="http://schemas.sopware.org/configuration/core/authorizationproc.remote/1.0"
+	xmlns:sbbpr="http://schemas.sopware.org/configuration/core/policyrouter.remote/1.0"
+	xmlns:sbbpre="http://schemas.sopware.org/configuration/core/policyresolver.remote/1.0"
+	xmlns:sbbrctx="http://schemas.sopware.org/configuration/core/ldap.ctxstore.remote/1.0"
+	xmlns:sbbsrpr="http://schemas.sopware.org/configuration/core/servregproxy.remote/1.0"
+	xmlns:sbblep="http://schemas.sopware.org/configuration/core/localendpoint.remote/1.0"
+	xmlns:sbbtran="http://schemas.sopware.org/configuration/core/transformation.remote/1.0"
+	xmlns:sbbvali="http://schemas.sopware.org/configuration/core/validation.remote/1.0"
+	xmlns:sopcs="http://schemas.sopware.org/configuration/generic/1.0">
+
+	<sbbap:AuthorizationProcessor sopcs:name="default">
+		<sbbap:ExpiryClearance>20</sbbap:ExpiryClearance>
+		<sbbap:ClientExpiry>false</sbbap:ClientExpiry>
+		<sbbap:ClientVerification>false</sbbap:ClientVerification>
+	</sbbap:AuthorizationProcessor>
+
+	<sbbrctx:ContextStore sopcs:name="default">
+		<sbbrctx:StoreType>ldap</sbbrctx:StoreType>
+		<sbbrctx:LdapURL>ldap://sop20-et03-01.servicebackbone.org:10389/ou=DataAuthenticationTSP,o=SOPware</sbbrctx:LdapURL>
+	</sbbrctx:ContextStore>
+
+	<sbbpr:PolicyRouter sopcs:name="default">
+		<sbbpr:PolicyExpiryCheck>false</sbbpr:PolicyExpiryCheck>
+		<sbbpr:PolicyExpiryGracePeriod>600</sbbpr:PolicyExpiryGracePeriod>
+	</sbbpr:PolicyRouter>
+
+	<sbbpre:PolicyResolver sopcs:name="default"
+		defaultConsumerPolicyName="DefaultConsumerPolicy"
+		useDefaultConsumerPolicy="true">
+		<sbbpre:PolicyMap>
+			<sbbpre:Policy name="FastAndFurious">
+				<sbbpre:PolicyId>consumer.ppdx</sbbpre:PolicyId>
+			</sbbpre:Policy>
+			<sbbpre:Policy name="DefaultConsumerPolicy">
+				<sbbpre:PolicyId>consumer.ppdx</sbbpre:PolicyId>
+			</sbbpre:Policy>
+			<sbbpre:Policy name="StandardPolicy">
+				<sbbpre:PolicyId>consumer.ppdx</sbbpre:PolicyId>
+			</sbbpre:Policy>
+		</sbbpre:PolicyMap>
+	</sbbpre:PolicyResolver>
+
+	<sbbsrpr:ServiceRegistryProxy sopcs:name="default"
+		cachingEnabled="false" />
+
+	<sbblep:LocalEndpoints sopcs:name="default">
+		<sbblep:ConsumerEndpoint>
+			<sbblep:CallbackService
+				namespace="http://services.sopware.org/demos/Library/1.0"
+				portTypeName="LibraryConsumer">
+				<sbblep:Port name="consumerCallback_jmsEP">
+					<sbblep:JmsAddress>
+						<sbblep:initialContextFactory>
+							fr.dyade.aaa.jndi2.client.NamingContextFactory
+						</sbblep:initialContextFactory>
+						<sbblep:jndiProviderURL>
+							scn://localhost:16400
+						</sbblep:jndiProviderURL>
+						<sbblep:jndiConnectionFactoryName>
+							JBIQueueConnectionFactory
+						</sbblep:jndiConnectionFactoryName>
+						<sbblep:destinationStyle>queue</sbblep:destinationStyle>
+						<sbblep:jndiDestinationName>
+							ResponseQueue
+						</sbblep:jndiDestinationName>
+						<sbblep:isSharedDestination>
+							true
+						</sbblep:isSharedDestination>
+						<sbblep:JMSUser>
+							<sbblep:UserID>root</sbblep:UserID>
+							<sbblep:Password>root</sbblep:Password>
+						</sbblep:JMSUser>
+						<sbblep:jndiProperties>
+							<sbblep:property
+								name="java.naming.security.principal">
+								<sbblep:Value>root</sbblep:Value>
+							</sbblep:property>
+							<sbblep:property
+								name="java.naming.security.credentials">
+								<sbblep:Value>root</sbblep:Value>
+							</sbblep:property>
+						</sbblep:jndiProperties>
+					</sbblep:JmsAddress>
+				</sbblep:Port>
+				<sbblep:Port name="LibraryConsumerCallback_httpEP">
+					<sbblep:Address>
+						http://127.0.0.1:8081/soap/LibraryConsumer
+					</sbblep:Address>
+				</sbblep:Port>
+			</sbblep:CallbackService>
+		</sbblep:ConsumerEndpoint>
+		<!-- in this way a spdx port is overwritten -->
+		<sbblep:ProviderEndpoint>
+			<sbblep:Service
+				namespace="http://services.sopware.org/demos/LibraryProvider/1.0"
+				name="LibraryProvider">
+				<sbblep:Port name="LibraryProvider_jmsPort">
+					<sbblep:JmsAddress>
+						<sbblep:initialContextFactory>
+							fr.dyade.aaa.jndi2.client.NamingContextFactory
+						</sbblep:initialContextFactory>
+						<sbblep:jndiProviderURL>
+							scn://localhost:16400
+						</sbblep:jndiProviderURL>
+						<sbblep:jndiConnectionFactoryName>
+							JBIQueueConnectionFactory
+						</sbblep:jndiConnectionFactoryName>
+						<sbblep:destinationStyle>queue</sbblep:destinationStyle>
+						<sbblep:jndiDestinationName>
+							RequestQueue
+						</sbblep:jndiDestinationName>
+					</sbblep:JmsAddress>
+
+				</sbblep:Port>
+				<sbblep:Port name="LibraryProvider_httpPort">
+					<sbblep:Address>
+						http://127.0.0.1:8080/soap/LibraryProvider
+					</sbblep:Address>
+				</sbblep:Port>
+			</sbblep:Service>
+		</sbblep:ProviderEndpoint>
+	</sbblep:LocalEndpoints>
+	<sbbtran:Transformation sopcs:name="default"/>
+	<sbbvali:Validation sopcs:name="default"/>
+</tns:configuration>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--============================================================================
+    Copyright (c) 2007 Deutsche Post AG.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+    
+    Contributors:
+       Deutsche Post AG - initial API and implementation
+ ============================================================================-->
+<people which="MeAndMyFriends">
+     <person firstname="Sal" lastname="Mangano" age="38" height="5.75"/>
+     <person firstname="Mike" lastname="Palmieri" age="28" height="5.10"/>
+     <person firstname="Vito" lastname="Palmieri" age="38" height="6.0"/>
+     <person firstname="Vinny" lastname="Mari" age="37" height="5.8"/>
+</people>

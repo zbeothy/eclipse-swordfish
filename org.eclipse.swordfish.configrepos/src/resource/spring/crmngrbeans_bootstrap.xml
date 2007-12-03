@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--============================================================================
+    Copyright (c) 2007 Deutsche Post AG.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+    
+    Contributors:
+       Deutsche Post AG - initial API and implementation
+ ============================================================================-->
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<!-- 
+	$Revision: 1.26.12.2 $
+	Author: Christian Schroeder
+-->
+<beans>
+	<description>
+		SOP Configuration Manager Spring Component: Bootstrap
+		Configuration
+	</description>
+	<!-- 
+		core cache setup
+		============================ 
+	-->
+	<bean id="org.eclipse.swordfish.configrepos.springbeans.OSCacheManager"
+		class="org.springmodules.cache.provider.oscache.OsCacheManagerFactoryBean">
+		<property name="configLocation">
+			<bean class="java.lang.String">
+				<constructor-arg type="java.lang.StringBuffer">
+					<bean
+						class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+						<property name="targetClass"
+							value="org.eclipse.swordfish.configrepos.util.DirectorySourceUtil" />
+						<property name="targetMethod"
+							value="appendWithSeparator" />
+						<property name="arguments">
+							<list>
+								<bean class="java.lang.StringBuffer">
+									<constructor-arg index="0"
+										type="java.lang.String" ref="sbb_workdirectory" />
+								</bean>
+								<value type="java.lang.String">SBB/configrepos/cr_oscache.properties</value>
+							</list>
+						</property>
+					</bean>
+				</constructor-arg>
+			</bean>
+		</property>
+	</bean>
+	<bean
+		name="org.eclipse.swordfish.configrepos.springbeans.BootstrapOSCacheProvider"
+		class="org.springmodules.cache.provider.oscache.OsCacheFacade">
+		<property name="cacheManager"
+			ref="org.eclipse.swordfish.configrepos.springbeans.OSCacheManager" />
+		<property name="cacheProfiles">
+			<map>
+				<entry key="config">
+					<bean
+						class="org.springmodules.cache.provider.oscache.OsCacheProfile">
+						<!-- property name="cronExpression" value="* * * * *"/-->
+						<property name="groups" value="firstGroup" />
+						<property name="refreshPeriod" value="600" />
+					</bean>
+				</entry>
+			</map>
+		</property>
+	</bean>
+	<!--
+		Boot configuration source 
+	-->
+	<bean
+		id="org.eclipse.swordfish.configrepos.springbeans.BootConfigSourceDefaults"
+		class="org.eclipse.swordfish.configrepos.configuration.sources.SpringResourceConfigurationSource">
+		<property name="resource">
+			<value>classpath:bootdefaults_cfg.xml</value>
+		</property>
+	</bean>
+	<!-- bean id="org.eclipse.swordfish.configrepos.springbeans.BootConfigSource"
+		class="org.eclipse.swordfish.configrepos.configuration.sources.DirectoryConfigurationSource">
+		<property name="basePath">
+		<ref bean="sbb_workdirectory"/>
+		</property>
+		<property name="filename">
+		<value>bootstrap_cfg</value>
+		</property>
+		<property name="fixedScopePath">
+		<null/>
+		</property>
+		</bean -->
+	<bean
+		id="org.eclipse.swordfish.configrepos.springbeans.ListFilebasedBootConfigurations"
+		class="org.eclipse.swordfish.configrepos.util.ConfigurationSourceLister">
+		<property name="basePath" ref="sbb_workdirectory" />
+		<property name="treeQualifier" value="SBB" />
+		<property name="pattern" value="./bootstrap_cfg*.xml" />
+	</bean>
+	<bean
+		id="org.eclipse.swordfish.configrepos.springbeans.MergeFilebasedBootConfigurations"
+		class="org.eclipse.swordfish.configrepos.configuration.sources.MergingConfigurationSource">
+		<property name="configSources">
+			<bean
+				factory-bean="org.eclipse.swordfish.configrepos.springbeans.ListFilebasedBootConfigurations"
+				factory-method="load" />
+		</property>
+	</bean>
+	<bean
+		id="org.eclipse.swordfish.configrepos.springbeans.MergeEffectiveBootConfigSource"
+		class="org.eclipse.swordfish.configrepos.configuration.sources.MergingConfigurationSource">
+		<property name="configSources">
+			<list>
+				<ref
+					bean="org.eclipse.swordfish.configrepos.springbeans.BootConfigSourceDefaults" />
+				<ref
+					bean="org.eclipse.swordfish.configrepos.springbeans.MergeFilebasedBootConfigurations" />
+			</list>
+		</property>
+		<property name="strictMerging" value="false" />
+	</bean>
+	<bean
+		id="org.eclipse.swordfish.configrepos.springbeans.BootstrapConfiguration"
+		name="boot_config"
+		class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="targetObject">
+			<ref
+				bean="org.eclipse.swordfish.configrepos.springbeans.BootstrapConfigurationRepositoryManager" />
+		</property>
+		<property name="targetMethod">
+			<value>getConfiguration</value>
+		</property>
+		<property name="arguments">
+			<list>
+				<null />
+				<null />
+			</list>
+		</property>
+	</bean>
+	<!--
+		Filesystem Based Resource Source
+	-->
+	<bean
+		id="org.eclipse.swordfish.configrepos.springbeans.BootstrapResourceSource"
+		class="org.eclipse.swordfish.configrepos.resource.sources.DirectoryResourceSource"
+		singleton="false">
+		<property name="basePath" ref="sbb_workdirectory" />
+	</bean>
+	<!--
+		Boot Manager Definition 
+	-->
+	<bean
+		id="org.eclipse.swordfish.configrepos.springbeans.BootstrapConfigurationRepositoryManager"
+		class="org.eclipse.swordfish.configrepos.ConfigurationRepositoryManagerInternalImpl"
+		autowire="byName">
+		<property name="configSource"
+			ref="org.eclipse.swordfish.configrepos.springbeans.MergeEffectiveBootConfigSource" />
+		<property name="resourceSource"
+			ref="org.eclipse.swordfish.configrepos.springbeans.BootstrapResourceSource" />
+		<property name="defaultTreeQualifier" value="SBB" />
+		<property name="jxPathContextFactory">
+        	<ref bean="org.eclipse.swordfish.configrepos.springbeans.JXPathContextFactory"/>
+        </property>
+		
+	</bean>
+	<!--
+		Jakarta commons-transaction FileResourceManager wrapper bean to be used by all file base 
+		configuration/resource sources.  
+	-->
+	<bean id="org.eclipse.swordfish.configrepos.spring.FileResourceManagerBean"
+		class="org.eclipse.swordfish.configrepos.spring.FileResourceManagerBean">
+		<constructor-arg index="0" ref="sbb_workdirectory" />
+		<constructor-arg index="1" value="./log" />
+		<constructor-arg index="2" value="true" />
+	</bean>
+	<!--
+		Support for schema validation
+	-->
+	<bean id="defaultCatalog" class="java.lang.String">
+		<constructor-arg index="0" value="classpath:catalog.xml" />
+	</bean>
+	<bean
+		id="org.eclipse.swordfish.configrepos.springbeans.ConfigurationValidator"
+		class="org.eclipse.swordfish.configrepos.shared.validation.ValidationProcessor"
+		singleton="true" lazy-init="true">
+		<constructor-arg index="0" ref="defaultCatalog" />
+		<property name="externalResolvers">
+			<list>
+				<bean
+					id="org.eclipse.swordfish.configrepos.springbeans.ComponentClasspathResourceResolver"
+					class="org.eclipse.swordfish.configrepos.validation.ClasspathResourceResolver">
+					<constructor-arg index="0" value="false"/>
+				</bean>
+				<bean
+					id="org.eclipse.swordfish.configrepos.springbeans.ContextClasspathResourceResolver"
+					class="org.eclipse.swordfish.configrepos.validation.ClasspathResourceResolver">
+					<constructor-arg index="0" value="true"/>
+				</bean>
+    		</list>
+		</property>
+
+	</bean>
+	<bean
+		id="org.eclipse.swordfish.configrepos.springbeans.SBBLibraryConfigurationSchemaClasspathSource"
+		class="org.eclipse.swordfish.configrepos.resource.sources.DirectoryResourceSource"
+		singleton="true">
+		<property name="basePath" value="classpath:." />
+	</bean>
+	<bean id="org.eclipse.swordfish.configrepos.springbeans.JXPathContextFactory"
+		class="org.eclipse.swordfish.configrepos.spring.JXPathContextFactoryBean">
+		<property name="namespaceMap">
+			<map>
+				<entry>
+					<key>
+						<value>sbbap</value>
+					</key>
+					<value>http://schemas.sopware.org/sbb/configuration/1.0/authorizationproc.remote.xsd</value>
+				</entry>
+				<entry>
+					<key>
+						<value>sbbprou</value>
+					</key>
+					<value>http://schemas.sopware.org/sbb/configuration/1.0/policyrouter.remote.xsd</value>
+				</entry>
+				<entry>
+					<key>
+						<value>sbbpres</value>
+					</key>
+					<value>http://schemas.sopware.org/sbb/configuration/1.0/policyresolver.remote.xsd</value>
+				</entry>
+				<entry>
+					<key>
+						<value>sbbsrpr</value>
+					</key>
+					<value>http://schemas.sopware.org/sbb/configuration/1.0/servregproxy.remote.xsd</value>
+				</entry>
+				<entry>
+					<key>
+						<value>sbbcem</value>
+					</key>
+					<value>http://schemas.sopware.org/sbb/configuration/1.0/callbackendmap.remote.xsd</value>
+				</entry>
+				<entry>
+					<key>
+						<value>sbblep</value>
+					</key>
+					<value>http://schemas.sopware.org/sbb/configuration/1.0/localendpoint.remote.xsd</value>
+				</entry>
+				<entry>
+					<key>
+						<value>sbbaep</value>
+					</key>
+					<value>http://schemas.sopware.org/sbb/configuration/1.0/authenticationproc.local.xsd</value>
+				</entry>
+				<entry>
+					<key>
+						<value>sbbaop</value>
+					</key>
+					<value>http://schemas.sopware.org/sbb/configuration/1.0/authorizationproc.local.xsd</value>
+				</entry>
+				<entry>
+					<key>
+						<value>sbbsip</value>
+					</key>
+					<value>http://schemas.sopware.org/sbb/configuration/1.0/signingproc.local.xsd</value>
+				</entry>
+				<entry>
+					<key>
+						<value>sbbenp</value>
+					</key>
+					<value>http://schemas.sopware.org/sbb/configuration/1.0/encryptionproc.local.xsd</value>
+				</entry>
+				<entry>
+					<key>
+						<value>sbblctx</value>
+					</key>
+					<value>http://schemas.sopware.org/sbb/configuration/1.0/ldap.ctxstore.local.xsd</value>
+				</entry>
+				<entry>
+					<key>
+						<value>sbbintp</value>
+					</key>
+					<value>http://schemas.sopware.org/sbb/configuration/1.0/internalproxy.local.xsd</value>
+				</entry>
+				<entry>
+					<key>
+						<value>sopcs</value>
+					</key>
+					<value>http://schemas.sopware.org/configuration/generic/1.0</value>
+				</entry>
+			</map>
+		</property>
+	</bean>
+</beans>
+
+
+

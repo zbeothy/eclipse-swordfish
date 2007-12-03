@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--============================================================================
+    Copyright (c) 2007 Deutsche Post AG.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+    
+    Contributors:
+       Deutsche Post AG - initial API and implementation
+ ============================================================================-->
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<!-- 
+    $Revision: 1.39.12.2 $
+    Author: Christian Schroeder
+-->
+<beans>
+    <description>SOP Configuration Manager Spring Component: Instance Configuration</description>
+    <!-- 
+        property replacement with specific defaults defined during build time
+    -->
+    <bean id="placeholderResolverInstance"
+        class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location">
+            <value>classpath:crmngrbeans_placeholder.properties</value>
+        </property>
+    </bean>
+    <bean id="placeholder"
+        class="org.eclipse.swordfish.configrepos.spring.ConfigurationRepositoryPlaceholderConfigurer">
+        <property name="placeholderPrefix">
+            <value>$sbb_boot{</value>
+        </property>
+        <property name="config">
+            <ref bean="boot_config"/>
+        </property>
+        <property name="jxPathContextFactory">
+        	<ref bean="org.eclipse.swordfish.configrepos.springbeans.JXPathContextFactory"/>
+        </property>
+    </bean>
+    <!-- 
+        Replaceable Core Local Configuration
+        ====================================
+        Allows replacing local core configuration per participant. In case a participant specific configuration is not
+        being found, the installation specific one is being used. If the latter in not available too, a configuration error
+        will be thrown. 
+    -->
+    <bean name="org.eclipse.swordfish.configrepos.springbeans.SBBCoreInstallationConfigSource"
+        class="org.eclipse.swordfish.configrepos.configuration.sources.DirectoryConfigurationSource"
+        depends-on="placeholderResolverInstance">
+        <property name="basePath">
+            <ref bean="sbb_workdirectory"/>
+        </property>
+        <property name="filename">
+            <value>sbblocalcfg</value>
+        </property>
+        <property name="returnEmptyForNonAvailable" value="true"/>        
+        <property name="resourceManager" ref="org.eclipse.swordfish.configrepos.spring.FileResourceManagerBean"/>
+        <property name="validator" ref="org.eclipse.swordfish.configrepos.springbeans.ConfigurationValidator" />
+        <property name="schemasource" ref="org.eclipse.swordfish.configrepos.springbeans.InstanceConfigurationSchemaSource" />
+    </bean>
+    <!-- 
+        Remote Configuration Source
+        ===========================
+        Will instantiate a proxy to the remote configuration repository, which can be queried for configuration dedicated to
+        specific identifiers. 
+    -->
+    <bean name="org.eclipse.swordfish.configrepos.alias.RemoteFallbackConfigSource"
+        class="org.eclipse.swordfish.configrepos.configuration.sources.DirectoryConfigurationSource"
+        depends-on="placeholderResolverInstance">
+        <property name="basePath">
+            <ref bean="sbb_workdirectory"/>
+        </property>
+        <property name="filename">
+            <value>remotefallbackcfg</value>
+        </property>
+        <property name="returnEmptyForNonAvailable" value="true"/>
+        <property name="resourceManager"
+            ref="org.eclipse.swordfish.configrepos.spring.FileResourceManagerBean"/>
+        <property name="validator" ref="org.eclipse.swordfish.configrepos.springbeans.ConfigurationValidator" />
+        <property name="schemasource" ref="org.eclipse.swordfish.configrepos.springbeans.InstanceConfigurationSchemaSource" />
+    </bean>
+    <bean name="instanceFailsafeRemoteConfigSource"
+        class="org.eclipse.swordfish.configrepos.configuration.sources.FailsafeConfigurationSource">
+        <property name="mainConfigurationSource"
+            ref="org.eclipse.swordfish.configrepos.springbeans.InstanceRemoteConfigSource"/>
+        <property name="fallbackConfigurationSource"
+            ref="org.eclipse.swordfish.configrepos.alias.RemoteFallbackConfigSource"/>
+    </bean>
+    <!--
+        Merging Configuration Source
+        ============================
+    -->
+    <bean name="instanceMergingConfigSource"
+        class="org.eclipse.swordfish.configrepos.configuration.sources.MergingConfigurationSource"
+        autowire="byName">
+        <description>This merger will combine local and remote configuration sources into a
+            participant specific effective configuration</description>
+        <property name="configSources">
+            <list>
+                <ref bean="instanceFailsafeRemoteConfigSource"/>
+                <ref bean="org.eclipse.swordfish.configrepos.springbeans.SBBCoreInstallationConfigSource"/>
+            </list>
+        </property>
+    </bean>
+    <!-- 
+        Configuration cache interceptor instantiation
+    -->
+    <bean id="cachedConfigSource"
+        class="org.eclipse.swordfish.configrepos.configuration.sources.CachingConfigurationSource">
+        <property name="cacheProvider"
+            ref="org.eclipse.swordfish.configrepos.springbeans.BootstrapOSCacheProvider"/>
+        <property name="cacheTarget" ref="instanceMergingConfigSource"/>
+        <property name="cacheProfile" value="config"/>
+    </bean>
+    <!--
+        Filesystem Based Resource Source
+    -->
+    <bean id="org.eclipse.swordfish.configrepos.springbeans.InstanceFallbackResourceSource"
+        class="org.eclipse.swordfish.configrepos.resource.sources.DirectoryResourceSource">
+        <property name="basePath">
+            <ref bean="sbb_workdirectory"/>
+        </property>
+        <property name="fixedTreeQualifier" value="SBB"/>
+        <property name="resourceManager"
+            ref="org.eclipse.swordfish.configrepos.spring.FileResourceManagerBean"/>
+    </bean>
+    <!--
+        Failsafe Resource Source
+        FIXME This should be wrapped in a cache interceptor 
+    -->
+    <bean id="instanceFailsafeResourceSource"
+        class="org.eclipse.swordfish.configrepos.resource.sources.FailsafeResourceSource">
+        <property name="mainResourceSource"
+            ref="org.eclipse.swordfish.configrepos.springbeans.InstanceRemoteResourceSource"/>
+        <property name="fallbackResourceSource" ref="org.eclipse.swordfish.configrepos.springbeans.InstanceFallbackResourceSource"/>
+    </bean>
+    <!-- 
+        Resource cache interceptor instantiation
+    -->
+    <bean id="cachedResourceSource"
+        class="org.eclipse.swordfish.configrepos.resource.sources.CachingResourceSource">
+        <property name="cacheProvider"
+            ref="org.eclipse.swordfish.configrepos.springbeans.BootstrapOSCacheProvider"/>
+        <property name="cacheTarget" ref="instanceFailsafeResourceSource"/>
+        <property name="cacheProfile" value="config"/>
+    </bean>
+    <!--
+        Resource reader for sbb configuration schemas
+    -->
+    <bean id="org.eclipse.swordfish.configrepos.springbeans.InstanceConfigurationSchemaSource"
+        class="org.eclipse.swordfish.configrepos.resource.sources.OverrideableResourceSource" singleton="true">
+        <property name="sources">
+            <list>
+                <ref
+                    bean="org.eclipse.swordfish.configrepos.springbeans.SBBLibraryConfigurationSchemaClasspathSource"/>
+                <ref
+                    bean="org.eclipse.swordfish.configrepos.springbeans.InstanceFallbackResourceSource"/>
+            </list>
+        </property>
+        <property name="logLevel" value="OFF"/>
+    </bean>    
+    <!--
+        Configuration Manager Template
+    -->
+    <bean id="cfgmngr" class="org.eclipse.swordfish.configrepos.ConfigurationRepositoryManagerInternalImpl"
+        singleton="false" abstract="true" autowire="byName">
+        <property name="bootConfiguration" ref="boot_config"/>
+        <property name="configSource" ref="cachedConfigSource"/>
+        <property name="resourceSource" ref="cachedResourceSource"/>
+        <property name="skipRemoteRepositoryCalls">
+            <value>$sbb_boot{Participant[@sopcs:name="/"]/ConfigurationRepositoryManager/SkipRemoteConfigCall}</value>
+        </property>
+        <property name="reverseLinkList">
+            <list>
+                <ref bean="instanceFailsafeRemoteConfigSource"/>
+                <ref bean="instanceFailsafeResourceSource"/>
+            </list>
+        </property>
+        <property name="jxPathContextFactory">
+        	<ref bean="org.eclipse.swordfish.configrepos.springbeans.JXPathContextFactory"/>
+        </property>
+        
+    </bean>
+</beans>
