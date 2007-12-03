@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--============================================================================
+    Copyright (c) 2007 Deutsche Post AG.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+    
+    Contributors:
+       Deutsche Post AG - initial API and implementation
+ ============================================================================-->
+<configuration xmlns="http://schemas.sopware.org/configuration/configuration_admin/1.0"
+		xmlns:sopcs="http://schemas.sopware.org/configuration/generic/1.0"
+		xmlns:sopcom="http://schemas.sopware.org/configuration/tsp_common/1.0"
+		xmlns:sopcad="http://schemas.sopware.org/configuration/tsp_config_admin/1.0"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://schemas.sopware.org/configuration/configuration_admin/1.0 ../../tsp/tsp_conf_configurationAdmin.remote.xsd">
+	<sopcad:configurationAdmin sopcs:name="default">
+        <!-- 
+	Optional / Mandatory for FILE backend
+	Defines the location of the directory containing the resource files. 
+	-->
+        <!-- DEFAULT: -->
+	<!--sopcad:resource-root name="0">conf</sopcad:resource-root-->
+        <!-- 
+	Optional / Mandatory for FILE backend
+	Defines the location of the storage file. 
+	-->
+        <!-- DEFAULT: -->
+	<!--sopcad:repository-file name="1">conf/scopeconfiguration.xml</sopcad:repository-file-->
+        <!--
+	Mandatory
+	Activate / Deactivate usage of the caching functionality in the JNDI backend.
+	It is strongly discouraged to set this to 'true' in a clustered configuration repository environment
+	-->
+        <!-- DEFAULT: -->
+        <sopcad:cache-repository-read>false</sopcad:cache-repository-read>
+        <!-- 
+	Mandatory
+	Selection of the storage backend for the provider. Allowed values are:
+	FILE - for the file system based backend
+	JNDI - for a LDAP based backend 
+	-->
+        <!-- DEFAULT: -->
+        <sopcad:used-repository>JNDI</sopcad:used-repository>
+        <!-- 
+	Mandatory
+	Defines the separator for sub-trees. Should be left as '.'
+	-->
+        <!-- DEFAULT: -->
+        <sopcad:path-separator>.</sopcad:path-separator>
+    <sopcad:ldap name="default">
+        <!--
+		Optional / Mandatory for JNDI backend
+		URL of the LDAP backend. Trailing '/' are being removed
+		-->
+        <!-- DEFAULT: com.sun.jndi.ldap.LdapCtxFactory -->
+        <sopcom:initial-context-factory>com.sun.jndi.ldap.LdapCtxFactory</sopcom:initial-context-factory>
+        <!-- OBLIGAT The LDAP provider url incl. root context -->
+        <!-- DEFAULT: none -->
+		<sopcom:providerURL>__#__SOPW_CONF_JNDI_URL__#__</sopcom:providerURL>
+		
+		<!--
+		Optional / Mandatory for JNDI backend
+		Authentication mechanism for the LDAP backend.
+		If 'none', bindDN and bindPassword will be ignored. 
+		If 'simple', both properties are oblogatory
+		-->
+		<!-- DEFAULT: none -->
+		<sopcom:secure-auth>simple</sopcom:secure-auth>
+		
+		<!--
+		Optional / Mandatory for JNDI backend
+		CN of the technical user with read / write permissions on the backend
+		-->
+		<!-- DEFAULT: none -->
+		<sopcom:bindDN>__#__SOPW_CONF_JNDI_USER__#__</sopcom:bindDN>
+		
+		<!--
+		Mandatory for JNDI backend ans secure-auth = simple
+		Password of technical user with read / write permissions on the backend
+		-->
+		<!-- DEFAULT: none -->
+		<sopcom:bindPassword>__#__SOPW_CONF_JNDI_PWD__#__</sopcom:bindPassword>
+        <!-- OPTIONAL Flag which enables/disables the per context connection pooling -->
+        <!-- DEFAULT: false -->
+        <sopcom:connection-pool>true</sopcom:connection-pool>
+                <!--
+            Optional / Mandatory for JNDI backend
+            Define whether setting using the LDAP schema for the SOP configuration 
+            directory should be activated. Leave as 'true'
+        -->
+        <!-- DEFAULT: -->
+        <sopcom:use-schema>true</sopcom:use-schema>
+    </sopcad:ldap>
+   </sopcad:configurationAdmin>
+</configuration>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--============================================================================
+    Copyright (c) 2007 Deutsche Post AG.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+    
+    Contributors:
+       Deutsche Post AG - initial API and implementation
+ ============================================================================-->
+<!DOCTYPE mbeans-descriptors PUBLIC "-//Apache Software Foundation//DTD Model MBeans Configuration File" "http://jakarta.apache.org/commons/dtds/mbeans-descriptors">
+<mbeans-descriptors>
+    <!-- 
+        Configuration Repository Manager
+    -->
+    <mbean name="ConfigurationRepositoryManager" 
+        description="Configuration Repository Manager Bean"
+        type="org.eclipse.swordfish.core.components.configrepos.instrumentation.InstrumentedConfigurationManagerInternal" 
+        domain="sbb"
+        group="configuration">
+        <!--
+            Fixed scope path attribute
+        -->
+        <attribute 
+            name="FixedScopePath" 
+            description="Fixed scopepath assigned to this manager instance, being used as a predicate for fetching configuration. Null indicates no restriction" 
+            type="java.lang.String" 
+            displayName="Fixed Scope Path"
+            writeable="no"/>
+        <!--
+            Default tree qualifier 
+        -->
+        <attribute 
+            name="DefaultTreeQualifier" 
+            description="Fixed tree qualifier assigned to this manager instance, being used to qualify the tree to be used for fetching configuration instances."
+            displayName="Fixed Tree Qualifier"
+            type="java.lang.String"
+            writeable="no"/>
+        <!--
+            fetch the configuration from this manager
+        -->
+        <attribute 
+            name="Configuration" 
+            description="The configuration assigned to this configuration manager." 
+            displayName="Fetch configuration" 
+            type="java.util.Map" 
+            writeable="no"/>
+        <!--
+            Refresh operation
+        -->
+        <operation 
+            name="Resynchronize" 
+            description="Trigger configuration manager instance to resynchronize its components with the configuration sources and notify any connected participanting components about an updated configuration." 
+            impact="ACTION"/>
+    </mbean>
+</mbeans-descriptors>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--============================================================================
+    Copyright (c) 2007 Deutsche Post AG.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+    
+    Contributors:
+       Deutsche Post AG - initial API and implementation
+ ============================================================================-->
+<jbi version="1.0" xmlns="http://java.sun.com/xml/ns/jbi">
+	<component type="service-engine" component-class-loader-delegation="self-first">
+		<identification>
+			<name>org.eclipse.swordfish.SOPEngine</name>
+			<description>SOPWare Service Engine</description>
+		</identification>
+        <component-class-name description="Component">org.eclipse.swordfish.core.engine.ComponentImpl</component-class-name>
+        <component-class-path>
+			<!-- SBB components -->
+		    <path-element>lib/sbb-se-core.jar</path-element>		
+		    <path-element>lib/sbb-internal-papi.jar</path-element>		
+		    <path-element>lib/sbb-papi-adapter.jar</path-element>		
+            <path-element>lib/sbb-configrepos-proxy.jar</path-element>
+            <path-element>lib/sbb-configrepos-scopepath-dom.jar</path-element>
+            <path-element>lib/sbb-configrepos-scopepath-dom-util.jar</path-element>
+            <path-element>lib/sbb-configrepos-shared.jar</path-element>
+            <path-element>lib/neethi-sopware.jar</path-element>
+            <path-element>lib/policy-operation.jar</path-element>
+            <path-element>lib/policy-trader.jar</path-element>
+			<!--  3rd party components -->
+			<path-element>lib/wstx-asl-3.0.2.jar</path-element>
+            <path-element>lib/aspectjrt-@@aspectj.ver@@.jar</path-element>
+			<path-element>lib/spring-aop-@@spring.ver@@.jar</path-element>
+			<path-element>lib/spring-beans-@@spring.ver@@.jar</path-element>
+			<path-element>lib/spring-context-@@spring.ver@@.jar</path-element>
+			<path-element>lib/spring-core-@@spring.ver@@.jar</path-element>
+			<path-element>lib/spring-support-@@spring.ver@@.jar</path-element>
+			<path-element>lib/spring-jdbc-@@spring.ver@@.jar</path-element>
+			<path-element>lib/spring-dao-@@spring.ver@@.jar</path-element>
+            <path-element>lib/springmodules-@@springmodules.ver@@.jar</path-element>
+            <path-element>lib/cglib-nodep-@@spring.cglib.ver@@.jar</path-element>
+			<path-element>lib/oscache-@@oscache.ver@@.jar</path-element>
+			<path-element>lib/jsr173_1.0_api_p1.jar</path-element>
+			<path-element>lib/xercesImpl-@@xerces.ver@@.jar</path-element>
+			<path-element>lib/xalan-@@xalan.ver@@.jar</path-element>
+			<path-element>lib/serializer-@@xalan.ver@@.jar</path-element>
+			<path-element>lib/resolver-@@xerces.ver@@.jar</path-element>
+			<path-element>lib/opensaml-@@opensaml.ver@@.jar</path-element>
+			<path-element>lib/sbb-loginmodule-ldap.jar</path-element>
+			<path-element>lib/xmlsec-@@xmlsec.ver@@.jar</path-element>
+			<path-element>lib/wsif-@@wsif.ver@@.jar</path-element>
+			<path-element>lib/commons-collections-@@commons.collections.ver@@.jar</path-element>
+            <path-element>lib/commons-configuration-@@commons.configuration.ver@@.jar</path-element>
+            <path-element>lib/commons-digester-@@commons.digester.ver@@.jar</path-element>
+            <path-element>lib/commons-modeler-@@commons.modeler.ver@@.jar</path-element>
+            <path-element>lib/commons-lang-@@commons.lang.ver@@.jar</path-element>
+            <path-element>lib/commons-codec-@@commons.codec.ver@@.jar</path-element>
+            <path-element>lib/commons-jxpath-@@commons.jxpath.ver@@.jar</path-element>
+            <path-element>lib/commons-transaction_p1-@@commons.transaction.ver@@.jar</path-element>
+            <path-element>lib/oro-@@oro.ver@@.jar</path-element>
+            <path-element>lib/jdom-1.0.jar</path-element>
+            <path-element>lib/mx4j-tools.jar</path-element>
+			<path-element>.</path-element>
+		</component-class-path>
+        <bootstrap-class-name>org.eclipse.swordfish.core.engine.BootstrapImpl</bootstrap-class-name>
+        <bootstrap-class-path>
+			<path-element>lib/sbb-se-core.jar</path-element>
+        </bootstrap-class-path>
+        <shared-library>oracle.tip.jbi.framework</shared-library>
+	</component>
+</jbi>

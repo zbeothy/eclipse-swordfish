@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--============================================================================
+    Copyright (c) 2007 Deutsche Post AG.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+    
+    Contributors:
+       Deutsche Post AG - initial API and implementation
+ ============================================================================-->
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/"
+	     xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	     xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+	     xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	     xmlns:tns="http://services.sopware.org/configuration/ConfigurationRuntimeProvider/1.0"
+	     targetNamespace="http://services.sopware.org/configuration/ConfigurationRuntimeProvider/1.0"
+	     xmlns:cr_sdx="http://services.sopware.org/configuration/ConfigurationRuntime/1.0"
+	     name="ConfigurationRuntimeProvider.spdx">
+  
+  <import location="./servlet?annotationURI=uddi:sopware.org:ConfigurationRuntime:ConfigurationRuntime.sdx" namespace="http://services.sopware.org/configuration/ConfigurationRuntime/1.0"/>
+  <!--import location="../../../conf/sdx/ConfigurationRuntime.sdx" namespace="http://services.sopware.org/configuration/ConfigurationRuntime/1.0"/-->
+  
+  <binding name="ConfigurationRuntime_SoapHttp_Binding" type="cr_sdx:ConfigurationRuntime">
+    
+    <soap:binding style="document"
+		  transport="http://schemas.xmlsoap.org/soap/http"/>
+    <operation name="getConfiguration">
+      <input>
+	<soap:body use="literal"/>
+      </input>
+      <output>
+	<soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="getResource">
+      <input>
+	<soap:body use="literal"/>
+      </input>
+      <output>
+	<soap:body use="literal"/>
+      </output>
+    </operation>
+  </binding>
+  
+  <service name="ConfigurationRuntimeProvider">
+    <port  binding="tns:ConfigurationRuntime_SoapHttp_Binding" name="ConfigurationRuntime_Http_Port">
+      <soap:address location="http://__#__SOPW_CONF_TOMCAT_HOST__#__:__#__SOPW_CONF_TOMCAT_HTTP_PORT__#__/soap/ConfigurationRuntimeProvider"/>
+    </port>
+  </service>
+</definitions>
+

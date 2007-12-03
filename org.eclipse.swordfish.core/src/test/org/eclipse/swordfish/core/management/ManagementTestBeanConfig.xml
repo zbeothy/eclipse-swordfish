@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--============================================================================
+    Copyright (c) 2007 Deutsche Post AG.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+    
+    Contributors:
+       Deutsche Post AG - initial API and implementation
+ ============================================================================-->
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "./spring-beans.dtd">
+<beans>
+    <!-- 
+	  		Management
+	-->
+	
+    <bean id="org.eclipse.swordfish.core.management.ObjectNameFactory" class="org.eclipse.swordfish.core.management.objectname.ObjectNameFactory">
+        <property name="kernel" ref="dummy.kernel"/>
+    </bean>
+    
+    <!-- common timer instance to register tasks -->
+    <bean id="org.eclipse.swordfish.core.management.ManagementTimer" class="org.eclipse.swordfish.core.management.components.impl.NotificationTimer"
+        destroy-method="cancel" />
+    
+    <bean id="org.eclipse.swordfish.core.management.components.ManagementController"
+        class="org.eclipse.swordfish.core.management.components.impl.ManagementControllerBean" init-method="init"
+        singleton="true">
+        <property name="mbeanServer" ref="mbeanServer"/>
+        <property name="adapters">
+            <list>
+                <ref bean="org.eclipse.swordfish.core.management.adapter.EmAdapter"/>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="org.eclipse.swordfish.core.management.adapter.HPManagementAdapter"
+        class="org.eclipse.swordfish.core.management.adapter.impl.HPManagementAdapterWrapper"
+        init-method="init" destroy-method="destroy" singleton="true">
+        <property name="implClassName" value="org.eclipse.swordfish.core.management.adapter.extension.HPManagementAdapterImpl"/>
+        <property name="MBeanServer" ref="mbeanServer"/>
+        <property name="activate" value="false"/>
+        <property name="configLocation" value="D:\temp\MSS\hp\OV_JMX_Connector\JMXRMIConnectorConfig.properties"></property>
+    </bean>
+
+    <bean id="org.eclipse.swordfish.core.management.LoggerController" class="org.eclipse.swordfish.core.management.components.impl.LoggerControllerBean"
+        destroy-method="destroy">
+        <property name="instrumentationManager" ref="org.eclipse.swordfish.core.management.instrumentation.InstrumentationManager"/>
+    </bean>
+
+    <!-- Listerner to receive management notifications -->
+
+    <bean id="org.eclipse.swordfish.core.management.notification.ManagementNotificationListener"
+        class="org.eclipse.swordfish.core.management.notification.impl.ManagementNotificationListenerBean"
+        singleton="true" init-method="init" destroy-method="destroy">
+        <property name="managementController"
+            ref="org.eclipse.swordfish.core.management.components.ManagementController"/>
+        <property name="processingInterval" value="120000"/>
+        <property name="directProcessing" value="true"/>
+        <property name="notificationProcessors">
+            <list>
+                <ref bean="org.eclipse.swordfish.core.management.messaging.MessagingMonitor"/>
+                <ref bean="org.eclipse.swordfish.core.management.messaging.OperationRegistration"/>
+                <ref bean="org.eclipse.swordfish.core.management.messaging.ServiceRegistration"/>
+                <ref bean="org.eclipse.swordfish.core.management.messaging.ParticipantRegistration"/>
+            </list>
+         </property>
+        <property name="managementTimer" ref="org.eclipse.swordfish.core.management.ManagementTimer"/>
+    </bean>
+
+    <!-- Beans that provide monitoring of messaging -->
+
+    <bean id="org.eclipse.swordfish.core.management.messaging.OperationRegistration" class="org.eclipse.swordfish.core.management.messaging.impl.OperationRegistrationBean">
+        <property name="factory" ref="org.eclipse.swordfish.core.management.messaging.OperationMonitorBackendFactory"/>
+    </bean>
+
+    <bean id="org.eclipse.swordfish.core.management.messaging.ServiceRegistration" class="org.eclipse.swordfish.core.management.messaging.impl.ServiceRegistrationBean">
+        <property name="factory" ref="org.eclipse.swordfish.core.management.messaging.ServiceMonitorBackendFactory"/>
+    </bean>
+    
+    <bean id="org.eclipse.swordfish.core.management.messaging.ParticipantRegistration" class="org.eclipse.swordfish.core.management.messaging.impl.ParticipantRegistrationBean">
+        <property name="factory" ref="org.eclipse.swordfish.core.management.messaging.ParticipantMonitorBackendFactory"/>
+    </bean>
+
+    <bean id="org.eclipse.swordfish.core.management.messaging.MessagingMonitor"
+        class="org.eclipse.swordfish.core.management.messaging.impl.MessagingMonitorBean">
+        <property name="backendFactories">
+            <list>
+                <!-- <ref bean="org.eclipse.swordfish.core.management.messaging.MessagingTracerFactory"/> -->
+                <ref bean="org.eclipse.swordfish.core.management.messaging.SbbMonitorBackendFactory"/>
+                <ref bean="org.eclipse.swordfish.core.management.messaging.OperationMonitorBackendFactory"/>
+                <ref bean="org.eclipse.swordfish.core.management.messaging.ServiceMonitorBackendFactory"/>
+                <ref bean="org.eclipse.swordfish.core.management.messaging.ParticipantMonitorBackendFactory"/>
+            </list>
+        </property>
+        <property name="operations" ref="org.eclipse.swordfish.core.management.operations.Operations"/>
+    </bean>
+
+    <bean id="org.eclipse.swordfish.core.management.messaging.MessagingTracerFactory"
+        class="org.eclipse.swordfish.core.management.messaging.impl.MessagingTracerFactoryBean"/>
+
+    <bean id="org.eclipse.swordfish.core.management.messaging.SbbMonitorBackendFactory"
+        class="org.eclipse.swordfish.core.management.messaging.impl.SbbMonitorBackendFactoryBean"
+        init-method="init" destroy-method="destroy">
+        <property name="objectNameFactory" ref="org.eclipse.swordfish.core.management.ObjectNameFactory"/>
+        <property name="instrumentationManager" ref="org.eclipse.swordfish.core.management.instrumentation.InstrumentationManager"/>
+    </bean>
+
+    <bean id="org.eclipse.swordfish.core.management.messaging.OperationMonitorBackendFactory"
+        class="org.eclipse.swordfish.core.management.messaging.impl.OperationMonitorBackendFactoryBean"
+        destroy-method="destroy">
+        <property name="objectNameFactory" ref="org.eclipse.swordfish.core.management.ObjectNameFactory"/>
+        <property name="operations" ref="org.eclipse.swordfish.core.management.operations.Operations"/>
+        <property name="managementTimer" ref="org.eclipse.swordfish.core.management.ManagementTimer"/>
+        <property name="instrumentationManager" ref="org.eclipse.swordfish.core.management.instrumentation.InstrumentationManager"/>
+    </bean>
+    
+    <bean id="org.eclipse.swordfish.core.management.messaging.ServiceMonitorBackendFactory"
+        class="org.eclipse.swordfish.core.management.messaging.impl.ServiceMonitorBackendFactoryBean"
+        destroy-method="destroy">
+        <property name="objectNameFactory" ref="org.eclipse.swordfish.core.management.ObjectNameFactory"/>
+        <property name="operations" ref="org.eclipse.swordfish.core.management.operations.Operations"/>
+        <property name="instrumentationManager" ref="org.eclipse.swordfish.core.management.instrumentation.InstrumentationManager"/>
+    </bean>
+    
+    <bean id="org.eclipse.swordfish.core.management.messaging.ParticipantMonitorBackendFactory"
+        class="org.eclipse.swordfish.core.management.messaging.impl.ParticipantMonitorBackendFactoryBean"
+        destroy-method="destroy">
+        <property name="objectNameFactory" ref="org.eclipse.swordfish.core.management.ObjectNameFactory"/>
+        <property name="operations" ref="org.eclipse.swordfish.core.management.operations.Operations"/>
+        <property name="instrumentationManager" ref="org.eclipse.swordfish.core.management.instrumentation.InstrumentationManager"/>
+        <property name="sbbMonitorBackendFactory" ref="org.eclipse.swordfish.core.management.messaging.SbbMonitorBackendFactory"/>
+    </bean>
+    
+    <bean id="org.eclipse.swordfish.core.management.messaging.impl.ResponseTimeMonitoringBackend" singleton="false"
+        class="org.eclipse.swordfish.core.management.messaging.impl.ResponseTimeMonitoringBackend">
+        <property name="operations" ref="org.eclipse.swordfish.core.management.operations.Operations"/>
+    </bean>
+    
+    <bean id="org.eclipse.swordfish.core.management.messaging.impl.MessageTrackingBackend"
+        class="org.eclipse.swordfish.core.management.messaging.impl.MessageTrackingBackend">
+        <property name="operations" ref="org.eclipse.swordfish.core.management.operations.Operations"/>
+    </bean>
+
+    <bean id="mbeanServer" class="org.springframework.jmx.support.MBeanServerFactoryBean"/>
+
+    <!-- Papi extensions -->
+    
+        <!-- Instrumentation -->
+    
+    <bean id="org.eclipse.swordfish.papi.extension.instrumentation.InstrumentationManager" lazy-init="true"
+        class="org.eclipse.swordfish.core.management.instrumentation.InstrumentationManagerProxyFactory"/>
+    
+    <bean id="org.eclipse.swordfish.core.management.instrumentation.InstrumentationManagerExternal"
+        class="org.eclipse.swordfish.core.management.instrumentation.impl.InstrumentationManagerBean" singleton="true">
+        <property name="objectNameFactory" ref="org.eclipse.swordfish.core.management.ObjectNameFactory"/>
+        <property name="mbeanServer">
+            <ref bean="mbeanServer"/>
+        </property>
+        <property name="specifier" value="participant"/>
+        <property name="managedObjects" ref="org.eclipse.swordfish.core.management.instrumentation.ManagedObjects"/>
+    </bean>
+    
+    <bean id="org.eclipse.swordfish.core.management.instrumentation.InstrumentationManager"
+        class="org.eclipse.swordfish.core.management.instrumentation.impl.InstrumentationManagerBean" singleton="true">
+        <property name="objectNameFactory" ref="org.eclipse.swordfish.core.management.ObjectNameFactory"/>
+        <property name="mbeanServer">
+            <ref bean="mbeanServer"/>
+        </property>
+        <property name="managedObjects" ref="org.eclipse.swordfish.core.management.instrumentation.ManagedObjects"/>
+    </bean>
+    
+    <bean id="org.eclipse.swordfish.core.management.instrumentation.ManagedObjects" class="java.util.HashMap"/>
+    
+    <!-- Monitorable -->
+    
+    <bean id="org.eclipse.swordfish.papi.extension.instrumentation.ParticipantMonitor" lazy-init="true"
+        class="org.eclipse.swordfish.core.management.instrumentation.ParticipantMonitorFactory">
+        <property name="objectNameFactory" ref="org.eclipse.swordfish.core.management.ObjectNameFactory"/>
+        <property name="instrumentationManager" ref="org.eclipse.swordfish.core.management.instrumentation.InstrumentationManager"/>
+    </bean>
+    
+        <!-- Operations -->
+    
+    <bean id="org.eclipse.swordfish.papi.adapter.extensions.operations.Operations"
+        class="org.eclipse.swordfish.core.management.operations.OperationsProxyFactory"/>
+    
+    <bean id="org.eclipse.swordfish.core.management.operations.MBeanOperations" class="org.eclipse.swordfish.core.management.operations.impl.MBeanOperationsBean"
+        singleton="true">
+        <property name="mbeanServer">
+            <ref bean="mbeanServer"/>
+        </property>
+        <property name="operations">
+            <ref bean="org.eclipse.swordfish.core.management.operations.Operations"/>
+        </property>		
+    </bean>    
+    
+    <bean id="org.eclipse.swordfish.core.management.operations.Operations" init-method="init" destroy-method="destroy"
+        class="org.eclipse.swordfish.core.management.operations.impl.OperationsBean" singleton="true">
+        <property name="kernel" ref="dummy.kernel"/>
+        <property name="handlers">
+            <list>
+                <value>org.eclipse.swordfish.core.mangement.HttpPublisher</value>
+                <value>org.eclipse.swordfish.core.management.FileLogger</value>
+                <value>org.eclipse.swordfish.core.management.SnmpPublisher</value>
+            </list>
+        </property>
+        <property name="filters">
+            <map>
+                <entry>
+                    <key><value>org.eclipse.swordfish.core.management.operations</value></key>
+                    <value>WARN</value>
+                </entry>
+                <entry>
+                    <key><value>org.eclipse.swordfish.core.management.messaging.ManagementMessage</value></key>
+                    <value>INFO</value>
+                </entry>
+            </map>
+        </property>
+    </bean>
+    
+            <!-- Handlers for operational logging -->
+
+    <bean id="org.eclipse.swordfish.core.management.SnmpPublisher" class="org.eclipse.swordfish.core.management.operations.impl.SnmpPublisherWrapper"
+        init-method="init">
+        <property name="implClassName" value="org.eclipse.swordfish.core.management.adapter.extension.SnmpAdapterImpl"/>
+        <property name="adapter" ref="org.eclipse.swordfish.core.management.adapter.EmAdapter"/>
+        <property name="targetHost">
+            <value>localhost</value>
+        </property>        
+        <property name="targetPort">
+            <value>1313</value>
+        </property>
+        <property name="oidRoot">
+            <value>5064.1.1.</value>
+        </property>
+        <property name="mipLocation">
+            <value>D:\temp\MSS\hp\OV_JMX_Connector\sbb-management-mib.txt</value>
+        </property>
+        <property name="activate">
+            <value>false</value>
+        </property>
+    </bean>
+    
+    <bean id="org.eclipse.swordfish.core.management.FileLogger" class="org.eclipse.swordfish.core.management.operations.impl.LocalFilePublisher"
+        destroy-method="close">
+        <constructor-arg type="java.lang.String"><value>%t/sbb_operations%g.log</value></constructor-arg> <!-- name pattern (see javadoc) -->
+        <constructor-arg type="int"><value>50000</value></constructor-arg> <!-- file size limit in bytes -->
+        <constructor-arg type="int"><value>3</value></constructor-arg> <!-- number of logfiles -->
+        <property name="formatter"><ref bean="org.eclipse.swordfish.core.management.PlainFormatter"/></property>
+    </bean>
+
+    <bean id="org.eclipse.swordfish.mangement.HttpPublisher" class="org.eclipse.swordfish.core.management.operations.impl.NrPublisherBean"
+        init-method="init" destroy-method="destroy">        
+        <property name="operations" ref="org.eclipse.swordfish.core.management.operations.Operations"/>
+        <property name="messageThreshold" value="10"/> 
+        <property name="processingInterval" value="1000"/> 
+        <property name="backends">
+            <list>
+                <!-- <ref bean="org.eclipse.swordfish.core.management.SbbPublisherBackend"/> -->
+                <ref bean="org.eclipse.swordfish.core.management.HttpPublisherBackend"></ref>
+            </list>
+        </property>
+        <property name="instrumentationManager" ref="org.eclipse.swordfish.core.management.instrumentation.InstrumentationManager"/>
+        <property name="managementTimer" ref="org.eclipse.swordfish.core.management.ManagementTimer"/>    
+    </bean>
+    
+    <bean id="org.eclipse.swordfish.core.management.HttpPublisherBackend" class="org.eclipse.swordfish.core.management.operations.impl.HttpPublisherBackendBean">
+        <property name="operations" ref="org.eclipse.swordfish.core.management.operations.Operations"/>
+        <property name="adapter" ref="org.eclipse.swordfish.core.management.adapter.EmAdapter"/>
+        <!-- <property name="url" value="http://127.0.0.1:8888"/> -->
+        <property name="url" value="http://sop20-et03-01.servicebackbone.org:18380/management-tools-nr"/>
+        <!-- property name="url" value="http://localhost:9090/mss-notificationreceiver"/ -->
+        <!-- <property name="url" value="http://sopsparc06-5.servicebackbone.org:8080/notification-receiver"/> -->
+        <!-- <property name="url" value="http://sopsparc08-2.servicebackbone.org:8080/notification-receiver"/> -->
+        <!-- <property name="url" value="http://sopsparc06-5.servicebackbone.org:18380/management-tools-nr"/> -->
+        <property name="activate" value="true"/>
+    </bean>
+    
+    <bean id="org.eclipse.swordfish.core.management.SbbPublisherBackend" class="org.eclipse.swordfish.core.management.operations.impl.SbbPublisherBackendBean">
+        <property name="adapter" ref="org.eclipse.swordfish.core.management.adapter.EmAdapter"/>
+        <property name="service">
+            <value>http://www.sopware.org/ManagementNotification/1.0</value>
+        </property>
+    </bean>
+
+    <bean id="org.eclipse.swordfish.core.management.PlainFormatter" class="org.eclipse.swordfish.core.management.operations.impl.PlainFormatter"/>
+    
+    <!-- Adapters -->
+
+    <bean id="org.eclipse.swordfish.core.management.adapter.EmAdapter"
+        class="org.eclipse.swordfish.core.management.adapter.impl.EmAdapter" init-method="init" destroy-method="destroy">
+        <property name="port" value="8089"/>
+        <property name="mbeanServer" ref="mbeanServer"/>
+        <property name="objectNameRoot" value="sbb/adapter:name=mx4jadaptor"/>
+        <property name="processor" value="mx4j.tools.adaptor.http.XSLTProcessor"></property>
+        <property name="username" value="ElementManager"/>
+        <!-- <property name="password" value="anfang"/> -->
+        <property name="password" value="2462660dd4fa52faee871791d706307575e56955"/>
+        <property name="operations" ref="org.eclipse.swordfish.core.management.operations.Operations"/>
+    </bean>
+
+    <bean id="org.eclipse.swordfish.core.management.adapter.JMXConnectorAdapter" class="org.eclipse.swordfish.core.management.adapter.impl.JMXConnectorAdapter"
+        init-method="init" destroy-method="destroy" lazy-init="true">
+        <property name="port" value="1099"/>
+        <property name="jndiLocalPath" value="/jmxconnector"/>
+        <property name="active" value="true"/>
+        <property name="localRmi" value="true"/>
+        <property name="mbeanServer" ref="mbeanServer"/>
+        <property name="operations" ref="org.eclipse.swordfish.core.management.operations.Operations"/>
+    </bean>
+
+    <!-- 
+    <bean id="serverConnector" 
+        class="org.springframework.jmx.support.ConnectorServerFactoryBean">
+        <property name="objectName" value="connector:name=rmi"/>
+        <property name="serviceUrl" value="service:jmx:rmi://localhost"/>
+    </bean>
+     -->  
+
+    <!-- Interceptor beans -->
+    
+    <bean id="org.eclipse.swordfish.core.interceptor.Correlation" class="org.eclipse.swordfish.core.interceptor.correlation.impl.CorrelationProcessorBean">
+        <property name="operations" ref="org.eclipse.swordfish.core.management.operations.Operations"/>
+    </bean>
+     
+    <bean id="org.eclipse.swordfish.core.interceptor.Monitor" class="org.eclipse.swordfish.core.interceptor.monitor.impl.MonitoringProcessorBean">
+        <property name="operations" ref="org.eclipse.swordfish.core.management.operations.Operations"/>
+        <property name="listener" ref="org.eclipse.swordfish.core.management.notification.ManagementNotificationListener"/>
+    </bean>
+    
+    <bean id="org.eclipse.swordfish.core.interceptor.Tracking" class="org.eclipse.swordfish.core.interceptor.tracking.impl.TrackingProcessorBean">
+        <property name="operations" ref="org.eclipse.swordfish.core.management.operations.Operations"/>
+        <property name="listener" ref="org.eclipse.swordfish.core.management.notification.ManagementNotificationListener"/>
+    </bean>
+    
+    <!-- Test beans -->
+     
+     <bean id="test.operations.TestHandler"
+         class="org.eclipse.swordfish.core.management.operations.TestLogHandler">
+     </bean>
+     
+    <bean id="test.notification.TestNotificationProcessor"
+        class="org.eclipse.swordfish.core.management.messaging.TestNotificationProcessor">
+    </bean>
+     
+     <bean id="dummy.kernel" class="org.eclipse.swordfish.core.management.mock.DummyKernel">
+         <property name="participant" ref="dummy.participant"/>
+     </bean>
+     
+    <bean id="dummy.participant" class="org.eclipse.swordfish.core.management.mock.DummyUnifiedParticipantIdentity"/>
+     
+</beans>

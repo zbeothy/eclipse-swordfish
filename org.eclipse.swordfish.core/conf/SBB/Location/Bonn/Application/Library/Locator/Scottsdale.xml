@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!--============================================================================
+    Copyright (c) 2007 Deutsche Post AG.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+    
+    Contributors:
+       Deutsche Post AG - initial API and implementation
+ ============================================================================-->
+<!--
+	defines a locator node for the locator cluster in Bonn
+	This cluster is defined to be the default cluster 
+-->
+<Locator name="Scottsdale" default="false">
+	<!-- name: Is a string that identifies this peermanager
+		host: Is this instances host name. The locator will try to resolve this SOP instance using the 
+		given hostname
+		port: This is the port on the 'host' that is used for the heart beat
+		urlPath: the URL that is transmitted to the locator to communicate with this machine	   
+	-->
+	<LocalPeerManager name="THIS_HOSTS nice naming" host="sopopt07.servicebackbone.org" port="8888"
+		urlPath="/soap/services/peer_manager/PeerManagerServiceBLA"/>
+	<!-- each cluster consits of a number of cluster nodes, in this example we have 2 of them
+		name: Is the name of this particular cluster node
+		peerManagerEndpoint: is the reference to the endpoint of the peer manager of the cluster node
+		this information is coming from the cluster installation
+		LocatorEndpoint: Is the reference to the endpoint from which service endpoints are retrived	
+	-->
+	<ClusterNode name="ClusterNode_1 nice naming">
+		<PeerManagerEndpoint name="Peer manager ClusterNode_1 nice naming">
+			http://sopopt07.servicebackbone.org:5000/services/peer_manager/PeerManagerService </PeerManagerEndpoint>
+		<LocatorEndpoint name="Locator HOST_1 nice naming">
+			http://sopopt07.servicebackbone.org:5000/services/locator/LocatorService
+		</LocatorEndpoint>
+	</ClusterNode>
+	<!-- The same as above for another instance -->
+	<ClusterNode name="ClusterNode_2 nice naming">
+		<PeerManagerEndpoint name="Peer manager ClusterNode_2 nice naming">
+			http://sopopt07.servicebackbone.org:5000/services/peer_manager/PeerManagerService </PeerManagerEndpoint>
+		<LocatorEndpoint name="Locator HOST_1 nice naming">
+			http://sopopt07.servicebackbone.org:5000/services/locator/LocatorService
+		</LocatorEndpoint>
+	</ClusterNode>
+
+</Locator>

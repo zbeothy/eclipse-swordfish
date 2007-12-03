@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--============================================================================
+    Copyright (c) 2007 Deutsche Post AG.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+    
+    Contributors:
+       Deutsche Post AG - initial API and implementation
+ ============================================================================-->
+<ap:Agreed 
+      	  consumerPolicy="urn://ConsumerPolicyId#version" 
+          id="http://mydomain/myservice/1.0/agreedpolicy/123416363" providerPolicy="urn://ProviderPolicyId#version" 
+          service="http://mydomain/myservice/1.0" 
+          serviceProvider="http://example.com/finance_serviceDescriptions/2.1" validSince="2004-04-30T09:00:00Z" 
+          validThrough="2006-05-01T21:00:00Z" xmlns="http://types.sopware.org/qos/AgreedPolicy/1.0" 
+          xmlns:ap="http://types.sopware.org/qos/AgreedPolicy/1.0" 
+          xmlns:sopa="http://types.sopware.org/qos/SOPAssertions/1.0" 
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://types.sopware.org/qos/AgreedPolicy/1.0 ./AgreedPolicy.xsd">
+          <Operation name="dummyOperation">
+          <Request>
+          	<Sender>
+          		<sopa:Dummy/>
+          	</Sender>
+          	<Receiver>
+          		<sopa:Dummy/>
+          	</Receiver>
+          </Request>     
+          <Response>
+          	<Sender>
+          	</Sender>
+          	<Receiver>
+          	</Receiver>
+          </Response>
+          </Operation>
+</ap:Agreed>

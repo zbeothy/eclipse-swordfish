@@ -1,0 +1,452 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--============================================================================
+    Copyright (c) 2007 Deutsche Post AG.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+    
+    Contributors:
+       Deutsche Post AG - initial API and implementation
+ ============================================================================-->
+<Agreed xmlns="http://types.sopware.org/qos/AgreedPolicy/2.0"
+    xmlns:soptemp="http://types.sopware.org/qos/SOPAssertions/1.1/temp"
+    consumerPolicy="http://types.sopware.org/qos/ParticipantPolicy/1.1/StandardTspConsumer"
+    providerPolicy="http://policies.sopware.org/registry/ServiceRegistryProvider/1.0/ServiceRegistryProvider/secureAccess"
+    service="{http://services.sopware.org/registry/ServiceRegistry/1.0}ServiceRegistry"
+    serviceProvider="{http://services.sopware.org/registry/ServiceRegistryProvider/1.0}ServiceRegistryProvider"
+    validSince="2007-03-23T14:48:50Z" validThrough="2300-03-23T15:48:50Z">
+    <Operation name="xdelete_serviceDescription">
+        <wsp:Policy xmlns:wsp="http://www.w3.org/2006/07/ws-policy">
+            <wsp:ExactlyOne>
+                <wsp:All>
+                    <sopa:HttpTransport xmlns:sopa="http://types.sopware.org/qos/SOPAssertions/1.1"/>
+                    <Authentication xmlns="http://types.sopware.org/qos/SOPAssertions/1.1"
+                        type="SAMLToken" message="request"/>
+                    <sopa:Authorization xmlns:sopa="http://types.sopware.org/qos/SOPAssertions/1.1"
+                        location="both"/>
+                </wsp:All>
+            </wsp:ExactlyOne>
+        </wsp:Policy>
+    </Operation>
+    <Operation name="xget_annotations">
+        <wsp:Policy xmlns:wsp="http://www.w3.org/2006/07/ws-policy">
+            <wsp:ExactlyOne>
+                <wsp:All>
+                    <sopa:HttpTransport xmlns:sopa="http://types.sopware.org/qos/SOPAssertions/1.1"/>
+                    <Authentication xmlns="http://types.sopware.org/qos/SOPAssertions/1.1"
+                        type="SAMLToken" message="request"/>
+                </wsp:All>
+            </wsp:ExactlyOne>
+        </wsp:Policy>
+    </Operation>
+    <Operation name="xget_participantPolicy">
+        <wsp:Policy xmlns:wsp="http://www.w3.org/2006/07/ws-policy">
+            <wsp:ExactlyOne>
+                <wsp:All>
+                    <sopa:HttpTransport xmlns:sopa="http://types.sopware.org/qos/SOPAssertions/1.1"/>
+                    <Authentication xmlns="http://types.sopware.org/qos/SOPAssertions/1.1"
+                        type="SAMLToken" message="request"/>
+                </wsp:All>
+            </wsp:ExactlyOne>
+        </wsp:Policy>
+    </Operation>
+    <Operation name="xfind_serviceDescription">
+        <wsp:Policy xmlns:wsp="http://www.w3.org/2006/07/ws-policy">
+            <wsp:ExactlyOne>
+                <wsp:All>
+                    <sopa:HttpTransport xmlns:sopa="http://types.sopware.org/qos/SOPAssertions/1.1"/>
+                    <Authentication xmlns="http://types.sopware.org/qos/SOPAssertions/1.1"
+                        type="SAMLToken" message="request"/>
+                </wsp:All>
+            </wsp:ExactlyOne>
+        </wsp:Policy>
+    </Operation>
+    <Operation name="xget_wsPolicy">
+        <wsp:Policy xmlns:wsp="http://www.w3.org/2006/07/ws-policy">
+            <wsp:ExactlyOne>
+                <wsp:All>
+                    <sopa:HttpTransport xmlns:sopa="http://types.sopware.org/qos/SOPAssertions/1.1"/>
+                    <Authentication xmlns="http://types.sopware.org/qos/SOPAssertions/1.1"
+                        type="SAMLToken" message="request"/>
+                </wsp:All>
+            </wsp:ExactlyOne>
+        </wsp:Policy>
+    </Operation>
+    <Operation name="xfind_and_delete_serviceDescription">
+        <wsp:Policy xmlns:wsp="http://www.w3.org/2006/07/ws-policy">
+            <wsp:ExactlyOne>
+                <wsp:All>
+                    <sopa:HttpTransport xmlns:sopa="http://types.sopware.org/qos/SOPAssertions/1.1"/>
+                    <Authentication xmlns="http://types.sopware.org/qos/SOPAssertions/1.1"
+                        type="SAMLToken" message="request"/>
+                    <sopa:Authorization xmlns:sopa="http://types.sopware.org/qos/SOPAssertions/1.1"
+                        location="both"/>
+                </wsp:All>
+            </wsp:ExactlyOne>
+        </wsp:Policy>
+    </Operation>
+    <Operation name="xfind_serviceProviderDescription">
+        <wsp:Policy xmlns:wsp="http://www.w3.org/2006/07/ws-policy">
+            <wsp:ExactlyOne>
+                <wsp:All>
+                    <sopa:HttpTransport xmlns:sopa="http://types.sopware.org/qos/SOPAssertions/1.1"/>
+                    <Authentication xmlns="http://types.sopware.org/qos/SOPAssertions/1.1"
+                        type="SAMLToken" message="request"/>
+                </wsp:All>
+            </wsp:ExactlyOne>
+        </wsp:Policy>
+    </Operation>
+    <Operation name="xlookUp_serviceProvider">
+        <wsp:Policy xmlns:wsp="http://www.w3.org/2006/07/ws-policy">
+            <wsp:ExactlyOne>
+                <wsp:All>
+                    <sopa:HttpTransport xmlns:sopa="http://types.sopware.org/qos/SOPAssertions/1.1"/>
+                    <Authentication xmlns="http://types.sopware.org/qos/SOPAssertions/1.1"
+                        type="SAMLToken" message="request"/>
+                </wsp:All>
+            </wsp:ExactlyOne>
+        </wsp:Policy>
+    </Operation>
+    <Operation name="cleanup">
+        <wsp:Policy xmlns:wsp="http://www.w3.org/2006/07/ws-policy">
+            <wsp:ExactlyOne>
+                <wsp:All>
+                    <sopa:HttpTransport xmlns:sopa="http://types.sopware.org/qos/SOPAssertions/1.1"/>
+                    <Authentication xmlns="http://types.sopware.org/qos/SOPAssertions/1.1"
+                        type="SAMLToken" message="request"/>
+                    <sopa:Authorization xmlns:sopa="http://types.sopware.org/qos/SOPAssertions/1.1"
+                        location="both"/>
+                </wsp:All>
+            </wsp:ExactlyOne>
+        </wsp:Policy>
+    </Operation>
+    <Operation name="xget_serviceProviderDescription">
+        <wsp:Policy xmlns:wsp="http://www.w3.org/2006/07/ws-policy">
+            <wsp:ExactlyOne>
+                <wsp:All>
+                    <sopa:HttpTransport xmlns:sopa="http://types.sopware.org/qos/SOPAssertions/1.1"/>
+                    <Authentication xmlns="http://types.sopware.org/qos/SOPAssertions/1.1"
+                        type="SAMLToken" message="request"/>
+                </wsp:All>
+            </wsp:ExactlyOne>
+        </wsp:Policy>
+    </Operation>
+    <Operation name="xfind_annotation">
+        <wsp:Policy xmlns:wsp="http://www.w3.org/2006/07/ws-policy">
+            <wsp:ExactlyOne>
+                <wsp:All>
+                    <sopa:HttpTransport xmlns:sopa="http://types.sopware.org/qos/SOPAssertions/1.1"/>
+                    <Authentication xmlns="http://types.sopware.org/qos/SOPAssertions/1.1"
+                        type="SAMLToken" message="request"/>
+                </wsp:All>
+            </wsp:ExactlyOne>
+        </wsp:Policy>
+    </Operation>
+    <Operation name="xfind_and_get_serviceDescription">
+        <wsp:Policy xmlns:wsp="http://www.w3.org/2006/07/ws-policy">
+            <wsp:ExactlyOne>
+                <wsp:All>
+                    <sopa:HttpTransport xmlns:sopa="http://types.sopware.org/qos/SOPAssertions/1.1"/>
+                    <Authentication xmlns="http://types.sopware.org/qos/SOPAssertions/1.1"
+                        type="SAMLToken" message="request"/>
+                </wsp:All>
+            </wsp:ExactlyOne>
+        </wsp:Policy>
+    </Operation>
+    <Operation name="xfind_and_get_wsPolicy">
+        <wsp:Policy xmlns:wsp="http://www.w3.org/2006/07/ws-policy">
+            <wsp:ExactlyOne>
+                <wsp:All>
+                    <sopa:HttpTransport xmlns:sopa="http://types.sopware.org/qos/SOPAssertions/1.1"/>
+                    <Authentication xmlns="http://types.sopware.org/qos/SOPAssertions/1.1"
+                        type="SAMLToken" message="request"/>
+                </wsp:All>
+            </wsp:ExactlyOne>
+        </wsp:Policy>
+    </Operation>
+    <Operation name="xsave_serviceDescription">
+        <wsp:Policy xmlns:wsp="http://www.w3.org/2006/07/ws-policy">
+            <wsp:ExactlyOne>
+                <wsp:All>
+                    <sopa:HttpTransport xmlns:sopa="http://types.sopware.org/qos/SOPAssertions/1.1"/>
+                    <Authentication xmlns="http://types.sopware.org/qos/SOPAssertions/1.1"
+                        type="SAMLToken" message="request"/>
+                    <sopa:Authorization xmlns:sopa="http://types.sopware.org/qos/SOPAssertions/1.1"
+                        location="both"/>
+                </wsp:All>
+            </wsp:ExactlyOne>
+        </wsp:Policy>
+    </Operation>
+    <Operation name="xlookUp_serviceProviders">
+        <wsp:Policy xmlns:wsp="http://www.w3.org/2006/07/ws-policy">
+            <wsp:ExactlyOne>
+                <wsp:All>
+                    <sopa:HttpTransport xmlns:sopa="http://types.sopware.org/qos/SOPAssertions/1.1"/>
+                    <Authentication xmlns="http://types.sopware.org/qos/SOPAssertions/1.1"
+                        type="SAMLToken" message="request"/>
+                </wsp:All>
+            </wsp:ExactlyOne>
+        </wsp:Policy>
+    </Operation>
+    <Operation name="xdelete_wsPolicy">
+        <wsp:Policy xmlns:wsp="http://www.w3.org/2006/07/ws-policy">
+            <wsp:ExactlyOne>
+                <wsp:All>
+                    <sopa:HttpTransport xmlns:sopa="http://types.sopware.org/qos/SOPAssertions/1.1"/>
+                    <Authentication xmlns="http://types.sopware.org/qos/SOPAssertions/1.1"
+                        type="SAMLToken" message="request"/>
+                    <sopa:Authorization xmlns:sopa="http://types.sopware.org/qos/SOPAssertions/1.1"
+                        location="both"/>
+                </wsp:All>
+            </wsp:ExactlyOne>
+        </wsp:Policy>
+    </Operation>
+    <Operation name="xdelete_annotation">
+        <wsp:Policy xmlns:wsp="http://www.w3.org/2006/07/ws-policy">
+            <wsp:ExactlyOne>
+                <wsp:All>
+                    <sopa:HttpTransport xmlns:sopa="http://types.sopware.org/qos/SOPAssertions/1.1"/>
+                    <Authentication xmlns="http://types.sopware.org/qos/SOPAssertions/1.1"
+                        type="SAMLToken" message="request"/>
+                    <sopa:Authorization xmlns:sopa="http://types.sopware.org/qos/SOPAssertions/1.1"
+                        location="both"/>
+                </wsp:All>
+            </wsp:ExactlyOne>
+        </wsp:Policy>
+    </Operation>
+    <Operation name="xdelete_participantPolicy">
+        <wsp:Policy xmlns:wsp="http://www.w3.org/2006/07/ws-policy">
+            <wsp:ExactlyOne>
+                <wsp:All>
+                    <sopa:HttpTransport xmlns:sopa="http://types.sopware.org/qos/SOPAssertions/1.1"/>
+                    <Authentication xmlns="http://types.sopware.org/qos/SOPAssertions/1.1"
+                        type="SAMLToken" message="request"/>
+                </wsp:All>
+            </wsp:ExactlyOne>
+        </wsp:Policy>
+    </Operation>
+    <Operation name="xsave_wsdl">
+        <wsp:Policy xmlns:wsp="http://www.w3.org/2006/07/ws-policy">
+            <wsp:ExactlyOne>
+                <wsp:All>
+                    <sopa:HttpTransport xmlns:sopa="http://types.sopware.org/qos/SOPAssertions/1.1"/>
+                    <Authentication xmlns="http://types.sopware.org/qos/SOPAssertions/1.1"
+                        type="SAMLToken" message="request"/>
+                    <sopa:Authorization xmlns:sopa="http://types.sopware.org/qos/SOPAssertions/1.1"
+                        location="both"/>
+                </wsp:All>
+            </wsp:ExactlyOne>
+        </wsp:Policy>
+    </Operation>
+    <Operation name="xfind_participantPolicy">
+        <wsp:Policy xmlns:wsp="http://www.w3.org/2006/07/ws-policy">
+            <wsp:ExactlyOne>
+                <wsp:All>
+                    <sopa:HttpTransport xmlns:sopa="http://types.sopware.org/qos/SOPAssertions/1.1"/>
+                    <Authentication xmlns="http://types.sopware.org/qos/SOPAssertions/1.1"
+                        type="SAMLToken" message="request"/>
+                </wsp:All>
+            </wsp:ExactlyOne>
+        </wsp:Policy>
+    </Operation>
+    <Operation name="xget_serviceDescription">
+        <wsp:Policy xmlns:wsp="http://www.w3.org/2006/07/ws-policy">
+            <wsp:ExactlyOne>
+                <wsp:All>
+                    <sopa:HttpTransport xmlns:sopa="http://types.sopware.org/qos/SOPAssertions/1.1"/>
+                    <Authentication xmlns="http://types.sopware.org/qos/SOPAssertions/1.1"
+                        type="SAMLToken" message="request"/>
+                </wsp:All>
+            </wsp:ExactlyOne>
+        </wsp:Policy>
+    </Operation>
+    <Operation name="xsave_wsPolicy">
+        <wsp:Policy xmlns:wsp="http://www.w3.org/2006/07/ws-policy">
+            <wsp:ExactlyOne>
+                <wsp:All>
+                    <sopa:HttpTransport xmlns:sopa="http://types.sopware.org/qos/SOPAssertions/1.1"/>
+                    <Authentication xmlns="http://types.sopware.org/qos/SOPAssertions/1.1"
+                        type="SAMLToken" message="request"/>
+                </wsp:All>
+            </wsp:ExactlyOne>
+        </wsp:Policy>
+    </Operation>
+    <Operation name="xdelete_serviceProviderDescription">
+        <wsp:Policy xmlns:wsp="http://www.w3.org/2006/07/ws-policy">
+            <wsp:ExactlyOne>
+                <wsp:All>
+                    <sopa:HttpTransport xmlns:sopa="http://types.sopware.org/qos/SOPAssertions/1.1"/>
+                    <Authentication xmlns="http://types.sopware.org/qos/SOPAssertions/1.1"
+                        type="SAMLToken" message="request"/>
+                    <sopa:Authorization xmlns:sopa="http://types.sopware.org/qos/SOPAssertions/1.1"
+                        location="both"/>
+                </wsp:All>
+            </wsp:ExactlyOne>
+        </wsp:Policy>
+    </Operation>
+    <Operation name="xbind_participantPolicy">
+        <wsp:Policy xmlns:wsp="http://www.w3.org/2006/07/ws-policy">
+            <wsp:ExactlyOne>
+                <wsp:All>
+                    <sopa:HttpTransport xmlns:sopa="http://types.sopware.org/qos/SOPAssertions/1.1"/>
+                    <Authentication xmlns="http://types.sopware.org/qos/SOPAssertions/1.1"
+                        type="SAMLToken" message="request"/>
+                </wsp:All>
+            </wsp:ExactlyOne>
+        </wsp:Policy>
+    </Operation>
+    <Operation name="xsave_serviceProviderDescription">
+        <wsp:Policy xmlns:wsp="http://www.w3.org/2006/07/ws-policy">
+            <wsp:ExactlyOne>
+                <wsp:All>
+                    <sopa:HttpTransport xmlns:sopa="http://types.sopware.org/qos/SOPAssertions/1.1"/>
+                    <Authentication xmlns="http://types.sopware.org/qos/SOPAssertions/1.1"
+                        type="SAMLToken" message="request"/>
+                    <sopa:Authorization xmlns:sopa="http://types.sopware.org/qos/SOPAssertions/1.1"
+                        location="both"/>
+                </wsp:All>
+            </wsp:ExactlyOne>
+        </wsp:Policy>
+    </Operation>
+    <Operation name="xget_annotation">
+        <wsp:Policy xmlns:wsp="http://www.w3.org/2006/07/ws-policy">
+            <wsp:ExactlyOne>
+                <wsp:All>
+                    <sopa:HttpTransport xmlns:sopa="http://types.sopware.org/qos/SOPAssertions/1.1"/>
+                    <Authentication xmlns="http://types.sopware.org/qos/SOPAssertions/1.1"
+                        type="SAMLToken" message="request"/>
+                </wsp:All>
+            </wsp:ExactlyOne>
+        </wsp:Policy>
+    </Operation>
+    <Operation name="xfind_and_delete_serviceProviderDescription">
+        <wsp:Policy xmlns:wsp="http://www.w3.org/2006/07/ws-policy">
+            <wsp:ExactlyOne>
+                <wsp:All>
+                    <sopa:HttpTransport xmlns:sopa="http://types.sopware.org/qos/SOPAssertions/1.1"/>
+                    <Authentication xmlns="http://types.sopware.org/qos/SOPAssertions/1.1"
+                        type="SAMLToken" message="request"/>
+                    <sopa:Authorization xmlns:sopa="http://types.sopware.org/qos/SOPAssertions/1.1"
+                        location="both"/>
+                </wsp:All>
+            </wsp:ExactlyOne>
+        </wsp:Policy>
+    </Operation>
+    <Operation name="xfind_and_get_participantPolicy">
+        <wsp:Policy xmlns:wsp="http://www.w3.org/2006/07/ws-policy">
+            <wsp:ExactlyOne>
+                <wsp:All>
+                    <sopa:HttpTransport xmlns:sopa="http://types.sopware.org/qos/SOPAssertions/1.1"/>
+                    <Authentication xmlns="http://types.sopware.org/qos/SOPAssertions/1.1"
+                        type="SAMLToken" message="request"/>
+                </wsp:All>
+            </wsp:ExactlyOne>
+        </wsp:Policy>
+    </Operation>
+    <Operation name="xunbind_participantPolicy">
+        <wsp:Policy xmlns:wsp="http://www.w3.org/2006/07/ws-policy">
+            <wsp:ExactlyOne>
+                <wsp:All>
+                    <sopa:HttpTransport xmlns:sopa="http://types.sopware.org/qos/SOPAssertions/1.1"/>
+                    <Authentication xmlns="http://types.sopware.org/qos/SOPAssertions/1.1"
+                        type="SAMLToken" message="request"/>
+                </wsp:All>
+            </wsp:ExactlyOne>
+        </wsp:Policy>
+    </Operation>
+    <Operation name="xfind_and_get_serviceProviderDescription">
+        <wsp:Policy xmlns:wsp="http://www.w3.org/2006/07/ws-policy">
+            <wsp:ExactlyOne>
+                <wsp:All>
+                    <sopa:HttpTransport xmlns:sopa="http://types.sopware.org/qos/SOPAssertions/1.1"/>
+                    <Authentication xmlns="http://types.sopware.org/qos/SOPAssertions/1.1"
+                        type="SAMLToken" message="request"/>
+                </wsp:All>
+            </wsp:ExactlyOne>
+        </wsp:Policy>
+    </Operation>
+    <Operation name="xfind_wsPolicy">
+        <wsp:Policy xmlns:wsp="http://www.w3.org/2006/07/ws-policy">
+            <wsp:ExactlyOne>
+                <wsp:All>
+                    <sopa:HttpTransport xmlns:sopa="http://types.sopware.org/qos/SOPAssertions/1.1"/>
+                    <Authentication xmlns="http://types.sopware.org/qos/SOPAssertions/1.1"
+                        type="SAMLToken" message="request"/>
+                </wsp:All>
+            </wsp:ExactlyOne>
+        </wsp:Policy>
+    </Operation>
+    <Operation name="xsave_annotation">
+        <wsp:Policy xmlns:wsp="http://www.w3.org/2006/07/ws-policy">
+            <wsp:ExactlyOne>
+                <wsp:All>
+                    <sopa:HttpTransport xmlns:sopa="http://types.sopware.org/qos/SOPAssertions/1.1"/>
+                    <Authentication xmlns="http://types.sopware.org/qos/SOPAssertions/1.1"
+                        type="SAMLToken" message="request"/>
+                    <sopa:Authorization xmlns:sopa="http://types.sopware.org/qos/SOPAssertions/1.1"
+                        location="both"/>
+                </wsp:All>
+            </wsp:ExactlyOne>
+        </wsp:Policy>
+    </Operation>
+    <Operation name="xfind_and_get_annotation">
+        <wsp:Policy xmlns:wsp="http://www.w3.org/2006/07/ws-policy">
+            <wsp:ExactlyOne>
+                <wsp:All>
+                    <sopa:HttpTransport xmlns:sopa="http://types.sopware.org/qos/SOPAssertions/1.1"/>
+                    <Authentication xmlns="http://types.sopware.org/qos/SOPAssertions/1.1"
+                        type="SAMLToken" message="request"/>
+                </wsp:All>
+            </wsp:ExactlyOne>
+        </wsp:Policy>
+    </Operation>
+    <Operation name="xsave_participantPolicy">
+        <wsp:Policy xmlns:wsp="http://www.w3.org/2006/07/ws-policy">
+            <wsp:ExactlyOne>
+                <wsp:All>
+                    <sopa:HttpTransport xmlns:sopa="http://types.sopware.org/qos/SOPAssertions/1.1"/>
+                    <Authentication xmlns="http://types.sopware.org/qos/SOPAssertions/1.1"
+                        type="SAMLToken" message="request"/>
+                </wsp:All>
+            </wsp:ExactlyOne>
+        </wsp:Policy>
+    </Operation>
+    <Operation name="xdelete_wsdl">
+        <wsp:Policy xmlns:wsp="http://www.w3.org/2006/07/ws-policy">
+            <wsp:ExactlyOne>
+                <wsp:All>
+                    <sopa:HttpTransport xmlns:sopa="http://types.sopware.org/qos/SOPAssertions/1.1"/>
+                    <Authentication xmlns="http://types.sopware.org/qos/SOPAssertions/1.1"
+                        type="SAMLToken" message="request"/>
+                    <sopa:Authorization xmlns:sopa="http://types.sopware.org/qos/SOPAssertions/1.1"
+                        location="both"/>
+                </wsp:All>
+            </wsp:ExactlyOne>
+        </wsp:Policy>
+    </Operation>
+    <Operation name="xdelete_annotations">
+        <wsp:Policy xmlns:wsp="http://www.w3.org/2006/07/ws-policy">
+            <wsp:ExactlyOne>
+                <wsp:All>
+                    <sopa:HttpTransport xmlns:sopa="http://types.sopware.org/qos/SOPAssertions/1.1"/>
+                    <Authentication xmlns="http://types.sopware.org/qos/SOPAssertions/1.1"
+                        type="SAMLToken" message="request"/>
+                    <sopa:Authorization xmlns:sopa="http://types.sopware.org/qos/SOPAssertions/1.1"
+                        location="both"/>
+                </wsp:All>
+            </wsp:ExactlyOne>
+        </wsp:Policy>
+    </Operation>
+    <Operation name="xget_wsdl">
+        <wsp:Policy xmlns:wsp="http://www.w3.org/2006/07/ws-policy">
+            <wsp:ExactlyOne>
+                <wsp:All>
+                    <sopa:HttpTransport xmlns:sopa="http://types.sopware.org/qos/SOPAssertions/1.1"/>
+                    <Authentication xmlns="http://types.sopware.org/qos/SOPAssertions/1.1"
+                        type="SAMLToken" message="request"/>
+                </wsp:All>
+            </wsp:ExactlyOne>
+        </wsp:Policy>
+    </Operation>
+</Agreed>

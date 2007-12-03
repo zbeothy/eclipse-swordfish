@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--============================================================================
+    Copyright (c) 2007 Deutsche Post AG.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+    
+    Contributors:
+       Deutsche Post AG - initial API and implementation
+ ============================================================================-->
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:err="urn:www-deutschepost-de:GeneralObjects/1.0/errorHandling" targetNamespace="urn:www-deutschepost-de:GeneralObjects/1.0/errorHandling">
+			<xsd:annotation>
+				<xsd:documentation>
+					<creation date="2005-03-17"/>
+					<Service Designer="TSD"/>
+					<revision history=""/>
+					<description>
+	  </description>
+				</xsd:documentation>
+			</xsd:annotation>
+			<!-- Response in case of BadRequest: -->
+			<xsd:element name="Exceptions" type="err:ExceptionFrame"/>
+			<xsd:complexType name="ExceptionFrame">
+				<xsd:sequence>
+					<xsd:element name="Exception" type="err:ExceptionType" minOccurs="0" maxOccurs="unbounded"/>
+				</xsd:sequence>
+				<xsd:attribute name="success" type="xsd:boolean" use="optional" default="true"/>
+			</xsd:complexType>
+			<!-- ExceptionType Definition -->
+			<xsd:complexType name="ExceptionType">
+				<xsd:sequence>
+					<xsd:element name="Parameter" type="err:ParameterType" minOccurs="0" maxOccurs="unbounded"/>
+				</xsd:sequence>
+				<xsd:attribute name="ServiceParticipant" type="err:ServiceParticipantType" use="required"/>
+				<xsd:attribute name="DomainName" type="xsd:string" use="required"/>
+				<xsd:attribute name="ServiceName" type="xsd:string" use="required"/>
+				<xsd:attribute name="Version" type="xsd:string" use="required"/>
+				<xsd:attribute name="Operation" type="xsd:string" use="required"/>
+				<xsd:attribute name="ExceptionClass" type="err:ExceptionClassType" use="required"/>
+				<xsd:attribute name="ExceptionID" type="err:ExceptionIDType" use="required"/>
+				<xsd:attribute name="ExceptionText" type="err:ExceptionTextType" use="required"/>
+				<xsd:attribute name="CAT_Severity" type="err:CAT_ITOLogLevel" use="required"/>
+				<xsd:attribute name="hasBeenLogged" type="xsd:boolean" use="required"/>
+				<xsd:attribute name="LogTargetList" type="xsd:string" use="optional"/>
+				<!-- A comma seperated list of protocol locations, i.e.: 'ITO, file://c:/myapplication/application.log' -->
+			</xsd:complexType>
+			<xsd:simpleType name="ExceptionClassType">
+				<xsd:restriction base="xsd:string">
+					<xsd:pattern value="[A-Z]{1}[a-zA-Z0-9_]*Exception"/>
+				</xsd:restriction>
+			</xsd:simpleType>
+			<xsd:simpleType name="ExceptionIDType">
+				<xsd:restriction base="xsd:decimal">
+					<xsd:totalDigits value="5" fixed="true"/>
+					<xsd:minInclusive value="10000"/>
+					<xsd:maxInclusive value="99999"/>
+				</xsd:restriction>
+			</xsd:simpleType>
+			<xsd:simpleType name="ExceptionTextType">
+				<xsd:restriction base="xsd:string">
+					<xsd:maxLength value="256" fixed="false"/>
+				</xsd:restriction>
+			</xsd:simpleType>
+			<xsd:simpleType name="ServiceParticipantType">
+				<xsd:restriction base="xsd:string">
+					<xsd:length value="9"/>
+					<xsd:pattern value="[0-9]*"/>
+				</xsd:restriction>
+			</xsd:simpleType>
+			<xsd:simpleType name="CAT_ITOLogLevel">
+				<xsd:restriction base="xsd:string">
+					<xsd:enumeration value="NORM"/>
+					<xsd:enumeration value="WARN"/>
+					<xsd:enumeration value="MINO"/>
+					<xsd:enumeration value="MAJO"/>
+					<xsd:enumeration value="CRIT"/>
+				</xsd:restriction>
+			</xsd:simpleType>
+			<xsd:complexType name="ParameterType">
+				<xsd:attribute name="name" type="xsd:string" use="required"/>
+				<xsd:attribute name="value" type="xsd:string" use="required"/>
+				<xsd:attribute name="comment" type="xsd:string" use="optional"/>
+				<!-- Name of parameter -->
+				<!-- Value of parameter -->
+				<!-- Comment of parameter (optional) -->
+			</xsd:complexType>
+		</xsd:schema>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--============================================================================
+    Copyright (c) 2007 Deutsche Post AG.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+    
+    Contributors:
+       Deutsche Post AG - initial API and implementation
+ ============================================================================-->
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "./spring-beans.dtd">
+<beans>
+
+    <bean id="org.eclipse.swordfish.core.management.ObjectNameFactory" class="org.eclipse.swordfish.core.management.objectname.ObjectNameFactory">
+        <property name="kernel" ref="dummy.kernel"/>
+    </bean>    
+
+    <!-- common timer instance to register tasks -->
+    <bean id="org.eclipse.swordfish.core.management.ManagementTimer" class="org.eclipse.swordfish.core.management.mock.TestTimer"
+        destroy-method="cancel" />
+    
+    <bean id="org.eclipse.swordfish.core.management.adapter.EmAdapter"
+        class="org.eclipse.swordfish.core.management.adapter.impl.EmAdapter" init-method="init" destroy-method="destroy">
+        <property name="port" value="8089"/>
+        <property name="mbeanServer" ref="mbeanServer"/>
+        <property name="objectNameRoot" value="sbb/adapter:name=mx4jadaptor"/>
+        <property name="processor" value="mx4j.tools.adaptor.http.XSLTProcessor"></property>
+        <property name="username" value="ElementManager"/>
+        <!-- <property name="password" value="anfang"/> -->
+        <property name="password" value="2462660dd4fa52faee871791d706307575e56955"/>
+    </bean>
+
+
+    <!-- Test beans -->
+
+    <bean id="mbeanServer" class="org.springframework.jmx.support.MBeanServerFactoryBean"/>    
+    
+    <bean id="test.operations.TestHandler"
+        class="org.eclipse.swordfish.core.management.operations.TestLogHandler">
+    </bean>
+    
+    <bean id="test.notification.TestNotificationProcessor"
+        class="org.eclipse.swordfish.core.management.messaging.TestNotificationProcessor">
+    </bean>
+    
+    <bean id="dummy.kernel" class="org.eclipse.swordfish.core.management.mock.DummyKernel">
+        <property name="participant" ref="dummy.participant"/>
+    </bean>
+    
+    <bean id="dummy.participant" class="org.eclipse.swordfish.core.management.mock.DummyUnifiedParticipantIdentity"/>
+     
+</beans>

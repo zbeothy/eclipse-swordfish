@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--============================================================================
+    Copyright (c) 2007 Deutsche Post AG.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+    
+    Contributors:
+       Deutsche Post AG - initial API and implementation
+ ============================================================================-->
+<definitions
+		 name="Library.spdx"
+		xmlns:tns="http://www.sopware.org/demos/Library/1.0_binding"
+		xmlns="http://schemas.xmlsoap.org/wsdl/"
+		xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+		xmlns:jms="http://schemas.xmlsoap.org/wsdl/jms/"
+		xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+		xmlns:port_type="http://www.sopware.org/demos/Library/1.0"
+		targetNamespace="http://www.sopware.org/demos/Library/1.0_binding">
+	<import namespace="http://www.sopware.org/demos/Library/1.0" location="./Library.sdx"/>
+
+	<binding name="Library_httpSoap" type="port_type:Library">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<operation name="seekBook">
+			<soap:operation soapAction="seekBook"/>
+			<input>
+				<soap:body use="literal"/>
+			</input>
+			<output>
+				<soap:body use="literal"/>
+			</output>
+			<fault name="error">
+				<soap:fault name="error" use="literal"/>
+			</fault>
+		</operation>
+		<operation name="createLending">
+			<soap:operation soapAction="createLending"/>
+			<input>
+				<soap:body use="literal"/>
+			</input>
+		</operation>
+	<operation name="seekBookInBasement">
+			<soap:operation soapAction="seekBookInBasement"/>
+			<input>
+				<soap:body use="literal"/>
+			</input>
+		</operation>
+	</binding>
+	
+	 <binding name="Library_jmsSoap" type="port_type:Library">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/jms"/>
+    <operation name="seekBook">
+      <input>
+	<soap:body use="literal"/>
+      </input>
+      <output>
+	<soap:body use="literal"/>
+      </output>
+      <fault name="error">
+	<soap:fault name="error" use="literal"/>
+      </fault>
+    </operation>
+    <operation name="seekBookInBasement">
+      <soap:operation soapAction="seekBookInBasement"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+    </operation>
+    <operation name="createLending">
+      <soap:operation soapAction="createLending"/>
+      <input>
+	<soap:body use="literal"/>
+      </input>
+    </operation>
+  </binding>
+
+  <binding name="LibraryNotification_jmsSoap" type="port_type:Library">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/jms"/>
+    <operation name="newBooks">
+      <soap:operation soapAction="newBooks"/>
+      <output>
+	<soap:body use="literal"/>
+      </output>
+    </operation>
+  </binding>
+
+	
+	<service name="LibraryService_httpSoap">
+		<port name="Library_WS-I" binding="tns:Library_httpSoap">
+			<soap:address location="http://127.0.0.1:8080/soap/Library"/>
+		</port>
+		<!--port name="LibraryProvider_jmsPort" binding="tns:Library_jmsSoap">
+			<jms:address jndiProviderURL="scn://127.0.0.1:16400" initialContextFactory="fr.dyade.aaa.jndi2.client.NamingContextFactory" jndiConnectionFactoryName="JBIQueueConnectionFactory" jndiDestinationName="JBITestQueue" destinationStyle="queue"/>
+    	</port-->
+    	<!--port name="LibraryNotificationProvider_jmsPort" binding="tns:LibraryNotification_jmsSoap">
+      		<jms:address jndiProviderURL="scn://127.0.0.1:16400" initialContextFactory="fr.dyade.aaa.jndi2.client.NamingContextFactory" jndiConnectionFactoryName="JBITopicConnectionFactory" jndiDestinationName="JBITestTopic" destinationStyle="topic"/>
+    	</port-->
+	</service>
+</definitions>

@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<!--============================================================================
+    Copyright (c) 2007 Deutsche Post AG.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+    
+    Contributors:
+       Deutsche Post AG - initial API and implementation
+ ============================================================================-->
+<mbeans-descriptors> 
+    
+    <mbean    name="Resource"
+        domain="sbb"
+        type="org.eclipse.swordfish.core.management.instrumentation.Resource"
+        description="Dummy resource for testing">
+        
+        <attribute  name="Foo"
+            description="Test attribute"
+            type="java.lang.String"/>
+        
+        <attribute  name="Bar"
+            description="Another test attribute"
+            type="java.lang.String"
+            writeable="false"/>
+            
+        <operation  name="trigger"
+            description="some operation"
+            impact="INFO"
+            returnType="void" />
+            
+        <operation name="toString" description="snafu" impact="INFO" returnType="java.lang.String"/>
+            
+    </mbean>
+    
+</mbeans-descriptors>

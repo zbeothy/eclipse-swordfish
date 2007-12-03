@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<!--============================================================================
+    Copyright (c) 2007 Deutsche Post AG.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+    
+    Contributors:
+       Deutsche Post AG - initial API and implementation
+ ============================================================================-->
+<mbeans-descriptors> 
+    
+    <mbean    name="LoggerController"
+        domain="sbb/logging"
+        type="org.eclipse.swordfish.core.sbb.LoggerController"
+        description="Access to local logging configuration">
+        
+        <attribute  name="Loggers"
+            description="registered loggers with level attribute"
+            type="java.util.Map"
+            writeable="false"/>
+
+        <attribute  name="FileHandlers"
+            description="local log destinations"
+            type="java.util.Map"
+            writeable="false"/>
+
+        <attribute name="FilterNullLoggers"
+            description="filter loggers with null == level?"
+            type="java.lang.Boolean"
+            writeable="true"/>
+            
+        <operation   name="setLoggerLevel"
+            description="Sets the level of a logger - use this to avoid typos"
+            impact="ACTION"
+            returnType="java.lang.String">
+            <parameter name="loggerName"
+                description="Name of Logger instance"
+                type="java.lang.String"/>
+            <parameter name="newLevel"
+                description="New level for logger instance ('null' for null logger)"
+                type="java.lang.String"/>
+        </operation>
+
+        <operation   name="addLogger"
+            description="Sets the level of a logger, creating it if necessary"
+            impact="ACTION"
+            returnType="java.lang.String">
+            <parameter name="loggerName"
+                description="Name of Logger instance"
+                type="java.lang.String"/>
+            <parameter name="newLevel"
+                description="New level for logger instance ('null' for null logger)"
+                type="java.lang.String"/>
+        </operation>
+        
+        <operation   name="refreshFileHandlers"
+            description="Refreshes the log file handlers"
+            impact="ACTION"
+            returnType="java.lang.String">
+        </operation>
+
+    </mbean>
+    
+</mbeans-descriptors>

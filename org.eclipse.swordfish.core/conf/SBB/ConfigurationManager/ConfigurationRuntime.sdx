@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--============================================================================
+    Copyright (c) 2007 Deutsche Post AG.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+    
+    Contributors:
+       Deutsche Post AG - initial API and implementation
+ ============================================================================-->
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:tns="http://services.sopware.org/configuration/ConfigurationRuntime/1.0"
+    xmlns:bsp="http://types.sopware.org/configuration/BasicScopePath/1.0"
+    xmlns:cfg="http://types.sopware.org/configuration/ConfigurationQuery/1.0"
+    targetNamespace="http://services.sopware.org/configuration/ConfigurationRuntime/1.0"
+    name="ConfigurationRuntime.sdx">
+    <types>
+        <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+            xmlns:bsp="http://types.sopware.org/configuration/BasicScopePath/1.0"
+            targetNamespace="http://types.sopware.org/configuration/BasicScopePath/1.0">
+            <!--
+                Path Definition
+            -->
+            <xs:element name="ScopePath" type="bsp:PathType"/>
+            <xs:complexType name="PathType" id="scopepath">
+                <xs:sequence>
+                    <xs:element ref="bsp:PathPart" minOccurs="0"
+                        maxOccurs="unbounded"/>
+                </xs:sequence>
+                <xs:attribute name="separator" type="xs:string" default="."/>
+            </xs:complexType>
+            <!--
+                PathPart Definition
+            -->
+            <xs:element name="PathPart" type="bsp:PathPartType"/>
+            <xs:complexType name="PathPartType" id="scopepath.pathpart"
+                mixed="false" abstract="false">
+                <xs:attribute name="value" type="xs:string" use="required"/>
+                <xs:attribute name="type" type="xs:string" use="required"/>
+            </xs:complexType>
+        </xs:schema>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:cfg="http://types.sopware.org/configuration/ConfigurationQuery/1.0"
+            xmlns:bsp="http://types.sopware.org/configuration/BasicScopePath/1.0"
+            targetNamespace="http://types.sopware.org/configuration/ConfigurationQuery/1.0">
+			<xsd:import namespace="http://types.sopware.org/configuration/BasicScopePath/1.0"/>
+		    <!--
+				Simple types used in the schema
+			-->
+		    <xsd:simpleType name="TreeQualifierType">
+		        <xsd:restriction base="xsd:Name"/>
+		    </xsd:simpleType>
+		    <xsd:simpleType name="ComponentIdType">
+		        <xsd:restriction base="xsd:Name"/>
+		    </xsd:simpleType>
+		    <xsd:simpleType name="ResourceIdType">
+		        <xsd:restriction base="xsd:string"/>
+		    </xsd:simpleType>
+		    <xsd:complexType name="QueryType" abstract="true"/>
+		    <xsd:complexType name="RequestType" abstract="true"/>
+            <!--
+                ConfigurationQuery Definition
+            -->
+            <xsd:element name="ConfigurationQuery"
+                type="cfg:ConfigurationQueryType"/>
+            <xsd:complexType name="ConfigurationQueryType">
+                <xsd:complexContent>
+                    <xsd:extension base="cfg:QueryType">
+                        <xsd:sequence>
+                            <xsd:element ref="bsp:ScopePath"/>
+                            <xsd:element name="tree" form="qualified"
+                                type="cfg:TreeQualifierType"/>
+                        </xsd:sequence>
+                    </xsd:extension>
+                </xsd:complexContent>
+            </xsd:complexType>
+            <!--
+                ResourceQuery Definition
+            -->
+            <xsd:element name="ResourceQuery" type="cfg:ResourceQueryType"/>
+            <xsd:complexType name="ResourceQueryType">
+                <xsd:complexContent>
+                    <xsd:extension base="cfg:QueryType">
+                        <xsd:sequence>
+                            <xsd:element ref="bsp:ScopePath"/>
+                            <xsd:element name="tree" form="qualified"
+                                type="cfg:TreeQualifierType"/>
+                            <xsd:element name="componentId" form="qualified"
+                                type="cfg:ComponentIdType"/>
+                            <xsd:element name="resourceId" form="qualified"
+                                type="cfg:ResourceIdType"/>
+                        </xsd:sequence>
+                    </xsd:extension>
+                </xsd:complexContent>
+            </xsd:complexType>
+            <!-- Type and element definitions for request messages runtime interface -->
+            <!-- 
+                getConfiguration: input 
+            -->
+            <xsd:element name="getConfiguration" type="cfg:getConfigurationType"/>
+            <xsd:complexType name="getConfigurationType">
+                <xsd:complexContent>
+                    <xsd:extension base="cfg:RequestType">
+                        <xsd:sequence>
+                            <xsd:element ref="cfg:ConfigurationQuery"/>
+                        </xsd:sequence>
+                    </xsd:extension>
+                </xsd:complexContent>
+            </xsd:complexType>
+            <!-- 
+                getResource: input 
+            -->
+            <xsd:element name="getResource" type="cfg:getResourceType"/>
+            <xsd:complexType name="getResourceType">
+                <xsd:complexContent>
+                    <xsd:extension base="cfg:RequestType">
+                        <xsd:sequence>
+                            <xsd:element ref="cfg:ResourceQuery"/>
+                        </xsd:sequence>
+                    </xsd:extension>
+                </xsd:complexContent>
+            </xsd:complexType>
+            <!-- 
+                Type and element definitions for response messages 
+            -->
+            <xsd:element name="stringResponse" type="xsd:string"/>
+            <xsd:element name="resourceResponse" type="xsd:string"/>
+        </xsd:schema>
+    </types>
+    <message name="getConfigurationMessage">
+        <part name="body" element="cfg:getConfiguration"/>
+    </message>
+    <message name="getResourceMessage">
+        <part name="body" element="cfg:getResource"/>
+    </message>
+    <message name="stringResponseMessage">
+        <part name="body" element="cfg:stringResponse"/>
+    </message>
+    <message name="resourceResponseMessage">
+        <part name="body" element="cfg:resourceResponse"/>
+    </message>
+    <portType name="ConfigurationRuntime">
+        <operation name="getConfiguration">
+            <input message="tns:getConfigurationMessage"/>
+            <output message="tns:stringResponseMessage"/>
+        </operation>
+        <operation name="getResource">
+            <input message="tns:getResourceMessage"/>
+            <output message="tns:resourceResponseMessage"/>
+        </operation>
+    </portType>
+</definitions>

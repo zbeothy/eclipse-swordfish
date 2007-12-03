@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--============================================================================
+    Copyright (c) 2007 Deutsche Post AG.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+    
+    Contributors:
+       Deutsche Post AG - initial API and implementation
+ ============================================================================-->
+<definitions targetNamespace="urn://www-sopgroup-org/SystemTest/RegressionTest/1.0/VM1" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:cn="http://www.sopgroup.org/sopqa/schema/testframework/1.0/Common" xmlns:doc="http://types.sopware.org/service/Documentation/1.0" xmlns:rq="http://www.sopgroup.org/sopqa/schema/testframework/1.0/TestFrameworkRequest" xmlns:rs="http://www.sopgroup.org/sopqa/schema/testframework/1.0/TestFrameworkResponse" xmlns:sdx="http://types.sopware.org/service/ServiceDescription/2.0" xmlns:tc="http://www.sopgroup.org/sopqa/schema/testframework/1.0/TestFrameworkRequest" xmlns:tns="urn://www-sopgroup-org/SystemTest/RegressionTest/1.0/VM1" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+    <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">
+        <doc:revisionHistory current="rev_01">
+            <doc:revision id="rev_00" revisionNumber="0" status="open">Document creation</doc:revision>
+            <doc:revision id="rev_01" revisionNumber="1" status="open">Changed format to be SOP 2.0 compliant.</doc:revision>
+        </doc:revisionHistory>
+    </documentation>
+
+    <types xmlns="http://schemas.xmlsoap.org/wsdl/">
+
+
+
+
+    </types>
+
+    <message name="doRequestResponseRequest" xmlns="http://schemas.xmlsoap.org/wsdl/">
+        <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">
+            <doc:shortDescription/>
+            <doc:purpose/>
+        </documentation>
+        <part element="tc:TestCase" name="request" xmlns="http://schemas.xmlsoap.org/wsdl/"/>
+    </message>
+    <message name="doRequestResponseResponse" xmlns="http://schemas.xmlsoap.org/wsdl/">
+        <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">
+            <doc:shortDescription/>
+            <doc:purpose/>
+        </documentation>
+        <part element="rs:ResponseDocument" name="response" xmlns="http://schemas.xmlsoap.org/wsdl/"/>
+    </message>
+    <message name="doRequestResponseFault" xmlns="http://schemas.xmlsoap.org/wsdl/">
+        <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">
+            <doc:shortDescription/>
+            <doc:purpose/>
+        </documentation>
+        <part element="rs:ResponseDocument" name="fault" xmlns="http://schemas.xmlsoap.org/wsdl/"/>
+    </message>
+    <message name="doOnewayRequest" xmlns="http://schemas.xmlsoap.org/wsdl/">
+        <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">
+            <doc:shortDescription/>
+            <doc:purpose/>
+        </documentation>
+        <part element="tc:TestCase" name="request" xmlns="http://schemas.xmlsoap.org/wsdl/"/>
+    </message>
+    <message name="doNotificationResponse" xmlns="http://schemas.xmlsoap.org/wsdl/">
+        <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">
+            <doc:shortDescription/>
+            <doc:purpose/>
+        </documentation>
+        <part element="rs:ResponseDocument" name="response" xmlns="http://schemas.xmlsoap.org/wsdl/"/>
+    </message>
+    <message name="doCallbackRequest" xmlns="http://schemas.xmlsoap.org/wsdl/">
+        <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">
+            <doc:shortDescription/>
+            <doc:purpose/>
+        </documentation>
+        <part element="tc:TestCase" name="request" xmlns="http://schemas.xmlsoap.org/wsdl/"/>
+    </message>
+    <message name="doCallbackResponse" xmlns="http://schemas.xmlsoap.org/wsdl/">
+        <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">
+            <doc:shortDescription/>
+            <doc:purpose/>
+        </documentation>
+        <part element="rs:ResponseDocument" name="response" xmlns="http://schemas.xmlsoap.org/wsdl/"/>
+    </message>
+    <message name="doCallbackFault" xmlns="http://schemas.xmlsoap.org/wsdl/">
+        <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">
+            <doc:shortDescription/>
+            <doc:purpose/>
+        </documentation>
+        <part element="rs:ResponseDocument" name="fault" xmlns="http://schemas.xmlsoap.org/wsdl/"/>
+    </message>
+
+    <portType name="CommonTestServiceAttachmentHandler" sdx:domain="SystemTest" sdx:status="design" sdx:version="1.0" sr:tModelKey="uddi:sopware.org:e8496f26-2d3a-4651-9b64-07cfff0b18a6" xmlns:sr="http://types.sopware.org/registry/ServiceRegistry/1.0" xmlns="http://schemas.xmlsoap.org/wsdl/">
+        <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">
+            <doc:shortDescription>Service description for the &quot;CommonTestServiceAttachmentHandler&quot;.</doc:shortDescription>
+            <doc:purpose>
+                This service is intended to be used as default end point for all tests working with the standard service
+                configuration during regression tests. It contains operations for &quot;request-response&quot;, &quot;oneway&quot; and &quot;notification&quot;
+                communication styles as well &quot;oneway with partner&quot; resp. &quot;real asynchronous&quot; interaction style.
+            </doc:purpose>
+        </documentation>
+        <operation name="doRequestResponse" xmlns="http://schemas.xmlsoap.org/wsdl/">
+            <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">
+                <doc:shortDescription/>
+                <doc:purpose/>
+                <doc:executionFlow/>
+                <doc:prerequisites/>
+                <doc:error/>
+                <doc:success/>
+            </documentation>
+            <input message="tns:doRequestResponseRequest" xmlns="http://schemas.xmlsoap.org/wsdl/"/>
+            <output message="tns:doRequestResponseResponse" xmlns="http://schemas.xmlsoap.org/wsdl/"/>
+            <fault message="tns:doRequestResponseFault" name="doRequestResponseFault" xmlns="http://schemas.xmlsoap.org/wsdl/"/>
+        </operation>
+        <operation name="doOneway" xmlns="http://schemas.xmlsoap.org/wsdl/">
+            <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">
+                <doc:shortDescription/>
+                <doc:purpose/>
+                <doc:executionFlow/>
+                <doc:prerequisites/>
+                <doc:error/>
+                <doc:success/>
+            </documentation>
+            <input message="tns:doOnewayRequest" xmlns="http://schemas.xmlsoap.org/wsdl/"/>
+        </operation>
+        <operation name="doNotification" xmlns="http://schemas.xmlsoap.org/wsdl/">
+            <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">
+                <doc:shortDescription/>
+                <doc:purpose/>
+                <doc:executionFlow/>
+                <doc:prerequisites/>
+                <doc:error/>
+                <doc:success/>
+            </documentation>
+            <output message="tns:doNotificationResponse" xmlns="http://schemas.xmlsoap.org/wsdl/"/>
+        </operation>
+        <operation name="doCallback" xmlns="http://schemas.xmlsoap.org/wsdl/">
+            <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">
+                <doc:shortDescription/>
+                <doc:purpose/>
+                <doc:executionFlow/>
+                <doc:prerequisites/>
+                <doc:error/>
+                <doc:success/>
+            </documentation>
+            <input message="tns:doCallbackRequest" xmlns="http://schemas.xmlsoap.org/wsdl/"/>
+        </operation>
+    </portType>
+
+    <portType name="CommonTestServiceAttachmentHandlerConsumer" sdx:domain="SystemTest" sdx:status="design" sdx:version="1.0" sr:tModelKey="uddi:sopware.org:61992eb7-25ab-462c-92ef-4148af93fc09" xmlns:sr="http://types.sopware.org/registry/ServiceRegistry/1.0" xmlns="http://schemas.xmlsoap.org/wsdl/">
+        <xsd:annotation xmlns="http://schemas.xmlsoap.org/wsdl/">
+
+        </xsd:annotation>
+        <operation name="doCallbackResponse" sdx:partnerOperation="doCallback" xmlns="http://schemas.xmlsoap.org/wsdl/">
+            <input message="tns:doCallbackResponse" xmlns="http://schemas.xmlsoap.org/wsdl/"/>
+        </operation>
+        <operation name="doCallbackFault" sdx:faultOperation="true" sdx:partnerOperation="doCallback" xmlns="http://schemas.xmlsoap.org/wsdl/">
+            <input message="tns:doCallbackFault" xmlns="http://schemas.xmlsoap.org/wsdl/"/>
+        </operation>
+    </portType>
+
+    <plnk:partnerLinkType name="callbackPartnerConfiguration" xmlns:plnk="http://schemas.xmlsoap.org/ws/2003/05/partner-link/">
+        <plnk:role name="service">
+         	<plnk:portType name="tns:CommonTestServiceAttachmentHandler"/>
+        </plnk:role>
+        <plnk:role name="callback" >
+        	<plnk:portType name="tns:CommonTestServiceAttachmentHandlerConsumer"/>
+        </plnk:role>
+    </plnk:partnerLinkType>
+
+</definitions>

@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<!--============================================================================
+    Copyright (c) 2007 Deutsche Post AG.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+    
+    Contributors:
+       Deutsche Post AG - initial API and implementation
+ ============================================================================-->
+<mbeans-descriptors> 
+    
+    <mbean    name="NrPublisher"
+        domain="sbb"
+        type="org.eclipse.swordfish.core.sbb.NrPublisher"
+        description="Publishes operational log messages to Notification Receiver">
+            
+        <attribute name="FailCount"
+            description="# of failed attempts to publish messages to Notification Receiver"
+            type="java.lang.String"
+            writeable="false"/>
+
+        <attribute name="MaxMessages"
+            description="Maximum # of operational messages to keep in queue - will be truncated after this limit"
+            type="java.lang.String"
+            writeable="true"/>
+
+        <attribute name="MessageThreshold"
+            description="# of operational messages that trigger a publishing attempt"
+            type="java.lang.String"
+            writeable="true"/>
+
+        <attribute name="ProcessingInterval"
+            description="Time in ms between publishing attempts if message threshold is not exceeded"
+            type="java.lang.String"
+            writeable="true"/>
+
+        <attribute name="State"
+            description="Current state"
+            type="java.lang.String"
+            writeable="false"/>
+            
+        <attribute name="Activated"
+            description="Is the publisher activated by configuration"
+            type="java.lang.Boolean"
+            writeable="false"/>            
+            
+        <attribute name="Queuesize"
+            description="# of messages in queue"
+            type="java.lang.String"
+            writeable="false"/>            
+
+        <operation   name="flushMessages"
+            description="Tries to publish the operational log messages currently in the queue"
+            impact="ACTION"
+            returnType="void">
+        </operation>
+
+    </mbean>
+    
+</mbeans-descriptors>

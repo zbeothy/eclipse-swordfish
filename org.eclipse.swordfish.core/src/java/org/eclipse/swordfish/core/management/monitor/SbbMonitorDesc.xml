@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--============================================================================
+    Copyright (c) 2007 Deutsche Post AG.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+    
+    Contributors:
+       Deutsche Post AG - initial API and implementation
+ ============================================================================-->
+<mbeans-descriptors> 
+    
+    <mbean    name="SbbMonitor"
+        domain="sbb"
+        type="org.eclipse.swordfish.core.management.monitor.SbbMonitor"
+        description="Monitoring MBean for an SBB library instance">
+
+        <attribute  name="State"
+            description="The lifecycle state the SBB library instance is in"
+            type="java.lang.String"
+            writeable="false"/>            
+        
+        <attribute name="NumParticipants"
+            description="Number of participants registered with this SBB library instance"
+            type="java.lang.Integer"
+            writeable="false"/>
+
+        <attribute  name="ReqRate1"
+            description="average number of requests per minute"
+            type="java.lang.Integer"
+            writeable="false"/>
+        
+        <attribute  name="ReqRate1Period"
+            description="number of minutes to aggregate data for ReqRate1"
+            type="java.lang.Integer"
+            writeable="true"/>
+        
+        <attribute  name="ReqRate2"
+            description="average number of requests per minute"
+            type="java.lang.Integer"
+            writeable="false"/>
+        
+        <attribute  name="ReqRate2Period"
+            description="number of minutes to aggregate data for ReqRate2"
+            type="java.lang.Integer"
+            writeable="true"/>
+        
+        <attribute  name="ReqRate3"
+            description="average number of requests per minute"
+            type="java.lang.Integer"
+            writeable="false"/>
+        
+        <attribute  name="ReqRate3Period"
+            description="number of minutes to aggregate data for ReqRate3"
+            type="java.lang.Integer"
+            writeable="true"/>
+        
+        <attribute  name="TotalRequests"
+            description="total number of requests in the period"
+            type="java.lang.Integer"
+            writeable="false"/>
+        
+        <attribute  name="TotalRequestsPeriod"
+            description="sample period in minutes for total requests"
+            type="java.lang.Integer"
+            writeable="true"/>
+        
+        <attribute  name="PctAppFail1"
+            description="percentage of requests that failed due to application errors during the selected period"
+            type="java.lang.Integer"
+            writeable="false"/>
+        
+        <attribute  name="PctAppFail1Period"
+            description="sample period in minutes for PctAppFail1"
+            type="java.lang.Integer"
+            writeable="true"/>
+        
+        <attribute  name="PctAppFail2"
+            description="percentage of requests that failed due to application errors during the selected period"
+            type="java.lang.Integer"
+            writeable="false"/>
+        
+        <attribute  name="PctAppFail2Period"
+            description="sample period in minutes for PctAppFail2"
+            type="java.lang.Integer"
+            writeable="true"/>
+        
+        <attribute  name="PctAppFail3"
+            description="percentage of requests that failed due to application errors during the selected period"
+            type="java.lang.Integer"
+            writeable="false"/>
+        
+        <attribute  name="PctAppFail3Period"
+            description="sample period in minutes for PctAppFail3"
+            type="java.lang.Integer"
+            writeable="true"/>
+        
+        <attribute  name="PctNetFail"
+            description="percentage of failures due to network problems during selected period"
+            type="java.lang.Integer"
+            writeable="false"/>
+        
+        <attribute  name="PctNetFailPeriod"
+            description="sample period in minutes for PctNetFail"
+            type="java.lang.Integer"
+            writeable="true"/>
+        
+        <attribute  name="AvgResponseTime"
+            description="average response time in milliseconds for request/response style service operations"
+            type="java.lang.Integer"
+            writeable="false"/>
+        
+        <attribute  name="AvgResponseTimePeriod"
+            description="sample period in minutes for AvgResponseTime"
+            type="java.lang.Integer"
+            writeable="true"/>
+        
+        <attribute  name="MaxResponseTime"
+            description="maximum response time in milliseconds for request/response style service operations"
+            type="java.lang.Integer"
+            writeable="false"/>
+        
+        <attribute  name="MaxResponseTimePeriod"
+            description="sample period in minutes for MaxResponseTime"
+            type="java.lang.Integer"
+            writeable="true"/>
+        
+        <attribute  name="MinResponseTime"
+            description="minimum response time in milliseconds for request/response style service operations"
+            type="java.lang.Integer"
+            writeable="false"/>
+        
+        <attribute  name="MinResponseTimePeriod"
+            description="sample period in minutes for MinResponseTime"
+            type="java.lang.Integer"
+            writeable="true"/>
+                
+        <attribute  name="JVMTotalMemory"
+            description="total memory currently available to JVM in bytes"
+            type="java.lang.Long"
+            writeable="false"/>
+            
+        <attribute  name="JVMMaxMemory"
+            description="maximum memory available to JVM in bytes"
+            type="java.lang.Long"
+            writeable="false"/>
+
+        <attribute  name="JVMUtilPct"
+            description="percentage of heap space used in JVM"
+            type="java.lang.Integer"
+            writeable="false"/>
+        
+        <attribute  name="JVMCpus"
+            description="number of CPUs available to the JVM"
+            type="java.lang.Long"
+            writeable="false"/>
+            
+        <operation   name="resetStatistics"
+            description="Purges accumalated statistical data, starting from 0 again"
+            impact="ACTION"
+            returnType="void">
+        </operation>            
+        
+    </mbean>
+    
+</mbeans-descriptors>

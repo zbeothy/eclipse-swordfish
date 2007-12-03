@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--============================================================================
+    Copyright (c) 2007 Deutsche Post AG.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+    
+    Contributors:
+       Deutsche Post AG - initial API and implementation
+ ============================================================================-->
+<ap:Agreed
+    xmlns:ap="http://types.sopware.org/qos/AgreedPolicy/1.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://types.sopware.org/qos/AgreedPolicy/1.0 ./AgreedPolicy.xsd"
+    xmlns="http://types.sopware.org/qos/AgreedPolicy/1.0"
+    xmlns:sopa="http://types.sopware.org/qos/SOPAssertions/1.0"
+    consumerPolicy="urn://ConsumerPolicyId#version"
+    providerPolicy="urn://ProviderPolicyId#version"
+    service="www-deutschepost-de/TestDomain/Library/1.0"
+    serviceProvider="www-deutschepost-de/TestDomain/Library/1.0_binding"
+    validSince="2004-04-30T09:00:00Z"
+    validThrough="2006-05-01T21:00:00Z"
+    id="http://mydomain/myservice/1.0/agreedpolicy/123">
+
+    <Operation name="seekBook">
+        <Request>
+            <Sender>
+				<sopa:Transport type="HTTP"/>
+				<sopa:Compression />
+		   </Sender>
+            <Receiver>
+				<sopa:Transport type="HTTP"/>
+				<sopa:Compression />
+          </Receiver>
+        </Request>
+        <Response>
+            <Sender>
+				<sopa:Transport type="HTTP"/>
+				<sopa:Compression />
+          </Sender>
+            <Receiver>
+				<sopa:Transport type="HTTP"/>
+				<sopa:Compression />
+            </Receiver>
+        </Response>
+    </Operation>
+
+    <Operation name="newBooks">
+        <unused/>
+    </Operation>
+
+    <Operation name="createLending">
+        <Request>
+            <Sender>
+				<sopa:Transport type="HTTP"/>
+            </Sender>
+            <Receiver>
+				<sopa:Transport type="HTTP"/>
+          </Receiver>
+        </Request>
+        <Response>
+            <Sender>
+				<sopa:Transport type="HTTP"/>
+          </Sender>
+            <Receiver>
+				<sopa:Transport type="HTTP"/>
+            </Receiver>
+        </Response>
+    </Operation>
+    <Operation name="lookupBookInBasement">
+        <Request>
+            <Sender>
+				<sopa:Transport type="JMS"/>
+            </Sender>
+            <Receiver>
+				<sopa:Transport type="JMS"/>
+          </Receiver>
+        </Request>
+        <Response>
+            <Sender>
+				<sopa:Transport type="JMS"/>
+          </Sender>
+            <Receiver>
+				<sopa:Transport type="JMS"/>
+            </Receiver>
+        </Response>
+    </Operation>
+</ap:Agreed>

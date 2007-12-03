@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--============================================================================
+    Copyright (c) 2007 Deutsche Post AG.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+    
+    Contributors:
+       Deutsche Post AG - initial API and implementation
+ ============================================================================-->
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "./spring-beans.dtd">
+
+<beans>
+  
+  <!--define one single bean to contain the jbi environment, we may split this up into
+      several beans for better control of granularity -->
+  <bean id="org.eclipse.swordfish.core.components.jbi.ComponentContextAccess" 
+        class="org.eclipse.swordfish.core.components.jbi.impl.ComponentContextAccessBean">
+  </bean>
+
+  
+</beans>

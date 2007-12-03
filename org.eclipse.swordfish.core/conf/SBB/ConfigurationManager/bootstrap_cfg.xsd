@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--============================================================================
+    Copyright (c) 2007 Deutsche Post AG.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+    
+    Contributors:
+       Deutsche Post AG - initial API and implementation
+ ============================================================================-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+  <xs:element name="configuration">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="Global" minOccurs="1" maxOccurs="unbounded"/>
+        <xs:element ref="Participant" minOccurs="1" maxOccurs="unbounded"/>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Global">
+    <xs:complexType>
+      <xs:all>
+        <xs:element ref="EndpointReferenceResolver"/>
+        <xs:element ref="DeliveryChannelListenerBean"/>
+        <xs:element ref="GeneralCacheAdministrator"/>
+        <xs:element ref="Management"/>
+        <xs:element ref="HttpClientConfiguration"/>
+        <xs:element ref="JMSClientConfiguration"/>
+        <xs:element ref="LocatorInUse"/>
+      </xs:all>
+      <xs:attribute name="name" use="optional" default="/"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="EndpointReferenceResolver">
+    <xs:complexType>
+      <xs:all>
+        <xs:element ref="enableLocalLoopback"/>
+        <xs:element ref="defaultTransport"/>
+      </xs:all>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="enableLocalLoopback" type="xs:boolean"/>
+  <xs:element name="defaultTransport" type="xs:NCName"/>
+  <xs:element name="DeliveryChannelListenerBean">
+    <xs:complexType>
+      <xs:all>
+        <xs:element ref="threadSleepTime"/>
+        <xs:element ref="acceptedTimeout"/>
+        <xs:element ref="minThreadCount"/>
+        <xs:element ref="maxThreadCount"/>
+      </xs:all>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="threadSleepTime" type="xs:integer"/>
+  <xs:element name="acceptedTimeout" type="xs:integer"/>
+  <xs:element name="minThreadCount" type="xs:integer"/>
+  <xs:element name="maxThreadCount" type="xs:integer"/>
+  <xs:element name="GeneralCacheAdministrator">
+    <xs:complexType>
+      <xs:all>
+        <xs:element ref="cache"/>
+      </xs:all>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="cache">
+    <xs:complexType>
+      <xs:all>
+        <xs:element ref="memory"/>
+      </xs:all>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="memory" type="xs:boolean"/>
+  <xs:element name="Management">
+    <xs:complexType>
+      <xs:all>
+        <xs:element ref="ManagementNotificationListener"/>
+        <xs:element ref="FileAppender"/>
+        <xs:element ref="NrPublisher"/>
+        <xs:element ref="EmAdapter"/>
+      </xs:all>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ManagementNotificationListener">
+    <xs:complexType>
+      <xs:all>
+        <xs:element ref="ProcessingInterval"/>
+        <xs:element ref="DirectProcessing"/>
+      </xs:all>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DirectProcessing" type="xs:boolean"/>
+  <xs:element name="FileAppender">
+    <xs:complexType>
+      <xs:all>
+        <xs:element ref="NamePattern"/>
+        <xs:element ref="Limit"/>
+        <xs:element ref="Count"/>
+      </xs:all>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="NamePattern" type="xs:string"/>
+  <xs:element name="Limit" type="xs:integer"/>
+  <xs:element name="Count" type="xs:integer"/>
+  <xs:element name="NrPublisher">
+    <xs:complexType>
+      <xs:all>
+        <xs:element ref="ActivateSbb"/>
+        <xs:element ref="ActivateHttp"/>
+        <xs:element ref="Url"/>
+        <xs:element ref="MessageThreshold"/>
+        <xs:element ref="ProcessingInterval"/>
+        <xs:element ref="MaxMessages"/>
+        <xs:element ref="Activate"/>
+      </xs:all>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ActivateSbb" type="xs:boolean"/>
+  <xs:element name="ActivateHttp" type="xs:boolean"/>
+  <xs:element name="Url" type="xs:anyURI"/>
+  <xs:element name="MessageThreshold" type="xs:integer"/>
+  <xs:element name="MaxMessages" type="xs:integer"/>
+  <xs:element name="EmAdapter">
+    <xs:complexType>
+      <xs:all>
+        <xs:element ref="Port"/>
+        <xs:element ref="Host"/>
+        <xs:element ref="Username"/>
+        <xs:element ref="Password"/>
+        <xs:element ref="Activate"/>
+      </xs:all>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Port" type="xs:integer"/>
+  <xs:element name="Host" type="xs:string"/>
+  <xs:element name="Username" type="xs:NCName"/>
+  <xs:element name="Password" type="xs:string"/>
+  <xs:element name="HttpClientConfiguration">
+    <xs:complexType>
+      <xs:all>
+        <xs:element ref="connectionTimeout"/>
+        <xs:element ref="httpProxyEnable"/>
+        <xs:element ref="httpProxyHost"/>
+        <xs:element ref="httpProxyPort"/>
+        <xs:element ref="httpProxyUsername"/>
+        <xs:element ref="httpProxyPassword"/>
+        <xs:element ref="sslKeystore"/>
+        <xs:element ref="sslKeystorePassword"/>
+        <xs:element ref="sslTruststore"/>
+        <xs:element ref="baseDir"/>
+      </xs:all>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="JMSClientConfiguration">
+    <xs:complexType>
+      <xs:all>
+        <xs:element ref="connectionTimeout"/>
+      </xs:all>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="connectionTimeout" type="xs:integer"/>
+  <xs:element name="httpProxyEnable" type="xs:boolean"/>
+  <xs:element name="httpProxyHost" type="xs:NCName"/>
+  <xs:element name="httpProxyPort" type="xs:integer"/>
+  <xs:element name="httpProxyUsername" type="xs:NCName"/>
+  <xs:element name="httpProxyPassword" type="xs:NCName"/>
+  <xs:element name="sslKeystore" type="xs:NCName"/>
+  <xs:element name="sslKeystorePassword" type="xs:NCName"/>
+  <xs:element name="sslKeystoreAlias" type="xs:NCName"/>
+  <xs:element name="sslTruststore" type="xs:NCName"/>
+  <xs:element name="sslHostnameVerification" type="xs:boolean"/>
+  <xs:element name="baseDir" type="xs:string"/>
+  <xs:element name="LocatorInUse" type="xs:boolean"/>
+  <xs:element name="Participant">
+    <xs:complexType>
+      <xs:all>
+        <xs:element ref="ConfigurationRepositoryManager" maxOccurs="1"/>
+      </xs:all>
+      <xs:attribute name="name" use="optional" default="/"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ConfigurationRepositoryManager">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="SkipRemoteConfigCall"/>
+        <xs:element ref="Location"/>
+        <xs:element ref="CommunicationTimeout"/>
+        <xs:element ref="ConfigurationRepositoryUrl" minOccurs="1" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SkipRemoteConfigCall" type="xs:boolean"/>
+  <xs:element name="Location" type="xs:NCName"/>
+  <xs:element name="CommunicationTimeout" type="xs:integer"/>
+  <xs:element name="ConfigurationRepositoryUrl" type="xs:anyURI"/>
+  <xs:element name="ProcessingInterval" type="xs:integer"/>
+  <xs:element name="Activate" type="xs:boolean"/>
+</xs:schema>

@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--============================================================================
+    Copyright (c) 2007 Deutsche Post AG.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+    
+    Contributors:
+       Deutsche Post AG - initial API and implementation
+ ============================================================================-->
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "./spring-beans.dtd">
+<beans>
+    <bean id="org.eclipse.swordfish.configrepos.spring.alias.BootConfigurationRepositoryPlaceholderConfigurer"
+        class="org.eclipse.swordfish.configrepos.spring.ConfigurationRepositoryPlaceholderConfigurer">
+        <property name="placeholderPrefix">
+            <value>$sbb_boot{</value>
+        </property>
+        <property name="config">
+            <ref parent="boot_config"/>
+        </property>
+        <property name="jxPathContextFactory">
+        	<ref bean="org.eclipse.swordfish.configrepos.springbeans.JXPathContextFactory"/>
+        </property>
+    </bean>    
+    <bean id="org.eclipse.swordfish.configrepos.spring.ConfigReposProxyInstrumentationPostProcessor_instance"
+        class="org.eclipse.swordfish.core.components.configrepos.impl.ConfigReposProxyInstrumentationPostProcessor" />
+
+    <bean id="org.eclipse.swordfish.configrepos.spring.ConfigReposProxyDelegatePostProcessor_instance"
+        class="org.eclipse.swordfish.core.components.configrepos.impl.ConfigReposProxyDelegatePostProcessor">
+        <property name="wrapper" value="org.eclipse.swordfish.papi.internal.extension.configrepos.InternalConfigurationRepositoryManagerImpl" />
+        <property name="targetClass" value="org.eclipse.swordfish.core.components.configrepos.impl.ConfigurationRepositoryManagerExternalizablelImpl" />
+    </bean>
+
+
+    <bean id="org.eclipse.swordfish.configrepos.spring.InstrumentedConfigurationManagerInternal_instance"
+        singleton="false"
+        class="org.eclipse.swordfish.core.components.configrepos.instrumentation.InstrumentedConfigurationManagerInternal">
+        <constructor-arg type="org.eclipse.swordfish.core.management.instrumentation.InstrumentationManager"
+            ref="org.eclipse.swordfish.core.management.instrumentation.InstrumentationManager"/>
+        <property name="definition"
+            value="classpath:org/eclipse/swordfish/configrepos/instrumentation/sbb-configrepos-proxy-configurationrepositorymanager.xml"
+        />
+    </bean>
+    <!--
+        Remote Proxy Beans to the Configuration Repository 
+    -->
+    <!-- for fetching the configuration entries -->
+    <bean id="org.eclipse.swordfish.configrepos.springbeans.InstanceRemoteConfigSource"
+        class="org.eclipse.swordfish.configrepos.configuration.sources.RemoteConfigurationSource" autowire="byName">
+        <property name="proxy" ref="org.eclipse.swordfish.configrepos.alias.ConfigurationRepositoryProxy"/>
+        <property name="validator" ref="org.eclipse.swordfish.configrepos.springbeans.ConfigurationValidator" />
+        <property name="schemasource" ref="org.eclipse.swordfish.configrepos.springbeans.InstanceConfigurationSchemaSource" />
+        <property name="schemaName" value="remotefallbackcfg"/>
+    </bean>
+    <bean id="org.eclipse.swordfish.configrepos.springbeans.ParticipantRemoteConfigSource"
+        class="org.eclipse.swordfish.configrepos.configuration.sources.RemoteConfigurationSource" autowire="byName" lazy-init="true">
+        <property name="proxy" ref="org.eclipse.swordfish.configrepos.alias.ConfigurationRepositoryProxy"/>
+        <property name="validator" ref="org.eclipse.swordfish.configrepos.springbeans.ConfigurationValidator" />
+        <property name="schemasource" ref="org.eclipse.swordfish.configrepos.springbeans.ParticipantConfigurationSchemaSource" />
+        <property name="schemaName" value="sp_fallbackcfg"/>
+    </bean>
+    <!-- for fetching the resource entries -->
+    <bean id="org.eclipse.swordfish.configrepos.springbeans.InstanceRemoteResourceSource"
+        class="org.eclipse.swordfish.configrepos.resource.sources.RemoteResourceSource" autowire="byName">
+        <property name="proxy" ref="org.eclipse.swordfish.configrepos.alias.ConfigurationRepositoryProxy"/>
+    </bean>
+    <bean id="org.eclipse.swordfish.configrepos.springbeans.ParticipantRemoteResourceSource"
+        class="org.eclipse.swordfish.configrepos.resource.sources.RemoteResourceSource" autowire="byName" lazy-init="true">
+        <property name="proxy" ref="org.eclipse.swordfish.configrepos.alias.ConfigurationRepositoryProxy"/>
+    </bean>
+    <bean id="org.eclipse.swordfish.configrepos.alias.ConfigurationRepositoryProxy"
+        class="org.eclipse.swordfish.core.components.configrepos.impl.ConfigReposJBIProxyBean">
+        <property name="configReposSDX"
+            value="classpath:SBB/ConfigurationManager/ConfigurationRuntime.sdx"/>
+        <property name="configReposSPDX"
+            value="classpath:SBB/ConfigurationManager/ConfigurationRuntimeProvider.spdx"/>
+        <property name="configAgreedPolicy"
+            value="classpath:SBB/ConfigurationManager/ConfigurationRuntimeProvider.agreedpolicy"/>
+        <property name="context" 
+        	ref="org.eclipse.swordfish.core.components.jbi.ComponentContextAccess"/>
+        <property name="resolver"
+            ref="org.eclipse.swordfish.core.components.endpointreferenceresolver.EndpointReferenceResolver"/>
+        <property name="headerProcessor"> 
+          <ref parent="org.eclipse.swordfish.core.components.headerprocessing.HeaderProcessor"/>
+        </property> 
+        <property name="timeout"><value>$sbb_boot{Participant[@sopcs:name='/']/ConfigurationRepositoryManager/CommunicationTimeout}</value></property> 
+        <property name="soapAddressesConfig">
+            <bean id="org.eclipse.swordfish.configrepos.spring.ConfigurationListFactoryBean"
+                class="org.eclipse.swordfish.configrepos.spring.ConfigurationListFactoryBean">
+                <property name="basePath"><value>Participant[@sopcs:name='/']/ConfigurationRepositoryManager/ConfigurationRepositoryUrl</value></property>
+                <property name="configuration" ref="boot_config"/>
+    		</bean>
+        </property> 
+        <property name="serviceOperationProxy">
+            <bean class="org.eclipse.swordfish.core.components.internalproxy.impl.RequestResponseServiceOperationProxyBean">
+                <property name="deliveryChannelSender" ref="org.eclipse.swordfish.core.components.messaging.DeliveryChannelSender"/>
+            </bean>
+        </property>
+        <property name="uuidGenerator" ref="org.eclipse.swordfish.core.components.helpers.UUIDGenerator"/>				  		  			  
+    </bean>
+    <!-- Configuration Manager base setup -->
+    <import resource="classpath:crmngrbeans_default.xml"/>
+    <import resource="classpath:crmngrbeans_participant.xml"/>
+    <bean name="sbb_instance_configmngr" parent="cfgmngr" singleton="true" autowire="byName">
+        <property name="defaultTreeQualifier">
+            <value>SBB</value>
+        </property>
+    </bean>
+    <!--
+        Instance specific configuration manager 
+    -->
+    <bean id="org.eclipse.swordfish.papi.extension.configrepos.ConfigurationRepositoryManagerInstance"
+        parent="cfgmngr_sp" singleton="false" autowire="byName"/>
+
+    <bean id="org.eclipse.swordfish.papi.internal.extension.configrepos.InternalConfigurationRepositoryManager"
+        class="org.eclipse.swordfish.core.components.extension.impl.DefaultExtensionFactory" singleton="false">
+        <property name="instanceName" value="org.eclipse.swordfish.papi.extension.configrepos.ConfigurationRepositoryManagerInstance"/>
+    </bean>
+    
+    <bean id="org.eclipse.swordfish.configrepos.spring.alias.ConfigReposOperationalLogger" name="operationalLogger" 
+        class="org.eclipse.swordfish.core.components.configrepos.impl.ConfigReposOperationsAdapterImpl">
+        <property name="opsLogger" ref="org.eclipse.swordfish.core.management.operations.Operations" />
+    </bean>
+    <!-- alias name="org.eclipse.swordfish.configrepos.spring.alias.ConfigReposOperationalLogger" alias="operationalLogger"/-->
+	
+	<bean id="org.eclipse.swordfish.papi.internal.extension.infrastructure.InternalInfrastructureHelper"
+        class="org.eclipse.swordfish.core.components.helpers.InfrastructureHelperFactory" singleton="true" lazy-init="true" >
+		<property name="registryURL">
+			<value>$sbb_boot{Participant[@sopcs:name='/']/ServiceRegistryManager/ServiceRegistryUrl}</value>
+		</property>
+		<property name="secureRegistryURL">
+			<value>$sbb_boot{Participant[@sopcs:name='/']/ServiceRegistryManager/ServiceRegistrySecureUrl}</value>
+		</property>
+		<property name="useSecureRegistryURL">
+			<value>$sbb_boot{Participant[@sopcs:name='/']/ServiceRegistryManager/UseSecureUrl}</value>
+		</property>
+		<property name="configurationURL">
+			<value>$sbb_boot{Participant[@sopcs:name='/']/ConfigurationRepositoryManager/ConfigurationRepositoryUrl}</value>
+		</property>        
+    </bean>
+	
+	    
+    <bean id="org.eclipse.swordfish.core.management.ObjectNameFactory" class="org.eclipse.swordfish.core.management.objectname.ObjectNameFactory"/>
+</beans>

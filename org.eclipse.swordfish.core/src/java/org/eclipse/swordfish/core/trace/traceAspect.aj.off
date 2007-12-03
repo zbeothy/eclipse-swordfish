@@ -1,0 +1,172 @@
+/*******************************************************************************
+ * Copyright (c) 2007 Deutsche Post AG.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors:
+ *    Deutsche Post AG - initial API and implementation
+ ******************************************************************************/
+package org.eclipse.swordfish.core.trace;
+
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.reflect.CodeSignature;
+import org.eclipse.swordfish.core.logging.Log;
+import org.eclipse.swordfish.core.logging.SBBLogFactory;
+import org.eclipse.swordfish.core.papi.impl.untyped.SOPObjectBase;
+import java.io.StringWriter;
+import java.io.PrintWriter;
+import org.eclipse.swordfish.core.trace.TraceIdentifier;
+
+aspect traceAspect {
+
+    pointcut myClass(): ( within(org.eclipse.swordfish.core..*) || within(org.eclipse.swordfish.core..*) ) && !(within (org.eclipse.swordfish.core.trace..*) || within (org.eclipse.swordfish.core.logging..*));
+
+    pointcut allConstructors(): myClass() && execution(new(..));
+
+    pointcut allMethods(): myClass() && execution(* *(..)) && !execution(* getParticipantIdentityAsString(..));
+
+    pointcut allClassInits(): myClass() && staticinitialization(*);
+
+    pointcut allHandlers(Throwable t): myClass() && handler(Throwable+) && args(t);
+
+    pointcut papiLookups(): within(org.eclipse.swordfish.core.papi.impl.untyped.SBBImpl)&&(execution (* lookup*(..)));
+
+    pointcut papiConsumerCalls(): within(org.eclipse.swordfish.core.papi.impl.untyped.consumer..*)&&(execution (* call*(..)));
+
+    // papi main functionality regarding calls and lookups
+    Object around(): papiLookups() || papiConsumerCalls(){
+        boolean set = false;
+        if (thisJoinPoint.getTarget() != null) {
+            String part = ""; //((SOPObjectBase) thisJoinPoint.getTarget())
+//                .getParticipantIdentityAsString();
+            TraceIdentifier.set(part);
+            set = true;
+        }
+        try {
+            return proceed();
+        } finally {
+            TraceIdentifier.set(null);
+        }
+    }
+
+    // static inits
+    before(): allClassInits() {
+        if (traceEnabled(thisJoinPoint)) {
+            trace(thisJoinPoint, "Entring StaticInit: ", prepareSignature(thisJoinPoint));
+        }
+    }
+
+    after() returning(Object o): allClassInits() {
+        if (traceEnabled(thisJoinPoint)) {
+            trace(thisJoinPoint, "Exiting StaticInit with <-- ",
+                prepareResult(thisJoinPoint, o));
+        }
+    }
+
+    after() throwing(Throwable t): allClassInits() {
+        if (traceEnabled(thisJoinPoint)) {
+            trace(thisJoinPoint, "throwing StaticInit, ", prepareThrowing(thisJoinPoint, t));
+        }
+    }
+
+    // constructor inits
+    before(): allConstructors() {
+        if (traceEnabled(thisJoinPoint)) {
+            trace(thisJoinPoint, "Entring Constructor: ", prepareSignature(thisJoinPoint));
+        }
+    }
+
+    after() returning(Object o): allConstructors() {
+        if (traceEnabled(thisJoinPoint)) {
+            trace(thisJoinPoint, "Exiting Constructor. <-- ", prepareResult(thisJoinPoint, o));
+        }
+    }
+
+    after() throwing(Throwable t): allConstructors() {
+        if (traceEnabled(thisJoinPoint)) {
+            trace(thisJoinPoint, "throwing Constructor, ", prepareThrowing(thisJoinPoint, t));
+        }
+    }
+
+    // method execution
+    before(): allMethods() {
+        if (traceEnabled(thisJoinPoint)) {
+            trace(thisJoinPoint, "Entring method: ", prepareSignature(thisJoinPoint));
+        }
+    }
+
+    after() returning(Object o): allMethods() {
+        if (traceEnabled(thisJoinPoint)) {
+            trace(thisJoinPoint, "Exiting method. <-- ", prepareResult(thisJoinPoint, o));
+        }
+    }
+
+    after() throwing(Throwable t): allMethods() {
+        if (traceEnabled(thisJoinPoint)) {
+            trace(thisJoinPoint, "throwing method, ", prepareThrowing(thisJoinPoint, t));
+        }
+    }
+
+    static private String prepareSignature(JoinPoint jp) {
+        StringBuffer traceOut = new StringBuffer("Signature evaluation: ");
+        traceOut.append(jp.getStaticPart().toString());
+        Object[] args = jp.getArgs();
+        String[] names = ((CodeSignature) jp.getSignature()).getParameterNames();
+        Class[] types = ((CodeSignature) jp.getSignature()).getParameterTypes();
+        if (args.length > 0) {
+            traceOut.append("[");
+        }
+        for (int i = 0; i < args.length; i++) {
+            traceOut.append("(");
+            traceOut.append(types[i].getName());
+            traceOut.append(" ");
+            traceOut.append(names[i]);
+            traceOut.append(" -> ");
+            traceOut.append(args[i] == null ? "null" : args[i].toString());
+            traceOut.append(")");
+        }
+        if (args.length > 0) {
+            traceOut.append("]");
+        }
+        return traceOut.toString();
+    }
+
+    static private String prepareResult(JoinPoint jp, Object retVal) {
+        StringBuffer traceOut = new StringBuffer();
+        traceOut.append(jp.getStaticPart().toString());
+        traceOut.append(" returns ");
+        traceOut.append(retVal == null ? "null" : retVal.toString());
+        return traceOut.toString();
+    }
+
+    static private String prepareThrowing(JoinPoint jp, Throwable th) {
+        StringBuffer traceOut = new StringBuffer();
+        traceOut.append(jp.getStaticPart().toString());
+        traceOut.append(" throws ");
+        StringWriter sw = new StringWriter();
+        th.printStackTrace(new PrintWriter(sw));
+        traceOut.append(sw.getBuffer());
+        return traceOut.toString();
+    }
+
+    static private boolean traceEnabled(JoinPoint jp) {
+        return SBBLogFactory.getLog(jp.getSignature().getDeclaringType()).isTraceEnabled();
+    }
+
+    static private void trace(JoinPoint jp, String prolog, String message) {
+        Log log = SBBLogFactory.getLog(jp.getSignature().getDeclaringType());
+        if (log.isTraceEnabled()) {
+            StringBuffer traceOut = new StringBuffer();
+            String participant = TraceIdentifier.get();
+            if (participant.length() > 0) {
+                traceOut.append(participant);
+                traceOut.append(" ");
+            }
+            traceOut.append(prolog);
+            traceOut.append(message);
+            log.trace(traceOut.toString()); 
+        }
+    }
+}
