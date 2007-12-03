@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--============================================================================
+    Copyright (c) 2007 Deutsche Post AG.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+    
+    Contributors:
+       Deutsche Post AG - initial API and implementation
+ ============================================================================-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+
+	xmlns="http://schemas.sopware.org/configuration/tsp_em.local/1.0"
+	xmlns:sopcs="http://schemas.sopware.org/configuration/generic/1.0"
+	xmlns:sopcom="http://schemas.sopware.org/configuration/tsp_common/1.0"
+
+	xmlns:target="http://schemas.sopware.org/configuration/tsp_em.local/1.0"
+	targetNamespace="http://schemas.sopware.org/configuration/tsp_em.local/1.0"
+
+	elementFormDefault="qualified">
+
+	<xs:annotation>
+		<xs:documentation>
+			This is the configuration of the element manager TSP local
+			configuration component
+		</xs:documentation>
+	</xs:annotation>
+
+	<xs:import
+		namespace="http://schemas.sopware.org/configuration/generic/1.0"
+		schemaLocation="../../generic.xsd"/>
+	<xs:import
+		namespace="http://schemas.sopware.org/configuration/tsp_common/1.0"
+		schemaLocation="tsp_conf_common-types.xsd"/>
+
+	<!--  root type-->
+	<xs:complexType name="ElementManagerType">
+		<xs:complexContent>
+			<xs:extension base="sopcs:ComponentType">
+				<xs:all>
+					<xs:element name="Username" type="sopcs:unnamedStringElementType"/>
+					<xs:element name="Password" type="sopcs:unnamedStringElementType"/>
+					<xs:element name="SbbSecurityHandler" type="target:SbbSecurityHandlerType"></xs:element>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:complexType name="SbbSecurityHandlerType">
+		<xs:all>
+			<xs:element name="Username" type="sopcs:unnamedStringElementType"/>
+			<xs:element name="Password" type="sopcs:unnamedStringElementType"/>
+			<xs:element name="PolicyId" type="sopcs:unnamedStringElementType"/>
+			<xs:element name="Resource" type="sopcs:unnamedStringElementType"/>
+			<xs:element name="Action" 	type="sopcs:unnamedStringElementType"/>
+		</xs:all>
+		<xs:attributeGroup ref="sopcs:elementMetaAttribGroup"></xs:attributeGroup>
+	</xs:complexType>
+	
+	<xs:element name="SbbSecurityHandler"
+		type="target:SbbSecurityHandlerType"/>
+
+	<xs:element name="elementManager"
+				type="target:ElementManagerType"
+				substitutionGroup="sopcs:AbstractComponentElement"/>
+
+	<!-- 
+		Don't use this for regular instantiation! This is just a mechanism to support
+		the interface of the configuration repository service provider. 
+	-->
+	<xs:element name="configuration">
+		<xs:complexType>
+			<xs:sequence maxOccurs="unbounded">
+				<xs:element ref="target:elementManager"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

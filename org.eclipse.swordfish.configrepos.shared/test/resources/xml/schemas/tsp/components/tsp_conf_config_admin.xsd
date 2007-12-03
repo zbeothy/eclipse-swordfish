@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--============================================================================
+    Copyright (c) 2007 Deutsche Post AG.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+    
+    Contributors:
+       Deutsche Post AG - initial API and implementation
+ ============================================================================-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns="http://schemas.sopware.org/configuration/tsp_config_admin/1.0"
+	xmlns:sopcs="http://schemas.sopware.org/configuration/generic/1.0"
+	xmlns:sopcom="http://schemas.sopware.org/configuration/tsp_common/1.0"
+
+	xmlns:target="http://schemas.sopware.org/configuration/tsp_config_admin/1.0"
+	targetNamespace="http://schemas.sopware.org/configuration/tsp_config_admin/1.0"
+
+	elementFormDefault="qualified">
+
+	<xs:annotation>
+		<xs:documentation>
+			This is the configuration of the configuration admin TSP configuration
+			component
+		</xs:documentation>
+	</xs:annotation>
+
+	<xs:import
+		namespace="http://schemas.sopware.org/configuration/generic/1.0"
+		schemaLocation="../../generic.xsd" />
+	<xs:import
+		namespace="http://schemas.sopware.org/configuration/tsp_common/1.0"
+		schemaLocation="tsp_conf_common-types.xsd" />
+
+
+	<!-- types for complex sub elements -->
+	<xs:complexType
+		name="ldapTypeWithPrefixUseSchemaAndConnectionPool">
+		<xs:all>
+			<xs:element name="initial-context-factory"
+				type="sopcs:unnamedStringElementType"
+				default="com.sun.jndi.ldap.LdapCtxFactory">
+				<xs:annotation>
+					<xs:documentation>
+						Java class that provides connections to LDAP
+						server via JNDI.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="providerURL" type="sopcom:URIType">
+				<xs:annotation>
+					<xs:documentation>
+						URL of LDAP server, including the root context.
+						The root context is an LDAP DN and separated
+						from the URL by a slash (/).
+					</xs:documentation>
+					<xs:documentation>
+						Example:
+						ldap://192.168.100.68:1389/o=ubbrief.deutschepost.de
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="secure-auth"
+				type="sopcom:AuthenticationConfigType" default="none">
+				<xs:annotation>
+					<xs:documentation>
+						Level of authentication. If set to 'simple',
+						username/password credentials will be used, if
+						set to 'none', no credentials will be used.
+					</xs:documentation>
+					<xs:documentation>
+						Possible values: simple, none
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="bindDN"
+				type="sopcs:unnamedStringElementType">
+				<xs:annotation>
+					<xs:documentation>
+						JNDI folder name of the subsystem context (here:
+						Authentication). An LDAP DN is expected.
+					</xs:documentation>
+					<xs:documentation>
+						Example: uid=SystemUserAuthenticationTSP
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="bindPassword"
+				type="sopcs:unnamedStringElementType">
+				<xs:annotation>
+					<xs:documentation>
+						Password for access to 'bindDN'. Required, if
+						'secure-auth' is set to 'simple'.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="connection-pool" type="sopcs:unnamedBooleanElementType"
+				default="false" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>
+						Flag which controls the pooling behaviour of
+						LDAP connections.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="prefix"
+				type="sopcs:unnamedStringElementType">
+				<xs:annotation>
+					<xs:documentation>
+						Defines the configuration of the LDAP component
+						with the specific name in this configuration
+						file.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="use-schema"
+				type="sopcs:namedBooleanElementType">
+				<xs:annotation>
+					<xs:documentation>
+						Define whether setting using the LDAP schema for
+						the SOP configuration directory should be
+						activated. Leave as 'true'.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:all>
+		<xs:attributeGroup ref="sopcs:namedElementMetaAttribGroup" />
+	</xs:complexType>
+
+	<!--  root type-->
+	<xs:complexType name="ConfigurationAdminType">
+		<xs:complexContent>
+			<xs:extension base="sopcs:ComponentType">
+				<xs:all>
+					<xs:element name="resource-root"
+						type="sopcs:namedStringElementType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>
+								Defines the location of the directory
+								containing the resource files.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="repository-file"
+						type="sopcs:namedStringElementType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>
+								Defines the location of the storage
+								file.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="cache-repository-read"
+						type="sopcs:namedBooleanElementType">
+						<xs:annotation>
+							<xs:documentation>
+								Activate / Deactivate usage of the
+								caching functionality in the JNDI
+								backend. It is strongly discouraged to
+								set this to 'true' in a clustered
+								configuration repository environment.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="used-repository"
+						type="sopcom:namedRepositoryConfig">
+						<xs:annotation>
+							<xs:documentation>
+								Selection of the storage backend for the
+								provider. Allowed values are: FILE - for
+								the file system-based backend; JNDI -
+								for an LDAP-based backend. If set to
+								FILE, the parameters 'resource-root' and
+								'repository-file' must be set. If set to
+								JNDI, all LDAP parameters (with 'ldap.'
+								prefix in the parameter name) must be
+								set.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="path-separator"
+						type="sopcs:namedStringElementType">
+						<xs:annotation>
+							<xs:documentation>
+								Defines the separator for sub-trees.
+								Should be left as '.'.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="ldap"
+						type="ldapTypeWithPrefixUseSchemaAndConnectionPool"
+						minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>
+								The LDAP to store the configuration in.
+								Required if 'used-repository' is set to
+								'JNDI'.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="sanitycheck"
+						type="sopcom:SanitycheckConfigType">
+						<xs:annotation>
+							<xs:documentation>
+								Configuration parameters for periodic
+								TSP sanity check.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:element name="configurationAdmin"
+				type="target:ConfigurationAdminType"
+				substitutionGroup="sopcs:AbstractComponentElement" />
+
+	<!-- 
+		Don't use this for regular instantiation! This is just a mechanism to support
+		the interface of the configuration repository service provider. 
+	-->
+	<xs:element name="configuration">
+		<xs:complexType>
+			<xs:sequence minOccurs="1" maxOccurs="unbounded">
+				<xs:element ref="target:configurationAdmin" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+</xs:schema>

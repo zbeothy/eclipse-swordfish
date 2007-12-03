@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--============================================================================
+    Copyright (c) 2007 Deutsche Post AG.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+    
+    Contributors:
+       Deutsche Post AG - initial API and implementation
+ ============================================================================-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+    xmlns="http://schemas.sopware.org/security/PRIV/1.0"
+    targetNamespace="http://schemas.sopware.org/security/PRIV/1.0"
+    xmlns:target="http://schemas.sopware.org/security/PRIV/1.0"
+    xmlns:sop_gen="http://schemas.sopware.org/configuration/generic/1.0"
+    xmlns:common="http://schemas.sopware.org/configuration/common/1.0">
+
+    <xs:annotation>
+        <xs:documentation>This is the remote / fallback configuration for the authorization and
+            privilege management TSPs.</xs:documentation>
+    </xs:annotation>
+
+    <xs:import namespace="http://schemas.sopware.org/configuration/generic/1.0"
+        schemaLocation="tsp_conf_generic-remote.xsd"/>
+    <xs:import namespace="http://schemas.sopware.org/configuration/common/1.0"
+        schemaLocation="tsp_conf_common-types-remote.xsd"/>
+
+    <!-- types for complex sub elements PRIV-->
+
+    <xs:complexType name="baseAttributeType">
+        <xs:attribute name="name" type="xs:string" use="optional"/>
+        <xs:attribute name="ldap" type="xs:string"/>
+        <xs:attribute name="indexed" type="xs:boolean" use="optional"/>
+        <xs:attribute name="optional" type="xs:boolean" use="optional"/>
+        <xs:attribute name="key" type="xs:boolean" use="optional"/>
+        <xs:attribute name="type" type="xs:string" use="optional"/>
+        <xs:attribute name="default" type="xs:string" use="optional"/>
+    </xs:complexType>
+    <xs:simpleType name="validTypeIDs">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="role"/>
+            <xs:enumeration value="account"/>
+            <xs:enumeration value="resource"/>
+            <xs:enumeration value="privilege"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+     <xs:complexType name="pmazn-factoryType">
+        <xs:complexContent>
+            <xs:extension base="sop_gen:configNode">
+                <xs:sequence>
+                    <xs:element name="factoryName" type="sop_gen:namedStringConfig"
+                        default="org.sopware.sec.pmazn.impl.ldap.PrivilegeManagementFactoryLdap"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="typeType">
+        <xs:complexContent>
+            <xs:extension base="sop_gen:configNode">
+                <xs:sequence>
+                    <xs:element name="baseDN" type="sop_gen:unnamedStringConfig">
+                        <xs:annotation>
+                            <xs:documentation>Location where to store the Java entity type with
+                                given ID within the LDAP server's structure. An LDAP DN is
+                            expected.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="objectclass">
+                        <xs:annotation>
+                            <xs:documentation>The name attribute defines to which LDAP attribute the
+                                Java entity type maps. The LDAP attribute is either a base LDAP
+                                attribute or defined in an LDAP schema. Depending on the entity type
+                                ID, several type.objectClass.attribute elements are
+                            defined.</xs:documentation>
+                        </xs:annotation>
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element name="attribute" type="baseAttributeType" minOccurs="2"
+                                    maxOccurs="unbounded">
+                                    <xs:annotation>
+                                        <xs:documentation>Detail of mapping a Java entity type's
+                                            property to an LDAP attribute.</xs:documentation>
+                                    </xs:annotation>
+                                </xs:element>
+                            </xs:sequence>
+                            <xs:attribute name="name" type="xs:string"/>
+                        </xs:complexType>
+                    </xs:element>
+                </xs:sequence>
+                <xs:attribute name="id" type="validTypeIDs" use="required"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="samlType">
+        <xs:complexContent>
+            <xs:extension base="sop_gen:configNode">
+                <xs:sequence>
+                    <xs:element name="general-issuer" type="sop_gen:unnamedStringConfig">
+                        <xs:annotation>
+                            <xs:documentation>This name identifies the SOPware authorization service
+                                and is included in all SAML assertions issued by the authorization
+                                service.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="keystore">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element name="name" type="sop_gen:unnamedStringConfig">
+                                    <xs:annotation>
+                                        <xs:documentation>The filename of the keystore that contains
+                                            the private key used by the authorization service to
+                                            sign SAML assertions.</xs:documentation>
+                                    </xs:annotation>
+                                </xs:element>
+                                <xs:element name="password" type="sop_gen:unnamedStringConfig">
+                                    <xs:annotation>
+                                        <xs:documentation>The password needed to access the key
+                                            store.</xs:documentation>
+                                    </xs:annotation>
+                                </xs:element>
+                                <xs:element name="certalias" type="sop_gen:unnamedStringConfig">
+                                    <xs:annotation>
+                                        <xs:documentation>The key alias name against which the
+                                            private key and certificate are stored in the
+                                        keystore.</xs:documentation>
+                                    </xs:annotation>
+                                </xs:element>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element name="assertion">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element name="signSerialNumbersOnly"
+                                    type="sop_gen:unnamedBooleanConfig">
+                                    <xs:annotation>
+                                        <xs:documentation>This parameter determines whether the full
+                                            certificate of the authorization service is included
+                                            with the SAML assertions it issues; If "true", only the
+                                            certificate serial number and the issuer name are
+                                            included, so the receiver needs to have access to the
+                                            corresponding certificate to verify SAML assertions
+                                            issued by the authorization service. Setting this
+                                            parameter to "true" helps reduce the size of SAML
+                                            assertions at the cost of distributing the authorization
+                                            service's certificate to all relying
+                                        parties.</xs:documentation>
+                                    </xs:annotation>
+                                </xs:element>
+                                <xs:element name="expires" type="sop_gen:unnamedByteConfig">
+                                    <xs:annotation>
+                                        <xs:documentation>This parameter specifies the lifetime of
+                                            SAML assertions issued by the authorization service in
+                                            minutes.</xs:documentation>
+                                    </xs:annotation>
+                                </xs:element>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <!-- Global elements used for element substitution -->
+    <xs:element name="configNode" type="sop_gen:configNode"/>
+    <xs:element name="pmazn-factory" type="pmazn-factoryType" substitutionGroup="target:configNode">
+        <xs:annotation>
+            <xs:documentation>Factory class for obtaining a backend reference to the LDAP
+            server.</xs:documentation>
+        </xs:annotation>
+    </xs:element>
+    <xs:element name="ldap" type="common:ldapTypeWithConnectionPool"
+        substitutionGroup="target:configNode">
+        <xs:annotation>
+            <xs:documentation>Configuration parameters for LDAP access. </xs:documentation>
+        </xs:annotation>
+    </xs:element>
+    <xs:element name="type" type="typeType" substitutionGroup="target:configNode">
+        <xs:annotation>
+            <xs:documentation>Configuration parameters for Java entity type to LDAP attribute
+                mapping.</xs:documentation>
+        </xs:annotation>
+    </xs:element>
+    <xs:element name="saml" type="samlType" substitutionGroup="target:configNode">
+        <xs:annotation>
+            <xs:documentation>Configuration parameters for SAML.</xs:documentation>
+        </xs:annotation>
+    </xs:element>
+    <xs:element name="sanitycheck" type="common:sanitycheckConfig"
+        substitutionGroup="target:configNode">
+        <xs:annotation>
+            <xs:documentation>Configuration parameters for periodic TSP sanity
+            check.</xs:documentation>
+        </xs:annotation>
+    </xs:element>
+
+     <!-- root type-->
+
+    <xs:complexType name="authorizationType">
+        <xs:complexContent>
+            <xs:extension base="sop_gen:configNode">
+                    <xs:sequence>
+                        <xs:element ref="target:configNode" minOccurs="0" maxOccurs="unbounded"/>
+                    </xs:sequence>             
+              </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+  
+    <!--  root element -->
+    <xs:element name="configuration">
+        <xs:complexType>
+            <xs:all>
+                <xs:element name="authorization" type="authorizationType">
+                </xs:element>
+             </xs:all>
+        </xs:complexType>
+        <xs:unique name="typeUnique">
+            <xs:selector xpath="target:authorization/target:type"/>
+            <xs:field xpath="@id"/>
+       </xs:unique>
+    </xs:element>
+
+    
+ </xs:schema>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--============================================================================
+    Copyright (c) 2007 Deutsche Post AG.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+    
+    Contributors:
+       Deutsche Post AG - initial API and implementation
+ ============================================================================-->
+<xs:schema
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    elementFormDefault="qualified"
+    targetNamespace="http://schemas.sopware.org/sbb/configuration/1.0/internalproxy.local.xsd"
+    xmlns:sopcs="http://schemas.sopware.org/configuration/generic/1.0"
+    xmlns:sbbintp="http://schemas.sopware.org/sbb/configuration/1.0/internalproxy.local.xsd">
+
+    <xs:import
+        namespace="http://schemas.sopware.org/configuration/generic/1.0"
+        schemaLocation="../../generic.xsd"/>
+
+    <xs:complexType
+        name="InternalProxyComponentType">
+        <xs:complexContent>
+            <xs:extension
+                base="sopcs:ComponentType">
+                <xs:all>
+                    <xs:element
+                        name="InfrastructureUsername"
+                        type="sopcs:unnamedStringElementType"/>
+                    <xs:element
+                        name="InfrastructurePassword"
+                        type="sopcs:unnamedStringElementType"/>
+                </xs:all>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:element
+        name="InternalProxy"
+        type="sbbintp:InternalProxyComponentType"
+        substitutionGroup="sopcs:AbstractComponentElement"/>
+
+    <!-- 
+        Don't use this for regular instantiation! This is just a mechanism to support
+        the interface of the configuration repository service provider. 
+    -->
+    <xs:element
+        name="configuration">
+        <xs:complexType>
+            <xs:choice
+                minOccurs="1"
+                maxOccurs="unbounded">
+                <xs:element
+                    ref="sbbintp:InternalProxy"/>
+            </xs:choice>
+        </xs:complexType>
+    </xs:element>
+
+</xs:schema>

@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--============================================================================
+    Copyright (c) 2007 Deutsche Post AG.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+    
+    Contributors:
+       Deutsche Post AG - initial API and implementation
+ ============================================================================-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+	<xs:element name="configuration">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Global">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="EndpointReferenceResolver">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="enableLocalLoopback" type="xs:boolean"/>
+										<xs:element name="defaultTransport">
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:enumeration value="HTTP"/>
+													<xs:enumeration value="JMS"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="DeliveryChannelListenerBean">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="threadSleepTime" type="xs:nonNegativeInteger"/>
+										<xs:element name="acceptedTimeout"  type="xs:nonNegativeInteger"/>
+										<xs:element name="minThreadCount" type="xs:nonNegativeInteger"/>
+										<xs:element name="maxThreadCount" type="xs:nonNegativeInteger"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="GeneralCacheAdministrator">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="cache">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="memory" type="xs:boolean"/>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="Management">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="ManagementNotificationListener">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="ProcessingInterval" type="xs:nonNegativeInteger"/>
+													<xs:element name="DirectProcessing"  type="xs:boolean"/>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="FileAppender">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="NamePattern" type="xs:string"/>
+													<xs:element name="Limit" type="xs:nonNegativeInteger"/>
+													<xs:element name="Count" type="xs:nonNegativeInteger"/>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="HttpPublisher">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="Url" type="xs:anyURI"/>
+													<xs:element name="MessageThreshold" type="xs:nonNegativeInteger"/>
+													<xs:element name="ProcessingInterval" type="xs:nonNegativeInteger"/>
+													<xs:element name="MaxMessages" type="xs:nonNegativeInteger"/>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="EmAdapter">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="Port" type="xs:nonNegativeInteger"/>
+													<xs:element name="Host" type="xs:string"/>
+													<xs:element name="Username" type="xs:string"/>
+													<xs:element name="Password" type="xs:string"/>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="HttpClientConfiguration">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="connectionTimeout" type="xs:nonNegativeInteger"/>
+										<xs:element name="httpProxyEnable" type="xs:boolean"/>
+										<xs:element name="httpProxyHost" type="xs:string"/>
+										<xs:element name="httpProxyPort" type="xs:nonNegativeInteger"/>
+										<xs:element name="httpProxyUsername" type="xs:string"/>
+										<xs:element name="httpProxyPassword" type="xs:string"/>
+										<xs:element name="sslKeystore" type="xs:string"/>
+										<xs:element name="sslKeystorePassword" type="xs:string"/>
+										<xs:element name="sslKeystoreAlias" type="xs:string"/>
+										<xs:element name="sslTruststore" type="xs:string"/>
+										<xs:element name="baseDir" type="xs:string"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute name="name" type="xs:string" use="optional" default="default"/>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Participant">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ConfigurationRepositoryManager">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="SkipRemoteConfigCall" type="xs:boolean"/>
+										<xs:element name="Location" type="xs:string"/>
+										<xs:element name="CommunicationTimeout" type="xs:nonNegativeInteger"/>
+										<xs:element name="ConfigurationRepositoryUrl" type="xs:anyURI"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute name="name" type="xs:string" use="optional" default="default"/>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

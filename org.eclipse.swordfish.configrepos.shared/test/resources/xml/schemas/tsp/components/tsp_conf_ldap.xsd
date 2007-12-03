@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--============================================================================
+    Copyright (c) 2007 Deutsche Post AG.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+    
+    Contributors:
+       Deutsche Post AG - initial API and implementation
+ ============================================================================-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+
+	xmlns="http://schemas.sopware.org/configuration/tsp_ldap/1.0"
+	xmlns:sopcs="http://schemas.sopware.org/configuration/generic/1.0"
+	xmlns:sopcom="http://schemas.sopware.org/configuration/tsp_common/1.0"
+
+	xmlns:target="http://schemas.sopware.org/configuration/tsp_ldap/1.0"
+	targetNamespace="http://schemas.sopware.org/configuration/tsp_ldap/1.0"
+
+	elementFormDefault="qualified">
+
+	<xs:annotation>
+		<xs:documentation>
+			This is the configuration of the LDAP TSP local configuration
+			component
+		</xs:documentation>
+	</xs:annotation>
+
+	<xs:import
+		namespace="http://schemas.sopware.org/configuration/generic/1.0"
+		schemaLocation="../../generic.xsd"/>
+	<xs:import
+		namespace="http://schemas.sopware.org/configuration/tsp_common/1.0"
+		schemaLocation="tsp_conf_common-types.xsd"/>
+
+	<xs:element name="ldap"
+				type="sopcom:LdapConfigType"
+				substitutionGroup="sopcs:AbstractComponentElement"/>
+
+	<!-- 
+		Don't use this for regular instantiation! This is just a mechanism to support
+		the interface of the configuration repository service provider. 
+	-->
+	<xs:element name="configuration">
+		<xs:complexType>
+			<xs:sequence maxOccurs="unbounded">
+				<xs:element ref="target:ldap"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

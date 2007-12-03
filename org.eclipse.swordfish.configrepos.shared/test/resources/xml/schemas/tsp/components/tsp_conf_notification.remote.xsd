@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--============================================================================
+    Copyright (c) 2007 Deutsche Post AG.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+    
+    Contributors:
+       Deutsche Post AG - initial API and implementation
+ ============================================================================-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns="http://schemas.sopware.org/configuration/tsp_notification.remote/1.0"
+	xmlns:sopcs="http://schemas.sopware.org/configuration/generic/1.0"
+	xmlns:sopcom="http://schemas.sopware.org/configuration/tsp_common/1.0"
+	xmlns:target="http://schemas.sopware.org/configuration/tsp_notification.remote/1.0"
+	targetNamespace="http://schemas.sopware.org/configuration/tsp_notification.remote/1.0"
+	elementFormDefault="qualified">
+
+	<xs:annotation>
+		<xs:documentation> This is the configuration of the notification receiver TSP remote
+			configuration component </xs:documentation>
+	</xs:annotation>
+
+	<xs:import namespace="http://schemas.sopware.org/configuration/generic/1.0"
+		schemaLocation="../../generic.xsd"/>
+	<xs:import namespace="http://schemas.sopware.org/configuration/tsp_common/1.0"
+		schemaLocation="tsp_conf_common-types.xsd"/>
+
+	<!-- Description of one processing chain in the NotificationReceiver -->
+	<xs:complexType name="ChainDescType">
+		<xs:complexContent>
+			<xs:extension base="sopcs:ComponentType">
+				<xs:sequence>
+					<xs:element ref="abstractOperation" minOccurs="1" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- Description of one operation within a processing chain -->
+	<xs:element name="abstractOperation"/>
+
+	<!-- Concrete operations -->
+
+	<xs:element name="msgTypeFilter" type="MsgTypeFilterType" substitutionGroup="abstractOperation"/>
+
+	<xs:element name="consoleOutput" type="ConsoleOutputType" substitutionGroup="abstractOperation"/>
+
+	<xs:element name="fileOutput" type="FileOutputType" substitutionGroup="abstractOperation"/>
+	
+	<xs:element name="ldapOutput" type="LdapOutputType" substitutionGroup="abstractOperation"/>
+
+	<xs:complexType name="MsgTypeFilterType">
+		<xs:all>
+			<xs:element name="filterPattern" type="sopcs:unnamedStringElementType"/>
+		</xs:all>
+		<xs:attributeGroup ref="sopcs:elementMetaAttribGroup"/>
+	</xs:complexType>	
+	
+	<xs:complexType name="ConsoleOutputType">
+		<xs:all>
+			<xs:element name="notificationConverter" type="NotificationConverterType"/>
+			<xs:element name="filter" type="sopcs:unnamedStringElementType" minOccurs="0"/>
+			<xs:element name="encoding" type="sopcs:unnamedStringElementType" minOccurs="0"/>
+			<xs:element name="level" type="LevelType" minOccurs="0"/>
+			<xs:element name="formatter" type="sopcs:unnamedStringElementType" minOccurs="0"/>
+		</xs:all>
+		<xs:attributeGroup ref="sopcs:elementMetaAttribGroup"/>
+	</xs:complexType>
+	
+	<xs:complexType name="FileOutputType">
+		<xs:all>
+			<xs:element name="notificationConverter" type="NotificationConverterType"/>
+			<xs:element name="filenamePattern" type="sopcs:unnamedStringElementType"/>
+			<xs:element name="limit" type="sopcs:unnamedNonNegIntElementType" minOccurs="0"/>
+			<xs:element name="count" type="sopcs:unnamedNonNegIntElementType" minOccurs="0"/>
+			<xs:element name="encoding" type="sopcs:unnamedStringElementType" minOccurs="0"/>
+			<xs:element name="level" type="LevelType" minOccurs="0"/>
+			<xs:element name="formatter" type="sopcs:unnamedStringElementType" minOccurs="0"/>
+		</xs:all>
+		<xs:attributeGroup ref="sopcs:elementMetaAttribGroup"/>
+	</xs:complexType>
+
+	<xs:complexType name="LdapOutputType">
+		<xs:all>
+			<xs:element name="providerUrl" type="sopcs:unnamedLdapUrlElementType"/>
+			<xs:element name="baseDN" type="sopcs:unnamedStringElementType"/>
+			<xs:element name="userDN" type="sopcs:unnamedStringElementType"/>
+			<xs:element name="password" type="sopcs:unnamedStringElementType"/>
+			<xs:element name="overwrite" type="sopcs:unnamedBooleanElementType" minOccurs="0"/>
+			<xs:element name="datePattern" type="sopcs:unnamedStringElementType" minOccurs="0"/>
+		</xs:all>
+		<xs:attributeGroup ref="sopcs:elementMetaAttribGroup"/>
+	</xs:complexType>
+
+	<xs:simpleType name="LevelType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="ALL"/>
+			<xs:enumeration value="INFO"/>
+			<xs:enumeration value="WARNING"/>
+			<xs:enumeration value="SEVERE"/>
+			<xs:enumeration value="OFF"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="NotificationConverterType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="SimpleConverter"/>
+			<xs:enumeration value="XmlNotificationConverter"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<!-- generic operation definition -->
+	<xs:element name="operation" type="OperationType" substitutionGroup="abstractOperation"/>
+
+	<xs:complexType name="OperationType">
+		<xs:sequence>
+			<xs:element name="type" type="sopcs:unnamedStringElementType"/>
+			<xs:element name="para" type="ParameterType" minOccurs="1" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attributeGroup ref="sopcs:elementMetaAttribGroup"/>
+	</xs:complexType>
+
+	<xs:complexType name="ParameterType">
+		<xs:sequence>
+			<xs:element name="id" type="sopcs:unnamedStringElementType"/>
+			<xs:element name="value" type="sopcs:unnamedStringElementType"/>
+		</xs:sequence>
+		<xs:attributeGroup ref="sopcs:elementMetaAttribGroup"/>
+	</xs:complexType>
+
+	<!--  root type-->
+	<xs:complexType name="NotificationReceiverType">
+		<xs:complexContent>
+			<xs:extension base="sopcs:ComponentType">
+				<xs:sequence>
+					<xs:element name="chain" type="ChainDescType" minOccurs="1"
+						maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!-- main configuration element -->
+	<xs:element name="notificationReceiver" type="target:NotificationReceiverType"
+		substitutionGroup="sopcs:AbstractComponentElement"/>
+
+	<!-- 
+		Don't use this for regular instantiation! This is just a mechanism to support
+		the interface of the configuration repository service provider. 
+	-->
+	<xs:element name="configuration">
+		<xs:complexType>
+			<xs:sequence minOccurs="1" maxOccurs="unbounded">
+				<xs:element ref="target:notificationReceiver"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+</xs:schema>

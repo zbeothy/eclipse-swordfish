@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--============================================================================
+    Copyright (c) 2007 Deutsche Post AG.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+    
+    Contributors:
+       Deutsche Post AG - initial API and implementation
+ ============================================================================-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:sbb="http://schemas.sopware.org/sbb/configuration/core/2.1.0/sbblocal_cfg.xsd"
+	xmlns:sbbaep="http://schemas.sopware.org/sbb/configuration/1.0/authenticationproc.local.xsd"
+	xmlns:sbbaop="http://schemas.sopware.org/sbb/configuration/1.0/authorizationproc.local.xsd"
+	xmlns:sbbsip="http://schemas.sopware.org/sbb/configuration/1.0/signingproc.local.xsd"
+	xmlns:sbbenp="http://schemas.sopware.org/sbb/configuration/1.0/encryptionproc.local.xsd"
+	xmlns:sbblctx="http://schemas.sopware.org/sbb/configuration/1.0/ldap.ctxstore.local.xsd"
+	xmlns:sbbintp="http://schemas.sopware.org/sbb/configuration/1.0/internalproxy.local.xsd"
+	xmlns:sopcs="http://schemas.sopware.org/configuration/generic/1.0"
+	targetNamespace="http://schemas.sopware.org/sbb/configuration/core/2.1.0/sbblocal_cfg.xsd"
+	elementFormDefault="qualified" version="2.1.0">
+	<!--
+		Import all components available in the remote configuration 
+	-->
+	<xs:import
+		namespace="http://schemas.sopware.org/configuration/generic/1.0"
+		schemaLocation="../generic.xsd" />
+	<xs:import
+		namespace="http://schemas.sopware.org/sbb/configuration/1.0/authenticationproc.local.xsd"
+		schemaLocation="./components/authenticationproc.local.xsd" />
+	<xs:import
+		namespace="http://schemas.sopware.org/sbb/configuration/1.0/authorizationproc.local.xsd"
+		schemaLocation="./components/authorizationproc.local.xsd" />
+	<xs:import
+		namespace="http://schemas.sopware.org/sbb/configuration/1.0/signingproc.local.xsd"
+		schemaLocation="./components/signingproc.local.xsd" />
+	<xs:import
+		namespace="http://schemas.sopware.org/sbb/configuration/1.0/encryptionproc.local.xsd"
+		schemaLocation="./components/encryptionproc.local.xsd" />
+	<xs:import
+		namespace="http://schemas.sopware.org/sbb/configuration/1.0/ldap.ctxstore.local.xsd"
+		schemaLocation="./components/ldap.ctxstore.local.xsd" />
+	<xs:import
+		namespace="http://schemas.sopware.org/sbb/configuration/1.0/internalproxy.local.xsd"
+		schemaLocation="./components/internalproxy.local.xsd" />
+	<!--
+		SBB Library specific elements
+	-->
+	<xs:element name="configuration">
+		<xs:complexType>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element ref="sopcs:AbstractComponentElement" />
+			</xs:choice>
+		</xs:complexType>
+		<xs:unique name="AuthenticationProcessorIdentity">
+			<xs:selector xpath="sbbaep:AuthenticationProcessor" />
+			<xs:field xpath="@sopcs:name" />
+			<xs:field xpath="@sopcs:version" />
+		</xs:unique>
+		<xs:unique name="AuthorizationProcessorIdentity">
+			<xs:selector xpath="sbbaop:AuthorizationProcessor" />
+			<xs:field xpath="@sopcs:name" />
+			<xs:field xpath="@sopcs:version" />
+		</xs:unique>
+		<xs:unique name="SigningProcessorIdentity">
+			<xs:selector xpath="sbbsip:SigningProcessor" />
+			<xs:field xpath="@sopcs:name" />
+			<xs:field xpath="@sopcs:version" />
+		</xs:unique>
+		<xs:unique name="EncryptionProcessorIdentity">
+			<xs:selector xpath="sbbenp:EncryptionProcessor" />
+			<xs:field xpath="@sopcs:name" />
+			<xs:field xpath="@sopcs:version" />
+		</xs:unique>
+		<xs:unique name="ContextStoreIdentity">
+			<xs:selector xpath="sbblctx:ContextStore" />
+			<xs:field xpath="@sopcs:name" />
+			<xs:field xpath="@sopcs:version" />
+		</xs:unique>
+		<xs:unique name="InternalProxyIdentity">
+			<xs:selector xpath="sbbintp:InternalProxy" />
+			<xs:field xpath="@sopcs:name" />
+			<xs:field xpath="@sopcs:version" />
+		</xs:unique>
+	</xs:element>
+</xs:schema>

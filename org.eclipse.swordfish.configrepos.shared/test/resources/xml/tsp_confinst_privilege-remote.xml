@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--============================================================================
+    Copyright (c) 2007 Deutsche Post AG.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+    
+    Contributors:
+       Deutsche Post AG - initial API and implementation
+ ============================================================================-->
+<configuration>
+	<pmazn-factory>org.sopware.sec.pmazn.impl.ldap.PrivilegeManagementFactoryLdap</pmazn-factory>
+
+	<ldap>
+		<!-- OPTIONAL DEFAULT: com.sun.jndi.ldap.LdapCtxFactory -->
+		<initial-context-factory>com.sun.jndi.ldap.LdapCtxFactory</initial-context-factory>
+
+		<!-- OBLIGAT The LDAP provider url incl. root context -->
+		<providerURL>ldap://sopsparc06-4.servicebackbone.org:389/ou=DataAuthorizationTSP,o=SOPware</providerURL>
+
+		<!-- OPTIONAL DEFAULT: simple POSIBBLE: simple, none. All others not supported  -->
+		<!-- if 'none', bindDN and bindPassword will be ignored. If 'simple', both properties -->
+		<!-- are oblogatory -->
+		<secure-auth>simple</secure-auth>
+
+		<!-- OBLIGAT (if secure-auth = simple) The LDAP user identifier -->
+		<bindDN>uid=SystemUserAuthorizationTSP,ou=People,o=SOPware</bindDN>
+
+		<!-- OBLIGAT (if secure-auth = simple) THe Ldap bind password -->
+		<bindPassword>secret</bindPassword>
+
+		<!-- OPTIONAL Flag which enables/disables the per context connection pooling -->
+		<!-- DEFAULT: false -->
+		<connection-pool>true</connection-pool>
+	</ldap>
+
+	<!-- describes the access to the pm roles structure section of the ldap schema-->
+
+	<type id="role">
+		<baseDN>ou=roles</baseDN>
+		<objectclass name="organizationalRole">
+			<attribute name="name" ldap="cn" key="true"/>
+			<attribute name="description" ldap="description" optional="true"/>
+			<attribute name="actors" ldap="roleOccupant" optional="true" indexed="true" type="account"/>
+		</objectclass>
+	</type>
+
+	<type id="account">
+		<baseDN>ou=accounts</baseDN>
+		<objectclass name="person">
+			<attribute name="name" ldap="cn" key="true"/>
+			<attribute ldap="sn" default="${name}"/>
+			<attribute name="description" ldap="description" optional="true"/>
+		</objectclass>
+	</type>
+
+	<type id="resource">
+		<baseDN>ou=resources</baseDN>
+		<objectclass name="device">
+			<attribute name="name" ldap="cn" key="true"/>
+			<attribute name="description" ldap="description" optional="true"/>
+		</objectclass>
+	</type>
+
+	<!--
+
+	objectclass ( 1.3.6.1.4.1.5064.5.9999.78.6.1
+	  NAME 'sopPMPrivilege'
+	  SUP top STRUCTURAL
+	  MUST ( sopPMAction $ sopPMPermission $ sopPMResource )
+	  MAY sopPMActor
+  )
+
+	-->
+	<type id="privilege">
+		<baseDN>ou=privileges</baseDN>
+		<objectclass name="sopPMPrivilege" >
+			<!--attribute name="name" ldap="sopPMAction" key="true" /-->
+			<attribute name="permission" ldap="sopPMPermission" />       <!--1-->
+			<attribute name="target" ldap="sopPMResource" type="resource" />
+			<attribute name="action" ldap="sopPMAction" />
+			<attribute name="actors" ldap="sopPMActor" optional="true" indexed="true" type="account"/>
+		</objectclass>
+	</type>
+
+	<saml>
+		<!-- saml issuer identifier -->
+		<general-issuer>SOP Privilege-Management Service</general-issuer>
+
+		<!-- location descripton of the keystore which will be used for signing -->
+		<keystore>
+			<name>keyStore.jks</name>
+			<password>atleast8</password>
+			<certalias>client</certalias>
+		</keystore>
+
+		<assertion>
+			<!-- the certificate will not be part of the assertion  -->
+			<signSerialNumbersOnly>true</signSerialNumbersOnly>
+
+			<!-- an assertion expires after MINUTES -->
+			<expires>120</expires>
+		</assertion>
+	</saml>
+
+	<sanitycheck>
+
+		<!--OPTIONAL, DEFAULT=0, The time between two sanity checks. Default is -->
+		<!--0min, means no sanitiy check will be made. -->
+		<period>5</period>
+
+		<!--OPTIONAL, DEFAULT=30000, The time in ms the Timer waits before he -->
+		<!--starts a timer teak -->
+		<delay>30000</delay>
+
+		<!--OPTIONAL, DEFAULT=1000, The minimal time in ms which a connection -->
+
+		<!--to a backend must be available. If its not possible to create a connection -->
+
+		<!--to a backend in the given time, the backend will be declared as dead.-->
+		<maxObservationProcessingTime>1000</maxObservationProcessingTime>
+
+	</sanitycheck>
+
+</configuration>

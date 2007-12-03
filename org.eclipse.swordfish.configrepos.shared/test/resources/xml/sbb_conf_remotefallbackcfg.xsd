@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--============================================================================
+    Copyright (c) 2007 Deutsche Post AG.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+    
+    Contributors:
+       Deutsche Post AG - initial API and implementation
+ ============================================================================-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+	<xs:element name="config">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Kernel">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="MinThreadCount" type="xs:nonNegativeInteger"/>
+							<xs:element name="MaxThreadCount" type="xs:nonNegativeInteger"/>
+						</xs:sequence>
+						<xs:attribute name="name" type="xs:string" use="optional" default="default"/>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="AuthorizationProcessor">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ExpiryClearance" type="xs:nonNegativeInteger"/>
+							<xs:element name="ClientExpiry" type="xs:boolean"/>
+							<xs:element name="ClientVerification" type="xs:boolean"/>
+						</xs:sequence>
+						<xs:attribute name="name" type="xs:string" use="optional" default="default"/>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="AuthenticationProcessor">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="UsernameTokenSupportOperation">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Operation">
+											<xs:complexType>
+												<xs:attribute name="value" type="xs:string" use="required"/>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute name="name" type="xs:string" use="optional" default="default"/>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="PolicyRouter">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="PolicyExpiryCheck" type="xs:boolean"/>
+							<xs:element name="PolicyExpiryGracePeriod" type="xs:nonNegativeInteger"/>
+						</xs:sequence>
+						<xs:attribute name="name" type="xs:string" use="optional" default="default"/>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="PolicyResolver">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="PolicyMap">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Policy" minOccurs="0" maxOccurs="unbounded">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="Key" type="xs:string"/>
+													<xs:element name="Resource" type="xs:string"/>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="DefaultPolicyName" type="xs:string" default="StandardPolicy" minOccurs="0"/>
+							<xs:element name="UseDefaultConsumerPolicy" type="xs:boolean" default="true" minOccurs="0"/>
+							<xs:element name="DefaultConsumerPolicyName" type="xs:string" default="DefaultConsumerPolicy" minOccurs="0"/>
+						</xs:sequence>
+						<xs:attribute name="name" type="xs:string" use="optional" default="default"/>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ContextStore">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="LdapURL" type="xs:anyURI"/>
+							<xs:element name="LdapUser" type="xs:string"/>
+							<xs:element name="LdapPassword" type="xs:string"/>
+						</xs:sequence>
+						<xs:attribute name="name" type="xs:string" use="optional" default="default"/>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

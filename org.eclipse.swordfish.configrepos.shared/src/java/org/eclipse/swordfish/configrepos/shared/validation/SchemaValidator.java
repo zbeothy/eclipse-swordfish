@@ -1,0 +1,34 @@
+/*******************************************************************************
+ * Copyright (c) 2007 Deutsche Post AG.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors:
+ *    Deutsche Post AG - initial API and implementation
+ ******************************************************************************/
+package org.eclipse.swordfish.configrepos.shared.validation;
+
+import javax.xml.transform.Source;
+import javax.xml.transform.stream.StreamSource;
+
+/**
+ * The Interface SchemaValidator.
+ */
+public interface SchemaValidator {
+
+    /**
+     * Validate.
+     * 
+     * @param message
+     *        the message to be validated
+     * @param schemaSource
+     *        the schema source
+     * 
+     * @throws Exception
+     *         exception while validation
+     */
+    void validate(StreamSource schemaSource, Source message) throws Exception;
+
+}

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--============================================================================
+    Copyright (c) 2007 Deutsche Post AG.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+    
+    Contributors:
+       Deutsche Post AG - initial API and implementation
+ ============================================================================-->
+<remoteConfig xmlns:sopcs="http://schemas.sopware.org/configuration/generic/1.0">
+    <config>
+        <!-- Default timeout for HTTP requests. -->
+        <init-param sopcs:name="default.timeout" value="5000"/>
+        <!-- Minimum number of idle service registies in the pool. -->
+        <init-param sopcs:name="sr.pool.minIdle" value="2"/>
+        <!-- Maximum number of idle service registies in the pool. -->
+        <init-param sopcs:name="sr.pool.maxIdle" value="5"/>
+        <!-- The maximum size a stream may have if converted to a string. -->
+        <init-param sopcs:name="max.streamsize" value="1048576"/>
+        <!-- Default timeout for UDDI requests. -->
+        <init-param sopcs:name="uddi.timeout.default" value="5000"/>
+        <!-- Default timeout for storage requests. -->
+        <init-param sopcs:name="storage.webserver.default.timeout" value="5000"/>
+        <!-- max number of ldap connections -->
+        <init-param sopcs:name="storage.ldap.maxConn" value="4"/>
+        <!-- max number of shared ldap connections -->
+        <init-param sopcs:name="storage.ldap.maxSharedConn" value="1"/>
+        <!-- The time in ms that agreed policies are valid -->
+        <init-param sopcs:name="agreed.policy.valid.durationtime" value="7200"/>
+        <!-- Init property for Responsetime handler. -->
+        <init-param sopcs:name="assertion.handler.responsetime.transport" value="2000"/>
+    </config>
+</remoteConfig>

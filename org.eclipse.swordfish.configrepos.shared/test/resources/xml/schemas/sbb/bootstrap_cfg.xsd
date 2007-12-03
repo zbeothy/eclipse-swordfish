@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--============================================================================
+    Copyright (c) 2007 Deutsche Post AG.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+    
+    Contributors:
+       Deutsche Post AG - initial API and implementation
+ ============================================================================-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:sbb="http://schemas.sopware.org/sbb/configuration/core/2.1.0/bootstrap_cfg.xsd"
+	xmlns:sbbeprr="http://schemas.sopware.org/sbb/configuration/1.0/eprresolver.remote.xsd"
+	xmlns:sbbdcl="http://schemas.sopware.org/sbb/configuration/1.0/dclistener.remote.xsd"
+	xmlns:sbbgca="http://schemas.sopware.org/sbb/configuration/1.0/gcadmin.remote.xsd"
+	xmlns:sbbmnl="http://schemas.sopware.org/sbb/configuration/1.0/mngt_nlistener.remote.xsd"
+	xmlns:sbbfap="http://schemas.sopware.org/sbb/configuration/1.0/fileappender.remote.xsd"
+	xmlns:sbbnrp="http://schemas.sopware.org/sbb/configuration/1.0/nrpublisher.remote.xsd"
+	xmlns:sbbema="http://schemas.sopware.org/sbb/configuration/1.0/emadapter.remote.xsd"
+	xmlns:sbbhpm="http://schemas.sopware.org/sbb/configuration/1.0/hpmngtadapter.remote.xsd"
+	xmlns:sbbsnmp="http://schemas.sopware.org/sbb/configuration/1.0/snmppublisher.remote.xsd"
+	xmlns:sbbhttp="http://schemas.sopware.org/sbb/configuration/1.0/httpclientconfig.remote.xsd"
+	xmlns:sbbjms="http://schemas.sopware.org/sbb/configuration/1.0/jmsclientconfig.remote.xsd"
+	xmlns:sbbloc="http://schemas.sopware.org/sbb/configuration/1.0/locatorinuse.remote.xsd"
+	xmlns:sbbcm="http://schemas.sopware.org/sbb/configuration/1.0/configmngr.local.xsd"
+	xmlns:sopcs="http://schemas.sopware.org/configuration/generic/1.0"
+	targetNamespace="http://schemas.sopware.org/sbb/configuration/core/2.1.0/bootstrap_cfg.xsd"
+	elementFormDefault="qualified" version="2.1.0">
+	<!--
+		Import all components available in the remote configuration 
+	-->
+	<xs:import
+		namespace="http://schemas.sopware.org/configuration/generic/1.0"
+		schemaLocation="../generic.xsd" />
+	<xs:import
+		namespace="http://schemas.sopware.org/sbb/configuration/1.0/eprresolver.remote.xsd"
+		schemaLocation="./library/eprresolver.remote.xsd" />
+	<xs:import
+		namespace="http://schemas.sopware.org/sbb/configuration/1.0/dclistener.remote.xsd"
+		schemaLocation="./library/dclistener.remote.xsd" />
+	<xs:import
+		namespace="http://schemas.sopware.org/sbb/configuration/1.0/gcadmin.remote.xsd"
+		schemaLocation="./library/gcadmin.remote.xsd" />
+	<xs:import
+		namespace="http://schemas.sopware.org/sbb/configuration/1.0/mngt_nlistener.remote.xsd"
+		schemaLocation="./library/mngt_nlistener.remote.xsd" />
+	<xs:import
+		namespace="http://schemas.sopware.org/sbb/configuration/1.0/fileappender.remote.xsd"
+		schemaLocation="./library/fileappender.remote.xsd" />
+	<xs:import
+		namespace="http://schemas.sopware.org/sbb/configuration/1.0/nrpublisher.remote.xsd"
+		schemaLocation="./library/nrpublisher.remote.xsd" />
+	<xs:import
+		namespace="http://schemas.sopware.org/sbb/configuration/1.0/emadapter.remote.xsd"
+		schemaLocation="./library/emadapter.remote.xsd" />
+	<xs:import
+		namespace="http://schemas.sopware.org/sbb/configuration/1.0/hpmngtadapter.remote.xsd"
+		schemaLocation="./library/hpmngtadapter.remote.xsd" />
+	<xs:import
+		namespace="http://schemas.sopware.org/sbb/configuration/1.0/snmppublisher.remote.xsd"
+		schemaLocation="./library/snmppublisher.remote.xsd" />
+	<xs:import
+		namespace="http://schemas.sopware.org/sbb/configuration/1.0/httpclientconfig.remote.xsd"
+		schemaLocation="./library/httpclientconfig.remote.xsd" />
+	<xs:import
+		namespace="http://schemas.sopware.org/sbb/configuration/1.0/jmsclientconfig.remote.xsd"
+		schemaLocation="./library/jmsclientconfig.remote.xsd" />
+	<xs:import
+		namespace="http://schemas.sopware.org/sbb/configuration/1.0/locator.remote.xsd"
+		schemaLocation="./library/locator.remote.xsd" />
+	<xs:import
+		namespace="http://schemas.sopware.org/sbb/configuration/1.0/configmngr.local.xsd"
+		schemaLocation="./bootstrap/configmngr.local.xsd" />
+	<!--
+		SBB Library specific elements
+	-->
+	<xs:element name="configuration">
+		<xs:complexType>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element ref="sopcs:AbstractComponentElement" />
+			</xs:choice>
+		</xs:complexType>
+		<xs:unique name="EndpointReferenceResolverIdentity">
+			<xs:selector xpath="sbbeprr:EndpointReferenceResolver" />
+			<xs:field xpath="@sopcs:name" />
+			<xs:field xpath="@sopcs:version" />
+		</xs:unique>
+		<xs:unique name="DeliveryChannelListenerIdentity">
+			<xs:selector xpath="sbbdcl:DeliveryChannelListener" />
+			<xs:field xpath="@sopcs:name" />
+			<xs:field xpath="@sopcs:version" />
+		</xs:unique>
+		<xs:unique name="GeneralCacheAdministratorIdentity">
+			<xs:selector xpath="sbbgca:GeneralCacheAdministrator" />
+			<xs:field xpath="@sopcs:name" />
+			<xs:field xpath="@sopcs:version" />
+		</xs:unique>
+		<xs:unique name="ManagementNotificationListenerIdentity">
+			<xs:selector xpath="sbbmnl:ManagementNotificationListener" />
+			<xs:field xpath="@sopcs:name" />
+			<xs:field xpath="@sopcs:version" />
+		</xs:unique>
+		<xs:unique name="FileAppenderIdentity">
+			<xs:selector xpath="sbbfap:FileAppender" />
+			<xs:field xpath="@sopcs:name" />
+			<xs:field xpath="@sopcs:version" />
+		</xs:unique>
+		<xs:unique name="NrPublisherIdentity">
+			<xs:selector xpath="sbbnrp:NrPublisher" />
+			<xs:field xpath="@sopcs:name" />
+			<xs:field xpath="@sopcs:version" />
+		</xs:unique>
+		<xs:unique name="EmAdapterIdentity">
+			<xs:selector xpath="sbbema:EmAdapter" />
+			<xs:field xpath="@sopcs:name" />
+			<xs:field xpath="@sopcs:version" />
+		</xs:unique>
+		<xs:unique name="HPManagementAdapterIdentity">
+			<xs:selector xpath="sbbhpm:HPManagementAdapter" />
+			<xs:field xpath="@sopcs:name" />
+			<xs:field xpath="@sopcs:version" />
+		</xs:unique>
+		<xs:unique name="SnmpPublisherIdentity">
+			<xs:selector xpath="sbbsnmp:SnmpPublisher" />
+			<xs:field xpath="@sopcs:name" />
+			<xs:field xpath="@sopcs:version" />
+		</xs:unique>
+		<xs:unique name="HttpClientConfigurationIdentity">
+			<xs:selector xpath="sbbhttp:HttpClientConfiguration" />
+			<xs:field xpath="@sopcs:name" />
+			<xs:field xpath="@sopcs:version" />
+		</xs:unique>
+		<xs:unique name="JMSClientConfigurationIdentity">
+			<xs:selector xpath="sbbjms:JMSClientConfiguration" />
+			<xs:field xpath="@sopcs:name" />
+			<xs:field xpath="@sopcs:version" />
+		</xs:unique>
+		<xs:unique name="LocatorIdentity">
+			<xs:selector xpath="sbbloc:Locator" />
+			<xs:field xpath="@sopcs:name" />
+			<xs:field xpath="@sopcs:version" />
+		</xs:unique>
+		<xs:unique name="ConfigurationRepositoryManagerIdentity">
+			<xs:selector xpath="sbbcm:ConfigurationRepositoryManager" />
+			<xs:field xpath="@sopcs:name" />
+			<xs:field xpath="@sopcs:version" />
+		</xs:unique>
+	</xs:element>
+</xs:schema>

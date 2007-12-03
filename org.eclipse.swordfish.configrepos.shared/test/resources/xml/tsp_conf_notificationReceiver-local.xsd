@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--============================================================================
+    Copyright (c) 2007 Deutsche Post AG.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+    
+    Contributors:
+       Deutsche Post AG - initial API and implementation
+ ============================================================================-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+	<xs:element name="configuration">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="LdapStoreOperation">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ProviderURL" type="xs:anyURI"/>
+							<xs:element name="BaseDN" type="xs:string"/>
+							<xs:element name="UserDN" type="xs:string"/>
+							<xs:element name="Credentials" type="xs:string"/>
+							<xs:element name="Pattern" type="xs:string"/>
+							<xs:element name="RetryCount" type="xs:nonNegativeInteger"/>
+							<xs:element name="RetryTime" type="xs:nonNegativeInteger"/>
+						</xs:sequence>
+						<xs:attribute name="name" type="xs:string" use="optional" default="default"/>						
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

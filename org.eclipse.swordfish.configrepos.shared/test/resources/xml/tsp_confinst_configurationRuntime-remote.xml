@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--============================================================================
+    Copyright (c) 2007 Deutsche Post AG.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+    
+    Contributors:
+       Deutsche Post AG - initial API and implementation
+ ============================================================================-->
+<configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://schemas.sbb.org/tsp-conf/remote/ConfigurationProvider
+C:\Daten\dpag\Schemas-TSP-config\done\tsp_conf_configurationRuntime-remote.xsd">
+	<!-- 
+	Optional / Mandatory for FILE backend
+	Defines the location of the directory containing the resource files. 
+	-->
+	<!-- DEFAULT: -->
+	<resource-root name="0">conf</resource-root>
+	<!-- 
+	Optional / Mandatory for FILE backend
+	Defines the location of the storage file. 
+	-->
+	<!-- DEFAULT: -->
+	<repository-file name="1">conf/scopeconfiguration.xml</repository-file>
+	<!--
+	Mandatory
+	Activate / Deactivate usage of the caching functionality in the JNDI backend.
+	It is strongly discouraged to set this to 'true' in a clustered configuration repository environment
+	-->
+	<!-- DEFAULT: -->
+	<cache-repository-read name="3">false</cache-repository-read>
+	<!-- 
+	Mandatory
+	Selection of the storage backend for the provider. Allowed values are:
+	FILE - for the file system based backend
+	JNDI - for a LDAP based backend 
+	-->
+	<!-- DEFAULT: -->
+	<used-repository name="4">JNDI</used-repository>
+	<!-- 
+	Mandatory
+	Defines the separator for sub-trees. Should be left as '.'
+	-->
+	<!-- DEFAULT: -->
+	<path-separator name="5">.</path-separator>
+	<ldap name="6">
+		<!--
+		Optional / Mandatory for JNDI backend
+		URL of the LDAP backend. Trailing '/' are being removed
+		-->
+		<!-- DEFAULT: com.sun.jndi.ldap.LdapCtxFactory -->
+		<initial-context-factory>com.sun.jndi.ldap.LdapCtxFactory</initial-context-factory>
+		<!-- OBLIGAT The LDAP provider url incl. root context -->
+		<!-- DEFAULT: none -->
+		<providerURL>http://example.com</providerURL>
+		<!--
+		Optional / Mandatory for JNDI backend
+		Authentication mechanism for the LDAP backend.
+		If 'none', bindDN and bindPassword will be ignored. 
+		If 'simple', both properties are oblogatory
+		-->
+		<!-- DEFAULT: none -->
+		<secure-auth>simple</secure-auth>
+		<!--
+		Optional / Mandatory for JNDI backend
+		CN of the technical user with read / write permissions on the backend
+		-->
+		<!-- DEFAULT: none -->
+		<bindDN>__#__SOPW_CONF_JNDI_USER__#__</bindDN>
+		<!--
+		Mandatory for JNDI backend ans secure-auth = simple
+		Password of technical user with read / write permissions on the backend
+		-->
+		<!-- DEFAULT: none -->
+		<bindPassword>__#__SOPW_CONF_JNDI_PWD__#__</bindPassword>
+		<!--
+		Optional / Mandatory for JNDI backend
+		-->
+		<!-- DEFAULT: none -->
+		<prefix/>
+		<!--
+		Optional / Mandatory for JNDI backend
+		Define whether setting using the LDAP schema for the SOP configuration 
+		directory should be activated. Leave as 'true'
+		-->
+		<!-- DEFAULT: -->
+		<use-schema name="2">true</use-schema>
+		<!-- OPTIONAL Flag which enables/disables the per context connection pooling -->
+		<!-- DEFAULT: false -->
+		<connection-pool>true</connection-pool>
+	</ldap>
+	<sanitycheck name="7">
+		<!--OPTIONAL, DEFAULT=0, The time between two sanity checks. Default is -->
+		<!--0min, means no sanitiy check will be made. -->
+		<period>5</period>
+		<!--OPTIONAL, DEFAULT=30000, The time in ms the Timer waits before he -->
+		<!--starts a timer teak -->
+		<delay>30000</delay>
+		<!--OPTIONAL, DEFAULT=1000, The minimal time in ms which a connection -->
+		<!--to a backend must be available. If its not possible to create a connection -->
+		<!--to a backend in the given time, the backend will be declared as dead.-->
+		<maxObservationProcessingTime>5000</maxObservationProcessingTime>
+	</sanitycheck>
+</configuration>

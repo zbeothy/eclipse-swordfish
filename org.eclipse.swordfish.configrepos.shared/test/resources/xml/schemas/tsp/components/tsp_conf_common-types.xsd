@@ -1,0 +1,762 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--============================================================================
+    Copyright (c) 2007 Deutsche Post AG.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+    
+    Contributors:
+       Deutsche Post AG - initial API and implementation
+ ============================================================================-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:sopcs="http://schemas.sopware.org/configuration/generic/1.0"
+	xmlns:target="http://schemas.sopware.org/configuration/tsp_common/1.0"
+	targetNamespace="http://schemas.sopware.org/configuration/tsp_common/1.0"
+	elementFormDefault="qualified">
+
+	<xs:annotation>
+		<xs:documentation>
+			This is the declaration of common SOPWARE types for TSPs.
+		</xs:documentation>
+	</xs:annotation>
+
+	<xs:import
+		namespace="http://schemas.sopware.org/configuration/generic/1.0"
+		schemaLocation="../../generic.xsd" />
+
+	<xs:complexType name="SanitycheckConfigType">
+		<xs:complexContent>
+			<xs:extension base="sopcs:ComponentType">
+				<xs:all>
+					<xs:element name="period"
+						type="sopcs:unnamedByteElementType" default="0">
+						<xs:annotation>
+							<xs:documentation>
+								The time between two sanity checks.
+								Default is 0 min, means no sanitiy check
+								will be made.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="delay"
+						type="sopcs:unnamedIntElementType" default="30000">
+						<xs:annotation>
+							<xs:documentation>
+								The time in ms the timer waits before it
+								starts a timer teak.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="maxObservationProcessingTime"
+						type="sopcs:unnamedIntElementType" default="1000">
+						<xs:annotation>
+							<xs:documentation>
+								The minimal time in ms which a
+								connection to a backend must be
+								available. If it is not possible to
+								create a connection to a backend in the
+								given time, the backend will be declared
+								as dead.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="LdapURLType">
+		<xs:simpleContent>
+			<xs:extension base="sopcs:ldapURLSimpleType">
+				<xs:attributeGroup ref="sopcs:elementMetaAttribGroup" />
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+
+	<xs:complexType name="URIType">
+		<xs:simpleContent>
+			<xs:extension base="xs:anyURI">
+				<xs:attributeGroup ref="sopcs:elementMetaAttribGroup" />
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+
+	<xs:complexType name="HttpURLType">
+		<xs:simpleContent>
+			<xs:extension base="sopcs:httpURLSimpleType">
+				<xs:attributeGroup ref="sopcs:elementMetaAttribGroup" />
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="JavaQualifiedClassNameType">
+		<xs:simpleContent>
+			<xs:extension base="sopcs:javaQualifiedClassName">
+				<xs:attributeGroup ref="sopcs:elementMetaAttribGroup" />
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+
+	<xs:complexType name="AuthenticationConfigType">
+		<xs:simpleContent>
+			<xs:extension base="target:AuthenticationSimpleType">
+				<xs:attributeGroup
+					ref="sopcs:namedElementMetaAttribGroup" />
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+
+	<xs:simpleType name="AuthenticationSimpleType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="none" />
+			<xs:enumeration value="simple" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="AuthenticationConfigurationType">
+		<xs:complexContent>
+			<xs:extension base="sopcs:ComponentType">
+				<xs:all>
+					<xs:element name="authentication"
+						type="target:AuthenticationConfigType">
+						<xs:annotation>
+							<xs:documentation>
+								Java class that provides connections to
+								LDAP server via JNDI.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="LdapConfigType">
+		<xs:complexContent>
+			<xs:extension base="sopcs:ComponentType">
+				<xs:all>
+					<xs:element name="initial-context-factory"
+						type="sopcs:unnamedStringElementType"
+						default="com.sun.jndi.ldap.LdapCtxFactory">
+						<xs:annotation>
+							<xs:documentation>
+								Java class that provides connections to
+								LDAP server via JNDI.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="providerURL"
+						type="target:URIType">
+						<xs:annotation>
+							<xs:documentation>
+								URL of LDAP server, including the root
+								context. The root context is an LDAP DN
+								and separated from the URL by a slash
+								(/).
+							</xs:documentation>
+							<xs:documentation>
+								Example:
+								ldap://192.168.100.68:1389/o=ubbrief.deutschepost.de
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="secure-auth"
+						type="target:AuthenticationConfigType" default="none">
+						<xs:annotation>
+							<xs:documentation>
+								Level of authentication. If set to
+								'simple', username/password credentials
+								will be used, if set to 'none', no
+								credentials will be used.
+							</xs:documentation>
+							<xs:documentation>
+								Possible values: simple, none
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="bindDN"
+						type="sopcs:unnamedStringElementType">
+						<xs:annotation>
+							<xs:documentation>
+								JNDI folder name of the subsystem
+								context (here: Authentication). An LDAP
+								DN is expected.
+							</xs:documentation>
+							<xs:documentation>
+								Example: uid=SystemUserAuthenticationTSP
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="bindPassword"
+						type="sopcs:unnamedStringElementType">
+						<xs:annotation>
+							<xs:documentation>
+								Password for access to 'bindDN'.
+								Required, if 'secure-auth' is set to
+								'simple'.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="LdapWithConnectionPoolConfigTypeLocal">
+		<xs:complexContent>
+			<xs:extension base="sopcs:ComponentType">
+				<xs:all>
+					<xs:element name="initial-context-factory"
+						type="sopcs:unnamedStringElementType"
+						default="com.sun.jndi.ldap.LdapCtxFactory">
+						<xs:annotation>
+							<xs:documentation>
+								Java class that provides connections to
+								LDAP server via JNDI.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="secure-auth"
+						type="target:AuthenticationConfigType" default="none">
+						<xs:annotation>
+							<xs:documentation>
+								Level of authentication. If set to
+								'simple', username/password credentials
+								will be used, if set to 'none', no
+								credentials will be used.
+							</xs:documentation>
+							<xs:documentation>
+								Possible values: simple, none
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="bindDN"
+						type="sopcs:unnamedStringElementType">
+						<xs:annotation>
+							<xs:documentation>
+								JNDI folder name of the subsystem
+								context (here: Authentication). An LDAP
+								DN is expected.
+							</xs:documentation>
+							<xs:documentation>
+								Example: uid=SystemUserAuthenticationTSP
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="bindPassword"
+						type="sopcs:unnamedStringElementType">
+						<xs:annotation>
+							<xs:documentation>
+								Password for access to 'bindDN'.
+								Required, if 'secure-auth' is set to
+								'simple'.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="LdapWithConnectionPoolConfigTypeRemote">
+		<xs:complexContent>
+			<xs:extension base="sopcs:ComponentType">
+				<xs:all>
+					<xs:element name="providerURL"
+						type="target:URIType">
+						<xs:annotation>
+							<xs:documentation>
+								URL of LDAP server, including the root
+								context. The root context is an LDAP DN
+								and separated from the URL by a slash
+								(/).
+							</xs:documentation>
+							<xs:documentation>
+								Example:
+								ldap://192.168.100.68:1389/o=ubbrief.deutschepost.de
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="connection-pool"
+						type="sopcs:unnamedBooleanElementType" default="false">
+						<xs:annotation>
+							<xs:documentation>
+								Flag which controls the pooling
+								behaviour of LDAP connections.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="UsernamePasswordPair">
+		<xs:all>
+			<xs:element name="name"
+				type="sopcs:unnamedStringElementType">
+				<xs:annotation>
+					<xs:documentation>
+						User name of username/password pair for
+						authentication in a system
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="pwd"
+				type="sopcs:unnamedStringElementType">
+				<xs:annotation>
+					<xs:documentation>
+						Password of username/password pair for
+						authentication in a system
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:all>
+		<xs:attributeGroup ref="sopcs:elementMetaAttribGroup" />
+	</xs:complexType>
+
+	<xs:complexType
+		name="LdapWithConnectionPoolConfigTypeAndUserEntityFilter">
+		<xs:complexContent>
+			<xs:extension base="sopcs:ComponentType">
+				<xs:all>
+					<xs:element name="initial-context-factory"
+						type="sopcs:unnamedStringElementType"
+						default="com.sun.jndi.ldap.LdapCtxFactory">
+						<xs:annotation>
+							<xs:documentation>
+								Java class that provides connections to
+								LDAP server via JNDI.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="secure-auth"
+						type="target:AuthenticationConfigurationType">
+					</xs:element>
+					<xs:element name="bindDN"
+						type="sopcs:unnamedStringElementType">
+						<xs:annotation>
+							<xs:documentation>
+								JNDI folder name of the subsystem
+								context (here: Authentication). An LDAP
+								DN is expected.
+							</xs:documentation>
+							<xs:documentation>
+								Example: uid=SystemUserAuthenticationTSP
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="bindPassword"
+						type="sopcs:unnamedStringElementType">
+						<xs:annotation>
+							<xs:documentation>
+								Password for access to 'bindDN'.
+								Required, if 'secure-auth' is set to
+								'simple'.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="user" type="target:UserType">
+						<xs:annotation>
+							<xs:documentation>
+								Java to LDAP mapping of the entity
+								"user".
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="entity"
+						type="target:EntityType">
+						<xs:annotation>
+							<xs:documentation>
+								Java to LDAP mapping of the Java entity
+								type "entity".
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="filter"
+						type="target:FilterType">
+						<xs:annotation>
+							<xs:documentation>
+								Filter that filters LDAP entries that
+								meet the filter conditions.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="UserType">
+		<xs:all>
+			<xs:element name="objectclass"
+				type="sopcs:unnamedStringElementType">
+				<xs:annotation>
+					<xs:documentation>
+						Entity is mapped to this LDAP type. If the type
+						is changed, the LDAP attribute values must be
+						adjusted as well.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="rdn"
+				type="sopcs:unnamedStringElementType">
+				<xs:annotation>
+					<xs:documentation>
+						Resource domain name of the Java entity type
+						(user.rdn) is mapped to LDAP attribute of the
+						objectclass (inetOrgPerson.uid).
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="id"
+				type="sopcs:unnamedStringElementType">
+				<xs:annotation>
+					<xs:documentation>
+						Identifier of the Java entity type (user.id) is
+						mapped to LDAP attribute of the objectclass
+						(inetOrgPerson.uid).
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="tree"
+				type="sopcs:unnamedStringElementType">
+				<xs:annotation>
+					<xs:documentation>
+						Name of the root node of the users domain,
+						relative to root context. Must be an LDAP
+						distinguished name (DN).
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="default-credential"
+				type="sopcs:unnamedStringElementType">
+				<xs:annotation>
+					<xs:documentation>
+						Default password.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="attributes"
+				type="target:UserAttributesType">
+				<xs:annotation>
+					<xs:documentation>
+						Extended attribute mappings.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:all>
+		<xs:attributeGroup ref="sopcs:elementMetaAttribGroup" />
+	</xs:complexType>
+	<xs:complexType name="UserAttributesType">
+		<xs:all>
+			<xs:element name="uid"
+				type="sopcs:unnamedStringElementType">
+				<xs:annotation>
+					<xs:documentation>
+						User identifier (user.uid) of the Java entity
+						type is mapped to LDAP attribute
+						(inetOrgPerson.uid).
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="cn"
+				type="sopcs:unnamedStringElementType">
+				<xs:annotation>
+					<xs:documentation>
+						Common name (user.cn) of the Java entity type is
+						mapped to LDAP attribute (inetOrgPerson.cn).
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="sn"
+				type="sopcs:unnamedStringElementType">
+				<xs:annotation>
+					<xs:documentation>
+						Surname (user.sn) of the Java entity type is
+						mapped to LDAP attribute (inetOrgPerson.sn).
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="description"
+				type="sopcs:unnamedStringElementType">
+				<xs:annotation>
+					<xs:documentation>
+						Description (user.description) of the Java
+						entity type is mapped to LDAP attribute
+						(inetOrgPerson.description).
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="password"
+				type="sopcs:unnamedStringElementType">
+				<xs:annotation>
+					<xs:documentation>
+						Password (user.password) of the Java entity type
+						is mapped to LDAP attribute
+						(inetOrgPerson.userPassword).
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="system"
+				type="sopcs:unnamedStringElementType">
+				<xs:annotation>
+					<xs:documentation>
+						System (user.system) of the Java entity type is
+						mapped to LDAP attribute (inetOrgPerson.system).
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="certificate"
+				type="sopcs:unnamedStringElementType">
+				<xs:annotation>
+					<xs:documentation>
+						Certificate (user.certificate) of the Java
+						entity type is mapped to LDAP attribute
+						(inetOrgPerson.userCertificate).
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:all>
+		<xs:attributeGroup ref="sopcs:elementMetaAttribGroup" />
+	</xs:complexType>
+	<xs:complexType name="EntityType">
+		<xs:all>
+			<xs:element name="objectclass"
+				type="sopcs:unnamedStringElementType">
+				<xs:annotation>
+					<xs:documentation>
+						Entity is mapped to this LDAP type. If the type
+						is changed, the LDAP attribute values must be
+						adjusted as well.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="rdn"
+				type="sopcs:unnamedStringElementType">
+				<xs:annotation>
+					<xs:documentation>
+						Resource domain name of the Java entity type
+						(entity.rdn) is mapped to LDAP attribute of the
+						objectclass (groupOfUniqueNames.cn).
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="id"
+				type="sopcs:unnamedStringElementType">
+				<xs:annotation>
+					<xs:documentation>
+						Identifier of the Java entity type (entity.id)
+						is mapped to LDAP attribute of the objectclass
+						(groupOfUniqueNames.cn).
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="tree"
+				type="sopcs:unnamedStringElementType">
+				<xs:annotation>
+					<xs:documentation>
+						Name of the root node of the users domain,
+						relative to root context. Must be an LDAP
+						distinguished name (DN).
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="attributes"
+				type="target:entityAttributesType">
+				<xs:annotation>
+					<xs:documentation>
+						Extended attribute mappings.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:all>
+		<xs:attributeGroup ref="sopcs:elementMetaAttribGroup" />
+	</xs:complexType>
+	<xs:complexType name="entityAttributesType">
+		<xs:all>
+			<xs:element name="cn"
+				type="sopcs:unnamedStringElementType">
+				<xs:annotation>
+					<xs:documentation>
+						Common name (entity.cn) of the Java entity type
+						is mapped to LDAP attribute
+						(groupOfUniqueNames.cn).
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="member"
+				type="sopcs:unnamedStringElementType">
+				<xs:annotation>
+					<xs:documentation>
+						Member (entity.member) of the Java entity type
+						is mapped to LDAP attribute
+						(groupOfUniqueNames.uniqueMember).
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="description"
+				type="sopcs:unnamedStringElementType">
+				<xs:annotation>
+					<xs:documentation>
+						Description (entity.description) of the Java
+						entity type is mapped to LDAP attribute
+						(groupOfUniqueNames.description).
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="uid"
+				type="sopcs:unnamedStringElementType">
+				<xs:annotation>
+					<xs:documentation>
+						User identifier (entity.uid) of the Java entity
+						type is mapped to LDAP attribute
+						(groupOfUniqueNames.uid).
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:all>
+		<xs:attributeGroup ref="sopcs:elementMetaAttribGroup" />
+	</xs:complexType>
+	<xs:complexType name="FilterType">
+		<xs:all>
+			<xs:element name="all"
+				type="sopcs:unnamedStringElementType">
+				<xs:annotation>
+					<xs:documentation>
+						Filter for all LDAP entities in the root
+						context.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="user"
+				type="sopcs:unnamedStringElementType">
+				<xs:annotation>
+					<xs:documentation>
+						Filter for all LDAP "user" entities.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="entity"
+				type="sopcs:unnamedStringElementType">
+				<xs:annotation>
+					<xs:documentation>
+						Filter for all LDAP "entity" entities.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:all>
+		<xs:attributeGroup ref="sopcs:elementMetaAttribGroup" />
+	</xs:complexType>
+
+	<xs:simpleType name="repositoryConfig">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="FILE" />
+			<xs:enumeration value="JNDI" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="namedRepositoryConfig">
+		<xs:simpleContent>
+			<xs:extension base="target:repositoryConfig">
+				<xs:attributeGroup
+					ref="sopcs:namedElementMetaAttribGroup" />
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+
+	<xs:complexType
+		name="ldapTypeWithPrefixUseSchemaAndConnectionPool">
+		<xs:all>
+			<xs:element name="initial-context-factory"
+				type="sopcs:unnamedStringElementType"
+				default="com.sun.jndi.ldap.LdapCtxFactory">
+				<xs:annotation>
+					<xs:documentation>
+						Java class that provides connections to LDAP
+						server via JNDI.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="providerURL" type="target:URIType">
+				<xs:annotation>
+					<xs:documentation>
+						URL of LDAP server, including the root context.
+						The root context is an LDAP DN and separated
+						from the URL by a slash (/).
+					</xs:documentation>
+					<xs:documentation>
+						Example:
+						ldap://192.168.100.68:1389/o=ubbrief.deutschepost.de
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="secure-auth"
+				type="target:AuthenticationConfigType" default="none">
+				<xs:annotation>
+					<xs:documentation>
+						Level of authentication. If set to 'simple',
+						username/password credentials will be used, if
+						set to 'none', no credentials will be used.
+					</xs:documentation>
+					<xs:documentation>
+						Possible values: simple, none
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="bindDN"
+				type="sopcs:unnamedStringElementType">
+				<xs:annotation>
+					<xs:documentation>
+						JNDI folder name of the subsystem context (here:
+						Authentication). An LDAP DN is expected.
+					</xs:documentation>
+					<xs:documentation>
+						Example: uid=SystemUserAuthenticationTSP
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="bindPassword"
+				type="sopcs:unnamedStringElementType">
+				<xs:annotation>
+					<xs:documentation>
+						Password for access to 'bindDN'. Required, if
+						'secure-auth' is set to 'simple'.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="connection-pool"
+				type="sopcs:unnamedBooleanElementType" default="false">
+				<xs:annotation>
+					<xs:documentation>
+						Flag which controls the pooling behaviour of
+						LDAP connections.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="prefix"
+				type="sopcs:unnamedStringElementType">
+				<xs:annotation>
+					<xs:documentation>
+						Defines the configuration of the LDAP component
+						with the specific name in this configuration
+						file.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="use-schema"
+				type="sopcs:namedBooleanElementType">
+				<xs:annotation>
+					<xs:documentation>
+						Define whether setting using the LDAP schema for
+						the SOP configuration directory should be
+						activated. Leave as 'true'.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:all>
+		<xs:attributeGroup ref="sopcs:namedElementMetaAttribGroup" />
+	</xs:complexType>
+
+
+</xs:schema>

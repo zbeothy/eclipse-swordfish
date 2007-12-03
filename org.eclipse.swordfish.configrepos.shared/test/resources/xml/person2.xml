@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--============================================================================
+    Copyright (c) 2007 Deutsche Post AG.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+    
+    Contributors:
+       Deutsche Post AG - initial API and implementation
+ ============================================================================-->
+<people xmlns:sopcs="http://schemas.sopware.org/configuration/generic/1.0"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://schemas.sopware.org/sbb/configuration/person/person.cfg.xsd">
+     <person sopcs:name="Michael" lastname="Mangano" age="38" height="5.75"/>
+     <person sopcs:name="Al" lastname="Zehtooney" age="33" height="5.3"/>
+     <person sopcs:name="Brad" lastname="York" age="38" height="6.0"/>
+     <person sopcs:name="Charles" lastname="Xavier" age="32" height="5.8"/>
+</people>

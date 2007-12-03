@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--============================================================================
+    Copyright (c) 2007 Deutsche Post AG.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+    
+    Contributors:
+       Deutsche Post AG - initial API and implementation
+ ============================================================================-->
+<configuration>
+	<ldap name="2">
+		<!-- OPTIONAL DEFAULT: com.sun.jndi.ldap.LdapCtxFactory -->
+		<initial-context-factory>com.sun.jndi.ldap.LdapCtxFactory</initial-context-factory>
+
+		<!-- OBLIGAT The LDAP provider url incl. root context -->
+		<providerURL>ldap://sopsparc06-4.servicebackbone.org:389/ou=DataAuthenticationTSP,o=SOPware</providerURL>
+
+		<!-- OPTIONAL DEFAULT: simple POSIBBLE: simple, none. All others not supported  -->
+		<!-- if 'none', bindDN and bindPassword will be ignored. If 'simple', both properties -->
+		<!-- are oblogatory -->
+		<secure-auth>simple</secure-auth>
+
+		<!-- OBLIGAT (if secure-auth = simple) The LDAP user identifier -->
+		<bindDN>uid=SystemUserAuthenticationTSP,ou=People,o=SOPware</bindDN>
+
+		<!-- OBLIGAT (if secure-auth = simple) THe Ldap bind password -->
+		<bindPassword>secret</bindPassword>
+
+		<!-- OPTIONAL Flag which enables/disables the per context connection pooling -->
+		<!-- DEFAULT: false -->
+		<connection-pool>true</connection-pool>
+
+        <!-- Java to LDAP mapping of the Java entity type "user". -->
+		<user>
+            <!-- Entity is mapped to this LDAP type. If the type is changed, the LDAP attribute values must be adjusted as well. -->
+			<objectclass>inetOrgPerson</objectclass>
+            <!-- Resource domain name of the Java entity type (user.rdn) is mapped to LDAP attribute of the objectclass (inetOrgPerson.uid). -->
+			<rdn>uid</rdn>
+            <!-- Identifier of the Java entity type (user.id) is mapped to LDAP attribute of the objectclass (inetOrgPerson.uid). -->
+			<id>uid</id>
+            <!-- Name of the root node of the users domain, relative to root context. Must be an LDAP distinguished name (DN). -->
+			<tree>ou=people</tree>
+
+            <!-- Default password. -->
+			<default-credential>anfang06</default-credential>
+            
+            <!-- Extended attribute mappings. -->
+			<attributes>
+                <!-- User identifier (user.uid) of the Java entity type is mapped to LDAP attribute (inetOrgPerson.uid). -->
+				<uid>uid</uid>
+                <!-- Common name (user.cn) of the Java entity type is mapped to LDAP attribute (inetOrgPerson.cn). -->
+                <cn>cn</cn>
+                <!-- Surname (user.sn) of the Java entity type is mapped to LDAP attribute (inetOrgPerson.sn). -->
+				<sn>sn</sn>
+                <!-- Description (user.description) of the Java entity type is mapped to LDAP attribute (inetOrgPerson.description). -->
+				<description>description</description>
+                <!-- Password (user.password) of the Java entity type is mapped to LDAP attribute (inetOrgPerson.userPassword). -->
+				<password>userPassword</password>
+                <!-- System (user.system) of the Java entity type is mapped to LDAP attribute (inetOrgPerson.system). -->
+				<system>system</system>
+                <!-- Certificate (user.certificate) of the Java entity type is mapped to LDAP attribute (inetOrgPerson.userCertificate). -->
+				<certificate>userCertificate</certificate>
+			</attributes>
+		</user>
+
+        <!-- Java to LDAP mapping of the Java entity type "entity". -->
+		<entity>
+            <!-- Entity is mapped to this LDAP type. If the type is changed, the LDAP attribute values must be adjusted as well. -->
+			<objectclass>groupOfUniqueNames</objectclass>
+            <!-- Resource domain name of the Java entity type (entity.rdn) is mapped to LDAP attribute of the objectclass (groupOfUniqueNames.cn). -->
+			<rdn>cn</rdn>
+            <!-- Identifier of the Java entity type (entity.id) is mapped to LDAP attribute of the objectclass (groupOfUniqueNames.cn). -->
+			<id>cn</id>
+            <!-- Name of the root node of the users domain, relative to root context. Must be an LDAP distinguished name (DN). -->
+			<tree>ou=groups</tree>
+            <!-- Extended attribute mappings. -->
+			<attributes>
+                <!-- Common name (entity.cn) of the Java entity type is mapped to LDAP attribute (groupOfUniqueNames.cn). -->
+				<cn>cn</cn>
+                <!-- Member (entity.member) of the Java entity type is mapped to LDAP attribute (groupOfUniqueNames.uniqueMember). -->
+				<member>uniqueMember</member>
+                <!-- Description (entity.description) of the Java entity type is mapped to LDAP attribute (groupOfUniqueNames.description). -->
+				<description>description</description>
+                <!-- User identifier (entity.uid) of the Java entity type is mapped to LDAP attribute (groupOfUniqueNames.uid). -->
+				<uid>uid</uid>
+			</attributes>
+		</entity>
+
+        <!-- Filter that filters LDAP entries that meet the filter conditions. -->
+		<filter>
+            <!-- Filter for all LDAP entities in the root context. -->
+			<all>objectclass=*</all>
+            <!-- Filter for all LDAP "user" entities. -->
+			<user>objectclass=inetOrgPerson</user>
+            <!-- Filter for all LDAP "entity" entities. -->
+			<entity>objectclass=groupOfUniqueNames</entity>
+		</filter>
+
+	</ldap>
+
+	<sanitycheck name="3">
+
+		<!--OPTIONAL, DEFAULT=0, The time between two sanity checks. Default is -->
+		<!--0min, means no sanitiy check will be made. -->
+		<period>5</period>
+
+		<!--OPTIONAL, DEFAULT=30000, The time in ms the Timer waits before he -->
+		<!--starts a timer teak -->
+		<delay>30000</delay>
+
+		<!--OPTIONAL, DEFAULT=1000, The minimal time in ms which a connection -->
+
+		<!--to a backend must be available. If its not possible to create a connection -->
+
+		<!--to a backend in the given time, the backend will be declared as dead.-->
+		<maxObservationProcessingTime>1000</maxObservationProcessingTime>
+
+	</sanitycheck>
+
+</configuration>

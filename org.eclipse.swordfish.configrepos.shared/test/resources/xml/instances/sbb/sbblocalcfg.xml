@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--============================================================================
+    Copyright (c) 2007 Deutsche Post AG.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+    
+    Contributors:
+       Deutsche Post AG - initial API and implementation
+ ============================================================================-->
+<configuration
+	xmlns="http://schemas.sopware.org/sbb/configuration/core/2.1.0/sbblocal_cfg.xsd"
+	xmlns:sbbaep="http://schemas.sopware.org/sbb/configuration/1.0/authenticationproc.local.xsd"
+	xmlns:sbbaop="http://schemas.sopware.org/sbb/configuration/1.0/authorizationproc.local.xsd"
+	xmlns:sbbsip="http://schemas.sopware.org/sbb/configuration/1.0/signingproc.local.xsd"
+	xmlns:sbbenp="http://schemas.sopware.org/sbb/configuration/1.0/encryptionproc.local.xsd"
+	xmlns:sbblctx="http://schemas.sopware.org/sbb/configuration/1.0/ldap.ctxstore.local.xsd"
+	xmlns:sbbintp="http://schemas.sopware.org/sbb/configuration/1.0/internalproxy.local.xsd"
+	xmlns:sopcs="http://schemas.sopware.org/configuration/generic/1.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<sbbaep:AuthenticationProcessor sopcs:name="default">
+		<sbbaep:CredentialLoginType>auth-id-password</sbbaep:CredentialLoginType>
+		<sbbaep:AssertionLoginType>auth-token-checking</sbbaep:AssertionLoginType>
+		<sbbaep:LdapURL>ldap://sop20-et03-01.servicebackbone.org:10389/ou=DataAuthenticationTSP,o=SOPware</sbbaep:LdapURL>
+		<sbbaep:JAASConfigFile>ldap_jaas.config</sbbaep:JAASConfigFile>
+	</sbbaep:AuthenticationProcessor>
+	<sbbaop:AuthorizationProcessor sopcs:name="default">
+		<sbbaop:KeystorePassword>atleast8</sbbaop:KeystorePassword>
+	</sbbaop:AuthorizationProcessor>
+	<sbbsip:SigningProcessor sopcs:name="default">
+		<sbbsip:KeyStoreFile>signing.jks</sbbsip:KeyStoreFile>
+		<sbbsip:CheckCertificateValidity>false</sbbsip:CheckCertificateValidity>
+		<sbbsip:CheckCertificateIssuerTrust>false</sbbsip:CheckCertificateIssuerTrust>
+		<sbbsip:CheckCertificateSignature>false</sbbsip:CheckCertificateSignature>
+		<sbbsip:CheckCertificateRevocation>false</sbbsip:CheckCertificateRevocation>
+		<sbbsip:KeyStorePassword>test</sbbsip:KeyStorePassword>
+		<sbbsip:KeyPassword>test</sbbsip:KeyPassword>
+		<sbbsip:KeyAlias>1</sbbsip:KeyAlias>
+		<sbbsip:certificateAlias>1</sbbsip:certificateAlias>
+		<sbbsip:signatureMethod>http://www.w3.org/2000/09/xmldsig#rsa-sha1</sbbsip:signatureMethod>
+	</sbbsip:SigningProcessor>
+	<sbbenp:EncryptionProcessor sopcs:name="default">
+		<sbbenp:KeyStoreFile>signing.jks</sbbenp:KeyStoreFile>
+		<sbbenp:KeyStorePassword>test</sbbenp:KeyStorePassword>
+		<sbbenp:KeyPassword>test</sbbenp:KeyPassword>
+		<sbbenp:KeyAlias>1</sbbenp:KeyAlias>
+		<sbbenp:certificateAlias>1</sbbenp:certificateAlias>
+		<sbbenp:symmetricKeySize>128</sbbenp:symmetricKeySize>
+		<sbbenp:symmetricKeyAlgorithm>AES</sbbenp:symmetricKeyAlgorithm>
+		<sbbenp:algorithmToEncryptSymmetricKey>http://www.w3.org/2001/04/xmlenc#rsa-1_5</sbbenp:algorithmToEncryptSymmetricKey>
+		<sbbenp:dataEncryptionAlgorithm>http://www.w3.org/2001/04/xmlenc#aes128-cbc</sbbenp:dataEncryptionAlgorithm>
+	</sbbenp:EncryptionProcessor>
+	<sbblctx:ContextStore sopcs:name="default">
+		<sbblctx:LdapUser>cn=admin,o=SOPware</sbblctx:LdapUser>
+		<sbblctx:LdapPassword>secret</sbblctx:LdapPassword>
+	</sbblctx:ContextStore>
+	<sbbintp:InternalProxy sopcs:name="default">
+		<sbbintp:InfrastructureUsername>SOPAdministrator</sbbintp:InfrastructureUsername>
+		<sbbintp:InfrastructurePassword>secret</sbbintp:InfrastructurePassword>
+	</sbbintp:InternalProxy>
+</configuration>
