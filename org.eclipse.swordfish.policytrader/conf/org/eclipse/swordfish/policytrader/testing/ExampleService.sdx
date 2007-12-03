@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--============================================================================
+    Copyright (c) 2007 Deutsche Post AG.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+    
+    Contributors:
+       Deutsche Post AG - initial API and implementation
+ ============================================================================-->
+<wsdl:definitions
+  targetNamespace="http://services.sopware.org/ExampleURI"
+  xmlns="http://schemas.xmlsoap.org/wsdl/"
+  xmlns:pri="http://services.sopware.org/ExampleURI/types"
+  xmlns:sdx="http://types.sopware.org/service/ServiceDescription/2.0"
+  xmlns:tns="http://services.sopware.org/ExampleURI"
+  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://services.sopware.org/ExampleURI" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+      <xsd:element name="OperationRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="in" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="OperationResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="out" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="OperationFault">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="OperationFault" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="NotificationResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="out" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="OneWayRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="in" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="OneWayOperationResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+          	<xsd:element name="out" type="xsd:string"></xsd:element>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="opRequestMsg">
+    <wsdl:part element="tns:OperationRequest" name="body"/>
+  </wsdl:message>
+  <wsdl:message name="opFaultMsg">
+    <wsdl:part element="tns:OperationFault" name="error"/>
+  </wsdl:message>
+  <wsdl:message name="OneWayOperationResponse">
+    <wsdl:part element="tns:OneWayOperationResponse" name="body"/>
+  </wsdl:message>
+  <wsdl:message name="notifResponseMsg">
+    <wsdl:part element="tns:NotificationResponse" name="body"/>
+  </wsdl:message>
+  <wsdl:message name="opResponseMsg">
+    <wsdl:part element="tns:OperationResponse" name="body"/>
+  </wsdl:message>
+  <wsdl:message name="oneWayResponseMsg">
+    <wsdl:part element="tns:OneWayRequest" name="body"/>
+  </wsdl:message>
+  <wsdl:portType name="ExampleServiceConsumer" sdx:partnerPortType="tns:ExampleService">
+    <wsdl:operation name="OneWayOperationResponse" sdx:partnerOperation="OneWayOperation">
+      <wsdl:input message="tns:OneWayOperationResponse"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <plnk:partnerLinkType name="CallbackPartnerLink" xmlns:plnk="http://schemas.xmlsoap.org/ws/2003/05/partner-link/">
+    <plnk:role name="service">
+      <plnk:portType name="tns:ExampleService"/>
+    </plnk:role>
+    <plnk:role name="callback">
+      <plnk:portType name="tns:ExampleServiceConsumer"/>
+    </plnk:role>
+  </plnk:partnerLinkType>
+  <wsdl:portType name="ExampleService">
+    <wsdl:operation name="RequestResponseOperation">
+      <wsdl:input message="tns:opRequestMsg"/>
+      <wsdl:output message="tns:opResponseMsg"/>
+      <wsdl:fault message="tns:opFaultMsg" name="error"/>
+    </wsdl:operation>
+    <wsdl:operation name="OneWayOperation">
+      <wsdl:input message="tns:oneWayResponseMsg"/>
+    </wsdl:operation>
+  </wsdl:portType>
+</wsdl:definitions>
