@@ -514,8 +514,6 @@ public final class TransformerUtil {
         return res;
     }
 
-    // --- some borrowed methods
-
     /**
      * Insert after.
      * 
