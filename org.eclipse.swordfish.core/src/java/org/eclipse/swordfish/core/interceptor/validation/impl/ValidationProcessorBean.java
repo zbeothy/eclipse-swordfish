@@ -251,7 +251,7 @@ public class ValidationProcessorBean extends AbstractProcessingComponent impleme
      *         exception
      */
     public void init() throws Exception {
-        this.schemaValidator = new XercesSchemaValidator();
+        this.schemaValidator = new ConcreteSchemaValidator();
     }
 
     /**

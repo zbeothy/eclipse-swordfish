@@ -15,12 +15,12 @@ import org.eclipse.swordfish.core.interceptor.validation.SchemaValidator;
 import org.xml.sax.InputSource;
 
 /**
- * XML validator against schemas based on Xerces This is a replacement for the former validator
+ * Concrete implmentation of XML validator. This is a replacement for the former validator
  * implementaion which was based on a commercial product.
  * 
  * TODO needs to be implemented
  */
-public class XercesSchemaValidator implements SchemaValidator {
+public class ConcreteSchemaValidator implements SchemaValidator {
 
     /*
      * (non-Javadoc)
