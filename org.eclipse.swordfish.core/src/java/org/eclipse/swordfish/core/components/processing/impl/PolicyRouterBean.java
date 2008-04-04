@@ -378,7 +378,7 @@ public class PolicyRouterBean implements PolicyRouter, BeanFactoryAware {
         List plan = null;
         plan = this.planner.plan(operationPolicy, agreementRole, scope);
 
-        // 5. explode if the planner gave you back some shit :-))
+        // 5. throw exception in the unlikely event that the planner is unable to create a plan
         if (plan == null) throw new InternalInfrastructureException("no plan how to process this message");
         this.debug("created processing plan " + plan.toString());
         // 6. run through the list of the processing units, lookup and invoke
