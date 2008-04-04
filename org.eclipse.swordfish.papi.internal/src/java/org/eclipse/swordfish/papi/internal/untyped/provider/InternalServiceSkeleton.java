@@ -19,7 +19,7 @@ import org.eclipse.swordfish.papi.internal.untyped.consumer.InternalServiceProxy
  * 
  * <p>
  * This interface provides the general service skeleton a provider can use to access concrete
- * operations. It is thus derived from the generic service base class and represents a service from
+ * operations. It thus extends the generic service base class and represents a service from
  * the provider's perspective.
  * </p>
  * 
