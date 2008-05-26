@@ -10,10 +10,6 @@
        Deutsche Post AG - initial API and implementation
  ============================================================================-->
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
-<!-- 
-    $Revision: 1.12.16.2 $
-    Author: Christian Schroeder
--->
 <beans>
     <!-- 
         Message resources

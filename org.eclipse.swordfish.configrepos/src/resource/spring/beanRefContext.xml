@@ -10,10 +10,6 @@
        Deutsche Post AG - initial API and implementation
  ============================================================================-->
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
-<!-- 
-    $Revision: 1.5.20.2 $
-    Author: Christian Schroeder
--->
 <beans>
     <description>SOP Configuration Manager Spring Component: Instance Configuration</description>
     <bean id="org.eclipse.swordfish.configrepos.bootstrap_manager" lazy-init="true"
