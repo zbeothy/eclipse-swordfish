@@ -310,8 +310,6 @@ public class LogGroupReader {
     /**
      * Gets the files associated with a <code>FileHandler</code>
      * 
-     * code adapted from http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4798814
-     * 
      * @param fileHandler
      *        the handler
      * 
@@ -337,8 +335,6 @@ public class LogGroupReader {
 
     /**
      * Gets the pattern associated with a <code>FileHandler</code>
-     * 
-     * code adapted from http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4798814
      * 
      * @param fileHandler
      *        the handler
