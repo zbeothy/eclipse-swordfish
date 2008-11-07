@@ -1,0 +1,22 @@
+<classpath>
+  <classpathentry kind="src" path="src/main/java"/>
+  <classpathentry kind="src" path="src/main/resources" excluding="**/*.java"/>
+  <classpathentry kind="src" path="src/test/java" output="target/test-classes"/>
+  <classpathentry kind="src" path="src/test/resources" output="target/test-classes" excluding="**/*.java"/>
+  <classpathentry kind="output" path="target/classes"/>
+  <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+  <classpathentry kind="var" path="M2_REPO/aopalliance/aopalliance/1.0/aopalliance-1.0.jar"/>
+  <classpathentry kind="var" path="M2_REPO/commons-logging/commons-logging/1.1.1/commons-logging-1.1.1.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/apache/geronimo/specs/geronimo-activation_1.1_spec/1.0.2/geronimo-activation_1.1_spec-1.0.2.jar"/>
+  <classpathentry kind="var" path="M2_REPO/junit/junit/4.4/junit-4.4.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/apache/servicemix/jbi/org.apache.servicemix.jbi.api/1.0-m1/org.apache.servicemix.jbi.api-1.0-m1.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/apache/servicemix/jbi/org.apache.servicemix.jbi.runtime/1.0-m1/org.apache.servicemix.jbi.runtime-1.0-m1.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/apache/servicemix/nmr/org.apache.servicemix.nmr.api/1.0-m1/org.apache.servicemix.nmr.api-1.0-m1.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/apache/servicemix/nmr/org.apache.servicemix.nmr.core/1.0-m1/org.apache.servicemix.nmr.core-1.0-m1.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/osgi/osgi_R4_core/1.0/osgi_R4_core-1.0.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/slf4j/slf4j-api/1.5.5/slf4j-api-1.5.5.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/slf4j/slf4j-jcl/1.5.5/slf4j-jcl-1.5.5.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/springframework/spring-aop/2.5.5/spring-aop-2.5.5.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/springframework/spring-beans/2.5.5/spring-beans-2.5.5.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/springframework/spring-core/2.5.5/spring-core-2.5.5.jar"/>
+</classpath>
