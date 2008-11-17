@@ -17,8 +17,26 @@ import javax.jbi.component.ComponentContext;
 
 import org.apache.servicemix.nmr.api.EndpointRegistry;
 
+/**
+ * Provides the access to the underlying Swordfish and SMX facilities.
+ * Is published as the osgi service with the interface name org.eclipse.swordfish.api.context.SwordfishContext.
+ * Can be also injected via @see org.eclipse.swordfish.api.context.SwordfishContextAware interface
+ *
+ */
 public interface SwordfishContext {
+    /**
+     * Returns the SMX endpoint registry
+     */
     public EndpointRegistry getEndpointRegistry();
+
+    /**
+     * Updates the configuration with the specified id
+     * @see org.eclipse.swordfish.api.configuration.ConfigurationConsumer
+     */
     public void updateConfiguration(String id, Map<String, ?> configurationData);
+
+    /**
+     * Returns the JBI component context
+     */
     public ComponentContext getComponentContext();
 }

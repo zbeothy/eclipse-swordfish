@@ -20,7 +20,7 @@ import javax.jbi.messaging.MessageExchange;
  *
  */
 public interface Interceptor {
-
+    public static final String TYPE_PROPERTY = "type";
 
     /**
      * @param exchange the messageExchange to be processed

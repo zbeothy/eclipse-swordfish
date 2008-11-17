@@ -11,6 +11,11 @@
 
 package org.eclipse.swordfish.api.context;
 
+/**
+ * Interface to be implemented by any object that wishes to be notified of the SwordfishContext.
+ * The implementor should be published as the osgi service with name org.eclipse.swordfish.api.context.SwordfishContextAware
+ *
+ */
 public interface SwordfishContextAware {
     public void setContext(SwordfishContext swordfishContext);
 }

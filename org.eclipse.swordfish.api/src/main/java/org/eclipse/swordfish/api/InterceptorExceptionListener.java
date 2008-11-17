@@ -15,11 +15,16 @@ import javax.jbi.messaging.MessageExchange;
 
 /**
  * Provides error handling logic. Can be plugged into the Swordfish framework as an osgi service
- *
+ * to receive asynchronous notifications about exception thrown 
+ * during interceptor chain invocation should implement current interface and register 
+ * implementation class as OSGI service with name
+ * "org.eclipse.swordfish.api.InterceptorExceptionListener"
  */
 public interface InterceptorExceptionListener {
 
     /**
+     * invoked each time exception thrown inside 
+     * org.eclipse.swordfish.api.Interceptor.process(MessageExchange exchange) method
 	 * @param exception - the thrown exception to be handled
 	 * @param exchange - the messageExchange that caused the processing error
 	 * @param interceptor - that threw the exception
