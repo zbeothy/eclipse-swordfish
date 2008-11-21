@@ -1,6 +1,0 @@
-target
-jcoverage.ser
-junit*.properties
-.fbwarnings
-.fbprefs
-src/resource/schemas
