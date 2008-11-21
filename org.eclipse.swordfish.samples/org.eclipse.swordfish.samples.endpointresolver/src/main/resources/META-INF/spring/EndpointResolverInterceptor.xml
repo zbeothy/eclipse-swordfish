@@ -1,0 +1,36 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:osgi="http://www.springframework.org/schema/osgi"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:p="http://www.springframework.org/schema/p"
+	osgi:default-cardinality="0..X"
+    default-lazy-init="false"
+	xsi:schemaLocation="
+  http://www.springframework.org/schema/beans
+  http://www.springframework.org/schema/beans/spring-beans.xsd
+  http://www.springframework.org/schema/util
+  http://www.springframework.org/schema/util/spring-util.xsd
+  http://www.springframework.org/schema/osgi
+  http://www.springframework.org/schema/osgi/spring-osgi.xsd">
+   
+  <osgi:reference id="nmr" interface="org.apache.servicemix.nmr.api.NMR"/>
+  <bean id="endpointResolverInterceptor"
+        class="org.eclipse.swordfish.core.interceptor.EndpointResolverInterceptor"
+        p:nmr-ref="nmr"/>
+  <osgi:service ref="endpointResolverInterceptor">
+        <osgi:interfaces><value>org.eclipse.swordfish.api.Interceptor</value><value>org.eclipse.swordfish.api.configuration.ConfigurationConsumer</value>
+        </osgi:interfaces>
+        <osgi:service-properties>  
+      <entry key="priority" value="2"/>  
+    </osgi:service-properties>
+  </osgi:service>
+  
+    <bean id="configurationInjector" class="org.eclipse.swordfish.core.configuration.ConfigurationInjector"
+        p:id="org.eclipse.swordfish.core.interceptor.EndpointResolverInterceptor">
+        <property name="configuration"><map><entry key="wsdlStorage"> <ref bean="resourceToStringConverter.url"/></entry></map></property>
+    </bean> 
+    <bean id="resourceToStringConverter.url" class="org.springframework.beans.factory.config.PropertyPathFactoryBean"/>
+     <bean id="resourceToStringConverter" class="wsdl.ResourceToStringConverter">
+         <constructor-arg value="wsdl/BookingServiceImpl.zip"/>
+     </bean>
+  </beans>

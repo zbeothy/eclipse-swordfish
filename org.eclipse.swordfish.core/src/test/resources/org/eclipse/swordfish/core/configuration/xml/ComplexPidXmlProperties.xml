@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+ <component1>
+ <colors>
+    <background>#808080</background>
+    <text>#000000</text>
+    <header>#008000</header>
+    <link normal="#000080" visited="#800080"/>
+    <default>${colors.header}</default>
+  </colors>
+  <rowsPerPage>15, 16</rowsPerPage>
+  <rowsPerPage>16</rowsPerPage>
+  </component1>
+  <component2>
+  <buttons>
+    <name>OK,Cancel,Help</name>
+  </buttons>
+  <numberFormat pattern="###\,###.##"/>
+	</component2>
+</config>

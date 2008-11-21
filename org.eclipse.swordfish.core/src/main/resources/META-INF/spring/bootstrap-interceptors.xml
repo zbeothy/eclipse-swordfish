@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:osgi="http://www.springframework.org/schema/osgi"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:p="http://www.springframework.org/schema/p"
+	osgi:default-cardinality="0..X"
+    default-lazy-init="false"
+	xsi:schemaLocation="
+  http://www.springframework.org/schema/beans
+  http://www.springframework.org/schema/beans/spring-beans.xsd
+  http://www.springframework.org/schema/util
+  http://www.springframework.org/schema/util/spring-util.xsd
+  http://www.springframework.org/schema/osgi
+  http://www.springframework.org/schema/osgi/spring-osgi.xsd">
+  
+  <bean id="loggingInterceptor"
+		class="org.eclipse.swordfish.core.interceptor.LoggingInterceptor"/> 
+  <osgi:service ref="loggingInterceptor" interface="org.eclipse.swordfish.api.Interceptor"/>	
+  
+  <bean id="cxfDecoratingInterceptor"
+		class="org.eclipse.swordfish.core.interceptor.CxfDecoratingInterceptor" p:nmr-ref="nmr"/>
+  <osgi:service ref="cxfDecoratingInterceptor" interface="org.eclipse.swordfish.api.Interceptor">
+      <osgi:service-properties>  
+          <entry key="priority" value="1"/>  
+      </osgi:service-properties>
+  </osgi:service>
+   
+  <osgi:reference id="nmr" interface="org.apache.servicemix.nmr.api.NMR"/>
+  
+</beans>

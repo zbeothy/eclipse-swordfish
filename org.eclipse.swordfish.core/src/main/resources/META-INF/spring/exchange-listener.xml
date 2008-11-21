@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:osgi="http://www.springframework.org/schema/osgi"
+    xmlns:util="http://www.springframework.org/schema/util"
+    xmlns:p="http://www.springframework.org/schema/p"
+    osgi:default-cardinality="0..X"
+    default-lazy-init="false"
+    xsi:schemaLocation="
+  http://www.springframework.org/schema/beans
+  http://www.springframework.org/schema/beans/spring-beans.xsd
+  http://www.springframework.org/schema/util
+  http://www.springframework.org/schema/util/spring-util.xsd
+  http://www.springframework.org/schema/osgi
+  http://www.springframework.org/schema/osgi/spring-osgi.xsd">
+
+    <!-- Event Admin service -->
+    <osgi:reference id="eventAdmin" interface="org.osgi.service.event.EventAdmin" cardinality="0..1"/>
+    
+    <bean id="eventService" class="org.eclipse.swordfish.core.event.EventServiceImpl" 
+          p:eventAdmin-ref="eventAdmin"/>
+    <osgi:service ref="eventService" interface="org.eclipse.swordfish.api.event.EventService"/>
+    
+    <bean id="exceptionListenerRegistry" 
+          class="org.eclipse.swordfish.core.exception.InterceptorExceptionListenerRegistry"
+          p:bundleContext-ref="bundleContext"
+          destroy-method="destroy"/>
+    
+    <bean id="exceptionNotificationSender" 
+          class="org.eclipse.swordfish.core.exception.InterceptorExceptionNofiticationSender"
+          p:eventAdmin-ref="eventAdmin"/>
+          
+    <osgi:list id="exceptionListenerList" interface="org.eclipse.swordfish.api.InterceptorExceptionListener"
+        cardinality="0..N">
+        <osgi:listener bind-method="onBindExceptionListener"
+            unbind-method="onUnbindExceptionListener" ref="exceptionListenerRegistry" />
+    </osgi:list>
+    
+   
+
+    
+    
+    <osgi:reference id="nmr" interface="org.apache.servicemix.nmr.api.NMR"/>
+    
+    <osgi:reference id="planner" interface="org.eclipse.swordfish.core.planner.api.Planner"/>
+    <osgi:reference id="registry" interface="org.eclipse.swordfish.core.planner.api.Registry"/>
+    
+    <!-- Expose the Planner -->
+    <bean id="exchangeListener" class="org.eclipse.swordfish.core.integration.nmr.SwordfishExchangeListener"
+          p:nmr-ref="nmr" 
+          p:planner-ref="planner" 
+          p:interceptorRegistry-ref="registry"
+          p:exceptionNotificationSender-ref="exceptionNotificationSender"/>
+     
+</beans>

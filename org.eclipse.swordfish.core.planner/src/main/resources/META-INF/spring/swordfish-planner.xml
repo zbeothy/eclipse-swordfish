@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	<!--
+
+		Licensed to the Apache Software Foundation (ASF) under one or more
+		contributor license agreements. See the NOTICE file distributed with
+		this work for additional information regarding copyright ownership.
+		The ASF licenses this file to You under the Apache License, Version
+		2.0 (the "License"); you may not use this file except in compliance
+		with the License. You may obtain a copy of the License at
+
+		http://www.apache.org/licenses/LICENSE-2.0 Unless required by
+		applicable law or agreed to in writing, software distributed under the
+		License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+		CONDITIONS OF ANY KIND, either express or implied. See the License for
+		the specific language governing permissions and limitations under the
+		License.
+	-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:osgi="http://www.springframework.org/schema/osgi"
+	xmlns:util="http://www.springframework.org/schema/util"
+	osgi:default-cardinality="0..X"
+    default-lazy-init="false"
+	xsi:schemaLocation="
+  http://www.springframework.org/schema/beans
+  http://www.springframework.org/schema/beans/spring-beans.xsd
+  http://www.springframework.org/schema/util
+  http://www.springframework.org/schema/util/spring-util.xsd
+  http://www.springframework.org/schema/osgi
+  http://www.springframework.org/schema/osgi/spring-osgi.xsd">
+
+	<!-- Strategy comparator -->
+	<bean id="strategyComparator" class="org.eclipse.swordfish.core.planner.StrategyComparator">
+	</bean>
+
+	<bean id="interceptorRegistry" class="org.eclipse.swordfish.core.planner.InterceptorRegistry">
+	</bean>
+
+	<!-- Filter strategy -->
+	<bean id="filterStrategy" class="org.eclipse.swordfish.core.planner.FilterStrategyImpl">
+		<property name="filterStrategies" ref="filterStrategies" />
+	</bean>
+
+    <osgi:list id="filterStrategies" interface="org.eclipse.swordfish.api.FilterStrategy"
+        cardinality="0..N" comparator-ref="strategyComparator">
+    </osgi:list>
+    
+    <!-- Sorting strategy -->
+    <bean id="sortingStrategy" class="org.eclipse.swordfish.core.planner.SortingStrategyImpl">
+        <property name="sortingStrategies" ref="sortingStrategies" />
+    </bean>
+    
+	<osgi:list id="sortingStrategies" interface="org.eclipse.swordfish.api.SortingStrategy"
+		cardinality="0..N" comparator-ref="strategyComparator">
+	</osgi:list>
+    
+    <!-- default sorting strategy -->
+    <bean id="defaultSortingStrategy" class="org.eclipse.swordfish.core.planner.SimpleSortingStrategy"/>
+    
+    <osgi:service ref="defaultSortingStrategy" auto-export="interfaces"/>
+    
+	<!-- hint extractor -->
+	<bean id="hintExtractor" class="org.eclipse.swordfish.core.planner.DefaultHintExtractor">
+	</bean>
+
+	<!-- Interceptor listener -->
+	<bean id="InterceptorListener" class="org.eclipse.swordfish.core.planner.InterceptorListener">
+		<property name="interceptorRegistry" ref="interceptorRegistry" />
+	</bean>
+
+	<!-- strategy planner -->
+	<bean id="planner" class="org.eclipse.swordfish.core.planner.PlannerImpl">
+		<property name="interceptorRegistry" ref="interceptorRegistry" />
+		<property name="sortingStrategy" ref="sortingStrategy" />
+		<property name="filterStrategy" ref="filterStrategy" />
+		<property name="hintExtractor" ref="hintExtractor" />
+	</bean>
+
+	<osgi:list id="interceptorList" interface="org.eclipse.swordfish.api.Interceptor"
+		cardinality="0..N">
+		<osgi:listener bind-method="onBindInterceptor"
+			unbind-method="onUnbindInterceptor" ref="InterceptorListener" />
+	</osgi:list>
+  
+
+    <!-- Expose InterceptorRegistry -->
+    <osgi:service ref="planner" auto-export="interfaces">
+        <osgi:service-properties>
+            <entry key="testKey" value="testValue" />
+        </osgi:service-properties>
+    </osgi:service>
+
+	<!-- Expose the Planner -->
+    <osgi:service ref="interceptorRegistry" auto-export="interfaces"/>
+</beans>

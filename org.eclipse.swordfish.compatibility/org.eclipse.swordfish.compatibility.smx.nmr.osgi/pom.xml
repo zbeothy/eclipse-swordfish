@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.eclipse.swordfish</groupId>
+        <artifactId>compatibility</artifactId>
+        <version>basic</version>
+    </parent>
+    <groupId>org.eclipse.swordfish</groupId>
+    <packaging>bundle</packaging>
+    <artifactId>org.eclipse.swordfish.compatibility.smx.nmr.osgi</artifactId>
+    <name>${artifactId}</name>
+    <version>${swordfishVersion}</version>
+    <description />
+    <dependencies>
+    </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <extensions>true</extensions>
+                <configuration>
+                    <instructions>
+                        <Bundle-Name>${artifactId}</Bundle-Name>
+                        <Bundle-SymbolicName>${artifactId}</Bundle-SymbolicName>
+                        <Private-Package></Private-Package>
+                        <Import-Package>com.ctc.wstx.stax</Import-Package>
+                        <Fragment-Host>org.apache.servicemix.nmr.osgi</Fragment-Host>
+                        <Export-Package></Export-Package>
+                        <Require-Bundle></Require-Bundle>
+                    </instructions>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

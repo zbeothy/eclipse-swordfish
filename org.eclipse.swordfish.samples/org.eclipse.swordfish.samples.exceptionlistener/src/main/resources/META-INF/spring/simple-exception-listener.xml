@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:osgi="http://www.springframework.org/schema/osgi"
+    xmlns:util="http://www.springframework.org/schema/util"
+    xmlns:p="http://www.springframework.org/schema/p"
+    osgi:default-cardinality="0..X"
+    default-lazy-init="false"
+    xsi:schemaLocation="
+  http://www.springframework.org/schema/beans
+  http://www.springframework.org/schema/beans/spring-beans.xsd
+  http://www.springframework.org/schema/util
+  http://www.springframework.org/schema/util/spring-util.xsd
+  http://www.springframework.org/schema/osgi
+  http://www.springframework.org/schema/osgi/spring-osgi.xsd">
+  
+    
+  <!-- interceptor for exception handling test -->
+  <bean id="exceptionThrowableInterceptor"           
+        class="org.eclipse.swordfish.samples.exception.ExceptionThrowableInterceptor"/>
+  <osgi:service ref="exceptionThrowableInterceptor" 
+        interface="org.eclipse.swordfish.api.Interceptor" />
+
+  
+  <!-- simple interceptors' exception listener -->
+  <bean id="exceptionListener" 
+        class="org.eclipse.swordfish.samples.exception.SimpleInterceptorExceptionListener" />
+  <osgi:service ref="exceptionListener" 
+        interface="org.eclipse.swordfish.api.InterceptorExceptionListener" />
+  
+</beans>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.eclipse.swordfish</groupId>
+    <packaging>bundle</packaging>
+    <artifactId>org.eclipse.swordfish.samples.exceptionlistener</artifactId>
+    <name>org.eclipse.swordfish.samples.exceptionlistener</name>
+    <version>${swordfishVersion}</version>
+    
+    <parent>
+        <groupId>org.eclipse.swordfish</groupId>
+        <artifactId>samples</artifactId>
+        <version>basic</version>
+    </parent>
+    
+    <description />
+    <dependencies>
+        <dependency>
+            <groupId>org.eclipse.swordfish</groupId>
+            <artifactId>org.eclipse.swordfish.api</artifactId>
+            <version>${swordfishVersion}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.swordfish</groupId>
+            <artifactId>org.eclipse.swordfish.core</artifactId>
+            <version>${swordfishVersion}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.servicemix</groupId>
+            <artifactId>servicemix-core</artifactId>
+            <version>3.2.1</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.4</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.osgi</groupId>
+            <artifactId>osgi_R4_core</artifactId>
+            <version>1.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.osgi</groupId>
+            <artifactId>spring-osgi-core</artifactId>
+            <version>1.0.2</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.osgi</groupId>
+            <artifactId>osgi_R4_compendium</artifactId>
+            <version>1.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>wsdl4j</groupId>
+            <artifactId>wsdl4j</artifactId>
+            <version>1.5.3</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <extensions>true</extensions>
+                <configuration>
+                    <manifestLocation>META-INF</manifestLocation>
+                    <instructions>
+                        <Bundle-Name>${artifactId}</Bundle-Name>
+                        <Bundle-SymbolicName>${artifactId}</Bundle-SymbolicName>
+                        <Import-Package>javax.jbi.messaging, org.eclipse.swordfish.api,org.slf4j</Import-Package>
+                        <Private-Package>org.eclipse.swordfish.samples.exception</Private-Package>
+                        <Export-Package></Export-Package>
+                        <Spring-Context>*;create-asynchronously:=true</Spring-Context>  
+                    </instructions>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
