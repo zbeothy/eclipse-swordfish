@@ -227,7 +227,7 @@
         <dependency>
             <groupId>org.apache.xbean</groupId>
             <artifactId>xbean-classloader</artifactId>
-            <version>3.3.1-r631610</version>
+            <version>3.4.1</version>
         </dependency>       
 <!--Geronimo bundles-->
         <dependency>
