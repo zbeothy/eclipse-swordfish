@@ -42,11 +42,11 @@ public class EventHandlerRegistry<T extends Event> extends RegistryImpl<EventHan
         super.doRegister(handler, properties);
     }
     
-    protected void doUnregister(EventHandler<T> key, Map<String, ?> properties) throws Exception {
+    protected void doUnregister(EventHandler<T> key) throws Exception {
         ServiceRegistration serviceRegistration = registrations.get(key);
         Assert.notNull(serviceRegistration, "serviceRegistration for the event listener with topic = ["+ key.getSubscribedTopic() + "] can not be found");
         serviceRegistration.unregister();
-        super.doUnregister(key, properties);
+        super.doUnregister(key);
     }
     
     protected void doDestroy() throws Exception {
