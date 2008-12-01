@@ -10,11 +10,10 @@ import org.apache.servicemix.nmr.api.Exchange;
 import org.apache.servicemix.nmr.api.NMR;
 import org.apache.servicemix.nmr.api.event.ExchangeListener;
 import org.eclipse.swordfish.api.Interceptor;
+import org.eclipse.swordfish.api.Registry;
 import org.eclipse.swordfish.api.SwordfishException;
 import org.eclipse.swordfish.core.exception.InterceptorExceptionNofiticationSender;
-import org.eclipse.swordfish.core.planner.InterceptorRegistry;
 import org.eclipse.swordfish.core.planner.api.Planner;
-import org.eclipse.swordfish.core.planner.api.Registry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -24,14 +23,14 @@ public class SwordfishExchangeListener implements ExchangeListener, Initializing
 	private transient static final Logger LOG = LoggerFactory.getLogger(SwordfishExchangeListener.class);
 	private NMR nmr;
 	private Planner planner;
-	private Registry interceptorRegistry;
+	private Registry<Interceptor> interceptorRegistry;
 	private InterceptorExceptionNofiticationSender exceptionNotificationSender;
 	
-	public Registry getInterceptorRegistry() {
+	public Registry<Interceptor> getInterceptorRegistry() {
 		return interceptorRegistry;
 	}
 
-	public void setInterceptorRegistry(Registry interceptorRegistry) {
+	public void setInterceptorRegistry(Registry<Interceptor> interceptorRegistry) {
 		this.interceptorRegistry = interceptorRegistry;
 	}
 

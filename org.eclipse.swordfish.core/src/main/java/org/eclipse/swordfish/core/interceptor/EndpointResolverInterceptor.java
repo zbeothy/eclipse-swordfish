@@ -34,7 +34,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.Assert;
 
-public class EndpointResolverInterceptor implements ConfigurationConsumer, WSDLInterceptor, InitializingBean {
+public class EndpointResolverInterceptor<T> implements ConfigurationConsumer<T>, WSDLInterceptor, InitializingBean {
 	private Logger logger = LoggerFactory.getLogger(EndpointResolverInterceptor.class);
     private NMR nmr;
     private WSDLManager wsdlManager;
@@ -146,7 +146,7 @@ public class EndpointResolverInterceptor implements ConfigurationConsumer, WSDLI
         return getClass().getName();
     }
 
-    public void onReceiveConfiguration(Map<String, ?> configuration) {
+    public void onReceiveConfiguration(Map<String, T> configuration) {
         if (configuration != null) {
             wsdlStorage = (String) configuration.get("wsdlStorage");
             try {

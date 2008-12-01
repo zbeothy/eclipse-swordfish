@@ -4,7 +4,7 @@ import java.util.Map;
 
 import org.eclipse.swordfish.api.context.SwordfishContext;
 import org.eclipse.swordfish.api.context.SwordfishContextAware;
-import org.eclipse.swordfish.core.RegistryImpl;
+import org.eclipse.swordfish.core.util.RegistryImpl;
 import org.springframework.util.Assert;
 
 public class SwordfishContextAwareRegistry extends RegistryImpl<SwordfishContextAware>{

@@ -27,7 +27,7 @@ public class SwordfishContextImpl implements SwordfishContext, InitializingBean 
         return nmr.getEndpointRegistry();
     }
 
-    public void updateConfiguration(String id, Map<String, ?> configurationData) {
+    public <T> void updateConfiguration(String id, Map<String, T> configurationData) {
         try {
             Configuration configuration = configurationAdmin.getConfiguration(id);
             Assert.notNull(configuration, "Could npot find configuration by id = " + id);
