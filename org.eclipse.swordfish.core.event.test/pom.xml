@@ -2,22 +2,18 @@
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-
-	<parent>
-    		<groupId>org.eclipse.swordfish</groupId>
-    		<artifactId>parent</artifactId>
-    		<version>basic</version>
-  	</parent>
-
-	<groupId>org.eclipse.swordfish</groupId>
-	<packaging>bundle</packaging>
-	<artifactId>org.eclipse.swordfish.core.event.test
-	</artifactId>
-	<name>org.eclipse.swordfish.core.event.test
-	</name>
-	<version>${swordfishVersion}</version>
- 	<description />
+  <modelVersion>4.0.0</modelVersion>
+    <groupId>org.eclipse.swordfish</groupId>
+    <packaging>bundle</packaging>
+    <artifactId>org.eclipse.swordfish.core.event.test</artifactId>
+    <name>org.eclipse.swordfish.core.event.test</name>
+    <version>${swordfishVersion}</version>
+    <parent>
+        <groupId>org.eclipse.swordfish</groupId>
+        <artifactId>parent</artifactId>
+        <version>basic</version>
+    </parent>
+    <description/>
 	<dependencies>
 		<dependency>
             <groupId>org.eclipse.swordfish</groupId>
