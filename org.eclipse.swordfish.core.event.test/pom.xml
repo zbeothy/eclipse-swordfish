@@ -48,6 +48,11 @@
         </dependency>
         <dependency>
             <groupId>org.eclipse.swordfish</groupId>
+            <artifactId>org.eclipse.swordfish.event</artifactId>
+            <version>${swordfishVersion}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.swordfish</groupId>
             <artifactId>org.eclipse.swordfish.compatibility.smx3</artifactId>
             <version>${swordfishVersion}</version>
         </dependency>        
