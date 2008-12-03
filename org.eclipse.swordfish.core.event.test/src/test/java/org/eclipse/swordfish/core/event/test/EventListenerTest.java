@@ -13,7 +13,7 @@ import org.eclipse.swordfish.core.event.EventHandlerRegistry;
 import org.eclipse.swordfish.core.event.EventServiceImpl;
 import org.eclipse.swordfish.core.event.SeverityEventFilter;
 import org.eclipse.swordfish.core.event.TrackingEventImpl;
-import org.eclipse.swordfish.core.test.planner.TargetPlatformOsgiTestCase;
+import org.eclipse.swordfish.core.test.TargetPlatformOsgiTestCase;
 import org.eclipse.swordfish.core.test.util.OsgiSupport;
 import org.osgi.framework.ServiceRegistration;
 import org.osgi.service.event.EventAdmin;
