@@ -214,7 +214,6 @@
 						<Bundle-SymbolicName>${artifactId}
 						</Bundle-SymbolicName>
 						<Import-Package>*</Import-Package>
-						<Export-Package>*</Export-Package>
 						<Bundle-Activator>org.springframework.osgi.test.JUnitTestActivator</Bundle-Activator>
 					</instructions>
 				</configuration>
