@@ -8,9 +8,7 @@ import javax.jbi.messaging.MessageExchange;
 import javax.jbi.messaging.MessagingException;
 import javax.jbi.servicedesc.ServiceEndpoint;
 import javax.xml.namespace.QName;
-import javax.xml.transform.Source;
 
-import org.apache.servicemix.jbi.jaxp.StringSource;
 import org.apache.servicemix.jbi.runtime.impl.MessageExchangeImpl;
 import org.apache.servicemix.jbi.runtime.impl.NormalizedMessageImpl;
 import org.apache.servicemix.nmr.api.Exchange;
@@ -36,10 +34,10 @@ public class ServiceMixSupport {
 
 		try {
 			if (source.getMessage(messageType) != null) {
-				source.getMessage(messageType).setContent(new StringSource(content));
+//				source.getMessage(messageType).setContent(new StringSource(content));
 			} else {
 				Message responseMessage = new MessageImpl();
-				responseMessage.setBody(new StringSource(content), Source.class);
+//				responseMessage.setBody(new StringSource(content), Source.class);
 				NormalizedMessageImpl responseNormalizedMessage = new NormalizedMessageImpl(responseMessage);
 				source.setMessage(responseNormalizedMessage, messageType);
 			}
