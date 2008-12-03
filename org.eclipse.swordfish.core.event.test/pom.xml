@@ -32,6 +32,11 @@
         </dependency>
         <dependency>
             <groupId>org.eclipse.swordfish</groupId>
+            <artifactId>org.eclipse.swordfish.core.test</artifactId>
+            <version>${swordfishVersion}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.swordfish</groupId>
             <artifactId>org.eclipse.swordfish.core.event</artifactId>
             <version>${swordfishVersion}</version>
         </dependency>
