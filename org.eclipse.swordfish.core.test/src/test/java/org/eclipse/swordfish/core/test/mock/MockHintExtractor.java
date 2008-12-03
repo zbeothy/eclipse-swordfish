@@ -1,7 +1,7 @@
 /**
  *
  */
-package org.eclipse.swordfish.core.test.planner.mock;
+package org.eclipse.swordfish.core.test.mock;
 
 import java.util.ArrayList;
 import java.util.HashMap;

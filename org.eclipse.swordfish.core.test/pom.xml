@@ -41,6 +41,11 @@
             <artifactId>org.eclipse.swordfish.core.planner</artifactId>
             <version>${swordfishVersion}</version>
         </dependency>
+ 		<dependency>
+            <groupId>org.eclipse.swordfish</groupId>
+            <artifactId>org.eclipse.swordfish.core.event</artifactId>
+            <version>${swordfishVersion}</version>
+        </dependency>
         <dependency>
             <groupId>org.eclipse.swordfish</groupId>
             <artifactId>org.eclipse.swordfish.core</artifactId>

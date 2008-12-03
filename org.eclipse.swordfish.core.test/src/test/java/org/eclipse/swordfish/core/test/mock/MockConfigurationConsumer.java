@@ -1,14 +1,14 @@
-package org.eclipse.swordfish.core.test.planner.mock;
+package org.eclipse.swordfish.core.test.mock;
 
 import java.util.Map;
 
 import org.eclipse.swordfish.api.configuration.ConfigurationConsumer;
 
-public class MockConfigurationConsumer implements ConfigurationConsumer {
+public class MockConfigurationConsumer<T> implements ConfigurationConsumer<T> {
     private String id;
     private Map<String, ?> configuration;
 
-    public void onReceiveConfiguration(Map<String, ?> configuration) {
+    public void onReceiveConfiguration(Map<String, T> configuration) {
         this.configuration = configuration;
     }
 

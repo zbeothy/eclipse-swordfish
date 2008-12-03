@@ -1,4 +1,4 @@
-package org.eclipse.swordfish.core.test.planner;
+package org.eclipse.swordfish.core.test;
 
 import java.io.File;
 import java.util.ArrayList;

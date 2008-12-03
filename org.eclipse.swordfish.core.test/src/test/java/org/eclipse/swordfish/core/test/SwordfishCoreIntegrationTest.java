@@ -1,4 +1,4 @@
-package org.eclipse.swordfish.core.test.planner;
+package org.eclipse.swordfish.core.test;
 
 import java.util.HashMap;
 import java.util.List;
@@ -28,9 +28,10 @@ import org.eclipse.swordfish.core.interceptor.CxfDecoratingInterceptor;
 import org.eclipse.swordfish.core.interceptor.EndpointResolverInterceptor;
 import org.eclipse.swordfish.core.interceptor.LoggingInterceptor;
 import org.eclipse.swordfish.core.planner.api.Planner;
-import org.eclipse.swordfish.core.test.planner.mock.MockConfigurationConsumer;
-import org.eclipse.swordfish.core.test.planner.mock.MockInterceptor;
-import org.eclipse.swordfish.core.test.planner.mock.PollableConfigurationSourceMock;
+import org.eclipse.swordfish.core.test.TargetPlatformOsgiTestCase;
+import org.eclipse.swordfish.core.test.mock.MockConfigurationConsumer;
+import org.eclipse.swordfish.core.test.mock.MockInterceptor;
+import org.eclipse.swordfish.core.test.mock.PollableConfigurationSourceMock;
 import org.eclipse.swordfish.core.test.util.OsgiSupport;
 import org.eclipse.swordfish.core.test.util.ServiceMixSupport;
 import org.eclipse.swordfish.core.test.util.ServiceMixSupport.ExchangeProcessorImpl;
@@ -44,7 +45,7 @@ public class SwordfishCoreIntegrationTest extends TargetPlatformOsgiTestCase {
         configuration.put("TestTime", String.valueOf(System.currentTimeMillis()));
         MockConfigurationConsumer configurationConsumer = new MockConfigurationConsumer() {
             @Override
-            public void onReceiveConfiguration(Map<String, ?> configuration) {
+            public void onReceiveConfiguration(Map configuration) {
                if (configuration != null && configuration.containsKey("TestTime")) {
                    configurationUpdated.countDown();
                }
@@ -69,7 +70,7 @@ public class SwordfishCoreIntegrationTest extends TargetPlatformOsgiTestCase {
         configuration.put("TestTime", String.valueOf(System.currentTimeMillis()));
         MockConfigurationConsumer configurationConsumer = new MockConfigurationConsumer() {
             @Override
-            public void onReceiveConfiguration(Map<String, ?> configuration) {
+            public void onReceiveConfiguration(Map configuration) {
                if (configuration != null && configuration.containsKey("TestTime")) {
                    configurationUpdated.countDown();
                }
@@ -92,7 +93,7 @@ public class SwordfishCoreIntegrationTest extends TargetPlatformOsgiTestCase {
         assertNotNull(eventSender.getEventAdmin());
         MockConfigurationConsumer configurationConsumer = new MockConfigurationConsumer() {
             @Override
-            public void onReceiveConfiguration(Map<String, ?> configuration) {
+            public void onReceiveConfiguration(Map configuration) {
                if (configuration != null && configuration.containsKey("TestTime")) {
                    configurationUpdated.countDown();
                }

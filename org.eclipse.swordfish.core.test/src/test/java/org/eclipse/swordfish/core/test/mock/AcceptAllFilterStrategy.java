@@ -1,11 +1,10 @@
 /**
  *
  */
-package org.eclipse.swordfish.core.test.planner.mock;
+package org.eclipse.swordfish.core.test.mock;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.eclipse.swordfish.api.FilterStrategy;
 import org.eclipse.swordfish.api.Hint;
@@ -16,8 +15,7 @@ import org.eclipse.swordfish.api.ReadOnlyRegistry;
  * @author dwolz
  *
  */
-public class DefaultHintFilterStrategy implements FilterStrategy {
-
+public class AcceptAllFilterStrategy implements FilterStrategy {
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.swordfish.api.FilterStrategy#filter(java.util.List, org.eclipse.swordfish.api.ReadOnlyRegistry, java.util.List)
@@ -26,17 +24,7 @@ public class DefaultHintFilterStrategy implements FilterStrategy {
 			ReadOnlyRegistry<Interceptor> registry, List<Hint<?>> hints) {
 		List<Interceptor> sorted = new ArrayList<Interceptor>();
 		for (Interceptor interceptor: interceptors) {
-			for (Hint<?> hint: hints) {
-				Class<?> clazz = hint.getType();
-				if (clazz.getInterfaces()[0].equals(Map.class)) {
-					Map<String,Boolean> map = (Map<String,Boolean>) hint.getInfo();
-					String key = interceptor.getClass().getCanonicalName();
-					if (map.containsKey(key) && map.get(key)) {
-						sorted.add(interceptor);
-						break;
-					}
-				}
-			}
+			sorted.add(interceptor);
 		}
 		return sorted;
 	}
@@ -46,7 +34,7 @@ public class DefaultHintFilterStrategy implements FilterStrategy {
 	 */
 	public int getPriority() {
 		// TODO Auto-generated method stub
-		return 0;
+		return 1;
 	}
 
 }

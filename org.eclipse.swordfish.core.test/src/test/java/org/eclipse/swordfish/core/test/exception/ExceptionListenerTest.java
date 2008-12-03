@@ -15,7 +15,7 @@ import org.apache.servicemix.nmr.core.ExchangeImpl;
 import org.eclipse.swordfish.api.Interceptor;
 import org.eclipse.swordfish.api.InterceptorExceptionListener;
 import org.eclipse.swordfish.api.SwordfishException;
-import org.eclipse.swordfish.core.test.planner.TargetPlatformOsgiTestCase;
+import org.eclipse.swordfish.core.test.TargetPlatformOsgiTestCase;
 import org.eclipse.swordfish.core.test.util.OsgiSupport;
 import org.eclipse.swordfish.core.test.util.ServiceMixSupport;
 import org.eclipse.swordfish.core.test.util.ServiceMixSupport.ExchangeProcessorImpl;
