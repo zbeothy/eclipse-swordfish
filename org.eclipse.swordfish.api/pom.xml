@@ -4,8 +4,8 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.eclipse.swordfish</groupId>
 	<packaging>bundle</packaging>
-	<artifactId>org.eclipse.swordfish.api
-	</artifactId>
+	<artifactId>org.eclipse.swordfish.api</artifactId>
+	<name>org.eclipse.swordfish.api</name>
 	<version>${swordfishVersion}</version>
 
 	<parent>
