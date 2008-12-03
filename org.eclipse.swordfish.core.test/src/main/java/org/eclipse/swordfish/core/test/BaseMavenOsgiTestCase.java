@@ -92,6 +92,10 @@ public class BaseMavenOsgiTestCase extends BaseOsgiTestCase {
                         "org.apache.servicemix.nmr.api"),
                 getBundle("org.eclipse.swordfish", "org.eclipse.swordfish.api"),
                 getBundle("org.eclipse.swordfish",
+                	"org.eclipse.swordfish.core.event"),
+                getBundle("org.eclipse.swordfish",
+                	"org.eclipse.swordfish.core.configuration"),
+                getBundle("org.eclipse.swordfish",
                         "org.eclipse.swordfish.core.planner"),
                 getBundle("org.springframework.osgi",
                         "spring-osgi-core")
