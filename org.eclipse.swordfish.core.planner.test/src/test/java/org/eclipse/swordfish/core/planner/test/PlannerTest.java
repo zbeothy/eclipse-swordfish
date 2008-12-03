@@ -1,4 +1,4 @@
-package org.eclipse.swordfish.core.test.planner;
+package org.eclipse.swordfish.core.planner.test;
 
 import java.util.Dictionary;
 import java.util.Hashtable;
@@ -9,10 +9,11 @@ import org.eclipse.swordfish.api.FilterStrategy;
 import org.eclipse.swordfish.api.Interceptor;
 import org.eclipse.swordfish.api.SortingStrategy;
 import org.eclipse.swordfish.core.planner.api.Planner;
-import org.eclipse.swordfish.core.test.planner.mock.DefaultHintFilterStrategy;
-import org.eclipse.swordfish.core.test.planner.mock.MockHintExtractor;
-import org.eclipse.swordfish.core.test.planner.mock.MockInterceptor;
-import org.eclipse.swordfish.core.test.planner.mock.MockSortingStrategy;
+import org.eclipse.swordfish.core.test.BaseMavenOsgiTestCase;
+import org.eclipse.swordfish.core.test.mock.DefaultHintFilterStrategy;
+import org.eclipse.swordfish.core.test.mock.MockHintExtractor;
+import org.eclipse.swordfish.core.test.mock.MockInterceptor;
+import org.eclipse.swordfish.core.test.mock.MockSortingStrategy;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.Constants;
 import org.osgi.framework.ServiceReference;

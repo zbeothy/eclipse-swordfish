@@ -38,7 +38,17 @@
         </dependency>
 		<dependency>
             <groupId>org.eclipse.swordfish</groupId>
+            <artifactId>org.eclipse.swordfish.core</artifactId>
+            <version>${swordfishVersion}</version>
+        </dependency>
+		<dependency>
+            <groupId>org.eclipse.swordfish</groupId>
             <artifactId>org.eclipse.swordfish.core.planner</artifactId>
+            <version>${swordfishVersion}</version>
+        </dependency>
+		<dependency>
+            <groupId>org.eclipse.swordfish</groupId>
+            <artifactId>org.eclipse.swordfish.core.test</artifactId>
             <version>${swordfishVersion}</version>
         </dependency>
         <dependency>
@@ -209,7 +219,6 @@
 						<Bundle-SymbolicName>${artifactId}
 						</Bundle-SymbolicName>
 						<Import-Package>*</Import-Package>
-						<Export-Package>org.eclipse.swordfish.core.planner,org.eclipse.swordfish.api</Export-Package>
 						<Bundle-Activator>org.springframework.osgi.test.JUnitTestActivator</Bundle-Activator>
 					</instructions>
 				</configuration>
