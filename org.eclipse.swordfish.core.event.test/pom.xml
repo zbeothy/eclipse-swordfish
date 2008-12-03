@@ -32,7 +32,7 @@
         </dependency>
         <dependency>
             <groupId>org.eclipse.swordfish</groupId>
-            <artifactId>org.eclipse.swordfish.event</artifactId>
+            <artifactId>org.eclipse.swordfish.core.event</artifactId>
             <version>${swordfishVersion}</version>
         </dependency>
         <dependency>
@@ -166,8 +166,7 @@
     </dependency>
     <dependency>
             <groupId>org.apache.servicemix.jbi</groupId>
-            <artifactId>org.apache.servicemix.jbi.runtime
-            </artifactId>
+            <artifactId>org.apache.servicemix.jbi.runtime</artifactId>
             <version>1.0-m1</version>
         </dependency>
 	</dependencies>
