@@ -24,6 +24,11 @@
             <artifactId>org.eclipse.swordfish.api</artifactId>
             <version>${swordfishVersion}</version>
         </dependency>       
+        <dependency>
+            <groupId>org.eclipse.swordfish</groupId>
+            <artifactId>org.eclipse.swordfish.core.util</artifactId>
+            <version>${swordfishVersion}</version>
+        </dependency>
 		<dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-beans</artifactId>
