@@ -20,25 +20,16 @@ public class ConfigurationProvider  implements SwordfishContextAware, Initializi
 
     private SwordfishContext swordfishContext;
     private String id;
-
-
     public String getId() {
         return id;
     }
-
-
-
     public void setId(String id) {
         this.id = id;
     }
 
-
-
     public void setContext(SwordfishContext swordfishContext) {
         this.swordfishContext = swordfishContext;
     }
-
-
 
     public void afterPropertiesSet() throws Exception {
         Assert.notNull(id);
@@ -50,7 +41,7 @@ public class ConfigurationProvider  implements SwordfishContextAware, Initializi
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                swordfishContext.updateConfiguration(id, configData);
+                swordfishContext.getConfigurationService().updateConfiguration(id, configData);
 
             }
         }, 5000);
