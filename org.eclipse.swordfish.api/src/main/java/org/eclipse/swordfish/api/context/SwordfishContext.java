@@ -11,11 +11,10 @@
 
 package org.eclipse.swordfish.api.context;
 
-import java.util.Map;
-
 import javax.jbi.component.ComponentContext;
 
 import org.apache.servicemix.nmr.api.EndpointRegistry;
+import org.eclipse.swordfish.api.configuration.ConfigurationService;
 
 /**
  * Provides the access to the underlying Swordfish and SMX facilities.
@@ -31,15 +30,8 @@ public interface SwordfishContext {
      */
     EndpointRegistry getEndpointRegistry();
 
-    /**
-     * Updates the configuration with the specified id
-     * @see org.eclipse.swordfish.api.configuration.ConfigurationConsumer
-     * @param <T> Type of configuration appropriate for the id passed.
-     * @param id unique configuration identifier, must not be <code>null</code>
-     * or an empty String
-     * @param configurationData Map of configurationData
-     */
-    <T> void updateConfiguration(String id, Map<String, T> configurationData);
+
+    ConfigurationService getConfigurationService();
 
     /**
      * Access the JBI component context.
