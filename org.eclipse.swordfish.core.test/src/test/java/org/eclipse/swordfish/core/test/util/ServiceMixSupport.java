@@ -6,7 +6,6 @@ import java.util.Map;
 
 import javax.xml.namespace.QName;
 
-import org.apache.servicemix.jbi.jaxp.StringSource;
 import org.apache.servicemix.jbi.runtime.impl.EndpointImpl;
 import org.apache.servicemix.nmr.api.Exchange;
 import org.apache.servicemix.nmr.api.NMR;
@@ -15,6 +14,7 @@ import org.apache.servicemix.nmr.api.Status;
 import org.apache.servicemix.nmr.api.internal.InternalEndpoint;
 import org.apache.servicemix.nmr.core.DynamicReferenceImpl;
 import org.apache.servicemix.nmr.core.util.Filter;
+import org.eclipse.swordfish.core.util.xml.StringSource;
 
 public class ServiceMixSupport {
     public static EndpointImpl createAndRegisterEndpoint(NMR nmr, QName serviceName, final ExchangeProcessor delegate) {

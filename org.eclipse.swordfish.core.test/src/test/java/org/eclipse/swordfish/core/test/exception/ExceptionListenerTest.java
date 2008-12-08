@@ -5,7 +5,6 @@ import java.util.Map;
 
 import javax.xml.namespace.QName;
 
-import org.apache.servicemix.jbi.jaxp.StringSource;
 import org.apache.servicemix.jbi.runtime.impl.EndpointImpl;
 import org.apache.servicemix.nmr.api.Endpoint;
 import org.apache.servicemix.nmr.api.NMR;
@@ -19,6 +18,7 @@ import org.eclipse.swordfish.core.test.TargetPlatformOsgiTestCase;
 import org.eclipse.swordfish.core.test.util.OsgiSupport;
 import org.eclipse.swordfish.core.test.util.ServiceMixSupport;
 import org.eclipse.swordfish.core.test.util.ServiceMixSupport.ExchangeProcessorImpl;
+import org.eclipse.swordfish.core.util.xml.StringSource;
 
 
 public class ExceptionListenerTest extends TargetPlatformOsgiTestCase {
