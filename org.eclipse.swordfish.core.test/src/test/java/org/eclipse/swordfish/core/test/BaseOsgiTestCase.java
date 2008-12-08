@@ -11,7 +11,7 @@ import org.springframework.util.Assert;
 
 public class BaseOsgiTestCase extends AbstractConfigurableBundleCreatorTests {
     protected Logger LOG = LoggerFactory.getLogger(getClass());
-    
+
     private List<ServiceRegistration> regirstrationsToCancel = new ArrayList<ServiceRegistration>();
     protected void addRegistrationToCancel(ServiceRegistration serviceRegistration) {
         regirstrationsToCancel.add(serviceRegistration);
@@ -33,14 +33,12 @@ public class BaseOsgiTestCase extends AbstractConfigurableBundleCreatorTests {
 
     static {
         try {
-            System.setProperty("org.osgi.vendor.framework",
-                    "org.eclipse.swordfish.core.planner.test");
             System.setProperty("osgi.clean", "true");
             System.setProperty("osgi.console", "22763");
         } catch (Throwable t) {
         }
     }
-        
+
     @Override
     protected String getManifestLocation() {
         // return "classpath:META-INF/MANIFEST.MF";

@@ -3,6 +3,7 @@ package org.eclipse.swordfish.core.test;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -50,6 +51,7 @@ public class TargetPlatformOsgiTestCase extends BaseOsgiTestCase {
         List<Resource> bundles = new ArrayList<Resource>();
         List<Pattern> excludePatterns = getExcludeBundlePatterns();
         boolean exclude;
+
         for (File bundle : new File(targetPlatformPath).listFiles()) {
             exclude = false;
             for (Pattern pattern : excludePatterns) {
@@ -61,6 +63,11 @@ public class TargetPlatformOsgiTestCase extends BaseOsgiTestCase {
                 bundles.add(new FileSystemResource(bundle));
             }
         }
+        /*Because of the strange behavior of the spring osgi
+         *test framework we need to load org.eclipse.swordfish.core.configuration and org.eclipse.swordfish.core.event bundles
+         *before org.eclipse.swordfish.core
+         *TODO: Could anyone propose any less uglier solution  */
+        Collections.reverse(bundles);
         return bundles.toArray(new Resource[bundles.size()]);
     }
 
