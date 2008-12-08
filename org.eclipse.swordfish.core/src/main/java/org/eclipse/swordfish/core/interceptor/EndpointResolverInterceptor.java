@@ -11,7 +11,6 @@ import javax.wsdl.extensions.soap.SOAPAddress;
 import javax.wsdl.extensions.soap.SOAPBinding;
 import javax.xml.namespace.QName;
 
-import org.apache.servicemix.JbiConstants;
 import org.apache.servicemix.jbi.runtime.impl.MessageExchangeImpl;
 import org.apache.servicemix.nmr.api.Endpoint;
 import org.apache.servicemix.nmr.api.Exchange;
@@ -24,6 +23,7 @@ import org.apache.servicemix.nmr.core.StaticReferenceImpl;
 import org.apache.servicemix.nmr.core.util.Filter;
 import org.eclipse.swordfish.api.SwordfishException;
 import org.eclipse.swordfish.api.configuration.ConfigurationConsumer;
+import org.eclipse.swordfish.core.util.JbiConstants;
 import org.eclipse.swordfish.core.util.ServiceMixSupport;
 import org.eclipse.swordfish.core.wsdl.ServiceDescription;
 import org.eclipse.swordfish.core.wsdl.WSDLInterceptor;

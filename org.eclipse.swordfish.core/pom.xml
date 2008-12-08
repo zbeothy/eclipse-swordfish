@@ -28,12 +28,7 @@
             <groupId>org.eclipse.swordfish</groupId>
             <artifactId>org.eclipse.swordfish.core.planner</artifactId>
             <version>${swordfishVersion}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.servicemix</groupId>
-            <artifactId>servicemix-core</artifactId>
-            <version>3.2.1</version>
-        </dependency>
+        </dependency>        
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>

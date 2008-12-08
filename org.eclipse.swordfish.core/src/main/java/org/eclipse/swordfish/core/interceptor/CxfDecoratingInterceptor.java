@@ -7,8 +7,6 @@ import java.util.Map;
 import javax.jbi.messaging.MessageExchange;
 import javax.xml.transform.Source;
 
-import org.apache.servicemix.jbi.jaxp.SourceTransformer;
-import org.apache.servicemix.jbi.jaxp.StringSource;
 import org.apache.servicemix.nmr.api.Endpoint;
 import org.apache.servicemix.nmr.api.NMR;
 import org.apache.servicemix.nmr.api.Role;
@@ -19,6 +17,8 @@ import org.apache.servicemix.nmr.core.InternalEndpointWrapper;
 import org.eclipse.swordfish.api.Interceptor;
 import org.eclipse.swordfish.api.SwordfishException;
 import org.eclipse.swordfish.core.util.ServiceMixSupport;
+import org.eclipse.swordfish.core.util.xml.StringSource;
+import org.eclipse.swordfish.core.util.xml.XmlUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -59,7 +59,6 @@ public class CxfDecoratingInterceptor implements Interceptor {
 
 	public void process(MessageExchange exchange) throws SwordfishException {
 		InternalExchange messageExchange = (InternalExchange) ServiceMixSupport.toNMRExchange(exchange);
-		SourceTransformer sourceTransformer = new SourceTransformer();
 		if (messageExchange.getTarget() == null) {
 			throw new UnsupportedOperationException();
 		}
@@ -69,7 +68,7 @@ public class CxfDecoratingInterceptor implements Interceptor {
 		}
 		try {
 		if (messageExchange.getRole() == Role.Consumer) {
-				String message = sourceTransformer.toString(messageExchange.getIn(false).getBody(Source.class));
+				String message = XmlUtil.toString(messageExchange.getIn(false).getBody(Source.class));
 				if (!message.contains(":Body")) {
 				int index = message.indexOf(">") + 1;
 				String xmlPrefix = message.substring(0, index);
@@ -78,7 +77,7 @@ public class CxfDecoratingInterceptor implements Interceptor {
 				messageExchange.getIn(false).setBody(new StringSource(soapMessage));
 				}
 				} else 	if (messageExchange.getRole() == Role.Provider && messageExchange.getOut(false) != null) {
-				String message = sourceTransformer.toString(messageExchange.getOut(false).getBody(Source.class));
+				String message = XmlUtil.toString(messageExchange.getOut(false).getBody(Source.class));
 				if (message.contains(":Body")) {
 					int index = message.indexOf(">") + 1;
 					String xmlPrefix = message.substring(0, index);
