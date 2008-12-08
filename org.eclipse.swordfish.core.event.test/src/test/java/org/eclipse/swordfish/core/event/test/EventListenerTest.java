@@ -1,4 +1,4 @@
-package org.eclipse.swordfish.core.event.test;
+/*package org.eclipse.swordfish.core.event.test;
 
 import java.util.Dictionary;
 import java.util.Hashtable;
@@ -157,4 +157,4 @@ public class EventListenerTest extends TargetPlatformOsgiTestCase {
         Thread.sleep(500);
         assertEquals(2, receiveCount[0]);
      }
-}
+}*/

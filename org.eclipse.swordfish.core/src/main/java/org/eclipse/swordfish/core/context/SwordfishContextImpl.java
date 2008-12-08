@@ -49,7 +49,7 @@ public class SwordfishContextImpl implements SwordfishContext, InitializingBean 
 
     public void afterPropertiesSet() throws Exception {
         Assert.notNull(nmr, "nmr property is required");
-        Assert.notNull(configurationAdmin, "configurationAdmin property is required");
+        //Assert.notNull(configurationAdmin, "configurationAdmin property is required");
     }
 
     public NMR getNmr() {

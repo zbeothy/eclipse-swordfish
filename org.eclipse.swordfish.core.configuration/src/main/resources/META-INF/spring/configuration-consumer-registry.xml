@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:osgi="http://www.springframework.org/schema/osgi"
+    xmlns:util="http://www.springframework.org/schema/util"
+    xmlns:p="http://www.springframework.org/schema/p"
+    osgi:default-cardinality="0..X"
+    default-lazy-init="false"
+    xsi:schemaLocation="
+  http://www.springframework.org/schema/beans
+  http://www.springframework.org/schema/beans/spring-beans.xsd
+  http://www.springframework.org/schema/util
+  http://www.springframework.org/schema/util/spring-util.xsd
+  http://www.springframework.org/schema/osgi
+  http://www.springframework.org/schema/osgi/spring-osgi.xsd">
+    
+      <osgi:reference id="swordfishContext" interface="org.eclipse.swordfish.api.context.SwordfishContext"/>
+      <osgi:reference id="configurationAdmin" interface="org.osgi.service.cm.ConfigurationAdmin"/>
+      
+      <bean id="configurationConsumerRegistry" 
+          class="org.eclipse.swordfish.core.configuration.ConfigurationConsumerRegistry"
+          p:configurationAdmin-ref="configurationAdmin" p:swordfishContext-ref="swordfishContext"/>
+          
+       <osgi:list id="configurationConsumerList" interface="org.eclipse.swordfish.api.configuration.ConfigurationConsumer"
+            cardinality="0..N">
+         <osgi:listener bind-method="register" unbind-method="unregister" ref="configurationConsumerRegistry" />
+       </osgi:list>  
+       
+      <bean id="configurationAgent" 
+          class="org.eclipse.swordfish.core.configuration.ConfigurationAgentImpl" p:swordfishContext-ref="swordfishContext" p:configurationSourceRegistry-ref="pollableConfigurationSourceRegistry"/>
+      
+      <bean id="pollableConfigurationSourceRegistry" 
+          class="org.eclipse.swordfish.core.configuration.PollableConfigurationSourceRegistry" p:configurationAgent-ref="configurationAgent"/>
+      <osgi:service ref="configurationAgent">    
+        <osgi:interfaces>
+            <value>org.eclipse.swordfish.core.configuration.ConfigurationAgent</value><value>org.eclipse.swordfish.api.event.EventHandler</value>
+        </osgi:interfaces>
+      </osgi:service>
+      <osgi:list id="pollableConfigurationSourceList" interface="org.eclipse.swordfish.api.configuration.PollableConfigurationSource"
+            cardinality="0..N">
+         <osgi:listener bind-method="register" unbind-method="unregister" ref="pollableConfigurationSourceRegistry" />
+      </osgi:list>    
+</beans>

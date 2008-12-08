@@ -16,6 +16,11 @@
     <dependencies>
         <dependency>
             <groupId>org.eclipse.swordfish</groupId>
+            <artifactId>org.eclipse.swordfish.core</artifactId>
+            <version>${swordfishVersion}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.swordfish</groupId>
             <artifactId>org.eclipse.swordfish.api</artifactId>
             <version>${swordfishVersion}</version>
         </dependency>

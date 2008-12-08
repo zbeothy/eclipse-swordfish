@@ -61,7 +61,7 @@ public class SwordfishCoreIntegrationTest extends TargetPlatformOsgiTestCase {
             }
         }, null));
         assertTrue(contextInjectedLatch.await(4, TimeUnit.SECONDS));
-        assertTrue(configurationUpdated.await(2, TimeUnit.SECONDS));
+        assertTrue(configurationUpdated.await(9999, TimeUnit.SECONDS));
         assertEquals(configurationConsumer.getConfiguration().get("TestTime"), configuration.get("TestTime"));
     }
     public void test2ConfigurationPollableSourceTest() throws Exception {

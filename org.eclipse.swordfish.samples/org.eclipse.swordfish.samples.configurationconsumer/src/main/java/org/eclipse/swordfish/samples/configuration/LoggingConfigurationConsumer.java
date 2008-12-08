@@ -19,7 +19,7 @@ public class LoggingConfigurationConsumer implements ConfigurationConsumer {
         return id;
     }
 
-    public void onReceiveConfiguration(Map<String, ?> configuration) {
+    public void onReceiveConfiguration(Map configuration) {
         LOG.warn("Received updated configuration" + configuration);
     }
 }

@@ -16,13 +16,13 @@
   http://www.springframework.org/schema/osgi/spring-osgi.xsd">
 
     <!-- Event Admin service -->
-    <osgi:reference id="eventAdmin" interface="org.osgi.service.event.EventAdmin" cardinality="0..1"/>
+    <osgi:reference id="eventAdmin" interface="org.osgi.service.event.EventAdmin" cardinality="0..1"/><!--
     
     <bean id="eventService" class="org.eclipse.swordfish.core.event.EventServiceImpl" 
           p:eventAdmin-ref="eventAdmin"/>
     <osgi:service ref="eventService" interface="org.eclipse.swordfish.api.event.EventService"/>
     
-    <bean id="exceptionListenerRegistry" 
+    --><bean id="exceptionListenerRegistry" 
           class="org.eclipse.swordfish.core.exception.InterceptorExceptionListenerRegistry"
           p:bundleContext-ref="bundleContext"
           destroy-method="destroy"/>
@@ -44,7 +44,7 @@
     <osgi:reference id="nmr" interface="org.apache.servicemix.nmr.api.NMR"/>
     
     <osgi:reference id="planner" interface="org.eclipse.swordfish.core.planner.api.Planner"/>
-    <osgi:reference id="registry" interface="org.eclipse.swordfish.core.planner.api.Registry"/>
+    <osgi:reference id="registry" interface="org.eclipse.swordfish.api.Registry"/>
     
     <!-- Expose the Planner -->
     <bean id="exchangeListener" class="org.eclipse.swordfish.core.integration.nmr.SwordfishExchangeListener"

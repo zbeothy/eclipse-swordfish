@@ -6,15 +6,28 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.eclipse.swordfish.api.configuration.ConfigurationConsumer;
+import org.eclipse.swordfish.api.context.SwordfishContext;
+import org.eclipse.swordfish.api.context.SwordfishContextAware;
+import org.eclipse.swordfish.core.context.SwordfishContextImpl;
+import org.eclipse.swordfish.core.util.AopProxyUtil;
 import org.eclipse.swordfish.core.util.RegistryImpl;
+import org.osgi.framework.BundleContext;
 import org.osgi.framework.Constants;
 import org.osgi.framework.ServiceRegistration;
+import org.osgi.service.cm.ConfigurationAdmin;
 import org.osgi.service.cm.ManagedService;
+import org.springframework.aop.config.AopConfigUtils;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.osgi.context.BundleContextAware;
 import org.springframework.util.Assert;
 
-public class ConfigurationConsumerRegistry extends RegistryImpl<ConfigurationConsumer>{
+public class ConfigurationConsumerRegistry extends RegistryImpl<ConfigurationConsumer> implements InitializingBean, BundleContextAware{
     protected ConcurrentHashMap<ConfigurationConsumer, ServiceRegistration> registrations = new ConcurrentHashMap<ConfigurationConsumer, ServiceRegistration>();
 
+    private ConfigurationAdmin configurationAdmin;
+    private SwordfishContext swordfishContext;
+    private BundleContext bundleContext;
+    
     @Override
     protected void doRegister(ConfigurationConsumer configurationConsumer, Map<String, ?> properties) throws Exception {
         Assert.notNull(configurationConsumer);
@@ -39,4 +52,19 @@ public class ConfigurationConsumerRegistry extends RegistryImpl<ConfigurationCon
         }
         super.doDestroy();
     }
+    
+    public void setConfigurationAdmin(ConfigurationAdmin configurationAdmin) {
+        this.configurationAdmin = configurationAdmin;
+    }
+    
+    public void setSwordfishContext(SwordfishContext swordfishContext) {
+        this.swordfishContext = swordfishContext;
+    }
+    public void setBundleContext(BundleContext bundleContext) {
+        this.bundleContext = bundleContext;
+    }
+    
+	public void afterPropertiesSet() throws Exception {
+		((SwordfishContextImpl)AopProxyUtil.getTargetService(swordfishContext, bundleContext)).setConfigurationAdmin(configurationAdmin);
+	}
 }

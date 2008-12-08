@@ -18,7 +18,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import org.eclipse.swordfish.api.SwordfishException;
-import org.eclipse.swordfish.core.planner.api.Registry;
+import org.eclipse.swordfish.api.Registry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -103,6 +103,10 @@ public class RegistryImpl<T> implements Registry<T> {
     public Map<String, ?> getProperties(T key) {
         return registry.get(key);
     }
+
+	public void unregister(T item) throws SwordfishException {
+		
+	}
 }
 
 

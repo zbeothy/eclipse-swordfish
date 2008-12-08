@@ -385,12 +385,27 @@
         </dependency>
         <dependency>
             <groupId>org.eclipse.swordfish</groupId>
-            <artifactId>org.eclipse.swordfish.core.planner</artifactId>
+            <artifactId>org.eclipse.swordfish.core.util</artifactId>
             <version>${swordfishVersion}</version>
         </dependency>
         <dependency>
             <groupId>org.eclipse.swordfish</groupId>
             <artifactId>org.eclipse.swordfish.core</artifactId>
+            <version>${swordfishVersion}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.swordfish</groupId>
+            <artifactId>org.eclipse.swordfish.core.planner</artifactId>
+            <version>${swordfishVersion}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.swordfish</groupId>
+            <artifactId>org.eclipse.swordfish.core.configuration</artifactId>
+            <version>${swordfishVersion}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.swordfish</groupId>
+            <artifactId>org.eclipse.swordfish.core.event</artifactId>
             <version>${swordfishVersion}</version>
         </dependency>
         <dependency>
