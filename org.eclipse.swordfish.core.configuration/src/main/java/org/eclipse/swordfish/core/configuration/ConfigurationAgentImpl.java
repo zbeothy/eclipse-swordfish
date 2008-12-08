@@ -5,9 +5,9 @@ import java.util.Map;
 import org.eclipse.swordfish.api.context.SwordfishContext;
 import org.eclipse.swordfish.api.event.ConfigurationEvent;
 import org.eclipse.swordfish.api.event.EventConstants;
+import org.eclipse.swordfish.api.event.EventFilter;
 import org.eclipse.swordfish.api.event.EventHandler;
 import org.eclipse.swordfish.api.event.Severity;
-import org.eclipse.swordfish.api.event.EventFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
@@ -41,7 +41,7 @@ public class ConfigurationAgentImpl implements EventHandler<ConfigurationEvent>,
             if (! (configuration instanceof Map)) {
                 throw new UnsupportedOperationException("Only map based configuration is supported as for now");
             }
-            swordfishContext.updateConfiguration((String) id, (Map)configuration);
+            swordfishContext.getConfigurationService().updateConfiguration((String) id, (Map)configuration);
         }
     }
     public PollableConfigurationSourceRegistry getConfigurationSourceRegistry() {

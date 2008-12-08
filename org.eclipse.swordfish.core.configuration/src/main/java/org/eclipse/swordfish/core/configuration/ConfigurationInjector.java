@@ -43,6 +43,6 @@ public class ConfigurationInjector implements InitializingBean, BundleContextAwa
     public void setContext(SwordfishContext swordfishContext) {
         this.swordfishContext = swordfishContext;
         LOG.info(String.format("Injecting configuration [%s] for the configurationConsumer with id = [%s] ", configuration.toString(), id));
-        swordfishContext.updateConfiguration(id, configuration);
+        swordfishContext.getConfigurationService().updateConfiguration(id, configuration);
     }
 }
