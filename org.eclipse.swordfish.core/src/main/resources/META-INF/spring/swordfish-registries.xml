@@ -17,11 +17,11 @@
   
     <osgi:reference id="nmr" interface="org.apache.servicemix.nmr.api.NMR"/>        
 
-    						   
+    <osgi:reference id="configurationService" interface="org.eclipse.swordfish.api.configuration.ConfigurationService"/>  
+    				   
     <bean id="swordfishContext" class="org.eclipse.swordfish.core.context.SwordfishContextImpl" 
-        p:nmr-ref="nmr"/>
+        p:nmr-ref="nmr" p:configurationService-ref="configurationService"/>
     <osgi:service ref="swordfishContext" auto-export="interfaces"/>
-    
     <bean id="swordfishContextAwareRegistry" 
           class="org.eclipse.swordfish.core.context.SwordfishContextAwareRegistry" p:swordfishContext-ref="swordfishContext"/>
     <osgi:list id="swordfishContextAwareList" interface="org.eclipse.swordfish.api.context.SwordfishContextAware"
