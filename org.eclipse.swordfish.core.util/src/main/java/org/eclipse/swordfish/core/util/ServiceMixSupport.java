@@ -8,6 +8,7 @@ import javax.jbi.messaging.MessageExchange;
 import javax.jbi.messaging.MessagingException;
 import javax.jbi.servicedesc.ServiceEndpoint;
 import javax.xml.namespace.QName;
+import javax.xml.transform.Source;
 
 import org.apache.servicemix.jbi.runtime.impl.MessageExchangeImpl;
 import org.apache.servicemix.jbi.runtime.impl.NormalizedMessageImpl;
@@ -18,6 +19,7 @@ import org.apache.servicemix.nmr.api.Reference;
 import org.apache.servicemix.nmr.api.internal.InternalEndpoint;
 import org.apache.servicemix.nmr.api.internal.InternalReference;
 import org.apache.servicemix.nmr.core.MessageImpl;
+import org.eclipse.swordfish.core.util.xml.StringSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
@@ -34,10 +36,10 @@ public class ServiceMixSupport {
 
 		try {
 			if (source.getMessage(messageType) != null) {
-//				source.getMessage(messageType).setContent(new StringSource(content));
+			source.getMessage(messageType).setContent(new StringSource(content));
 			} else {
 				Message responseMessage = new MessageImpl();
-//				responseMessage.setBody(new StringSource(content), Source.class);
+				responseMessage.setBody(new StringSource(content), Source.class);
 				NormalizedMessageImpl responseNormalizedMessage = new NormalizedMessageImpl(responseMessage);
 				source.setMessage(responseNormalizedMessage, messageType);
 			}
