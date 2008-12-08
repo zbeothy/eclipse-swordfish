@@ -28,7 +28,6 @@ import org.eclipse.swordfish.core.interceptor.CxfDecoratingInterceptor;
 import org.eclipse.swordfish.core.interceptor.EndpointResolverInterceptor;
 import org.eclipse.swordfish.core.interceptor.LoggingInterceptor;
 import org.eclipse.swordfish.core.planner.api.Planner;
-import org.eclipse.swordfish.core.test.TargetPlatformOsgiTestCase;
 import org.eclipse.swordfish.core.test.mock.MockConfigurationConsumer;
 import org.eclipse.swordfish.core.test.mock.MockInterceptor;
 import org.eclipse.swordfish.core.test.mock.PollableConfigurationSourceMock;
@@ -56,7 +55,7 @@ public class SwordfishCoreIntegrationTest extends TargetPlatformOsgiTestCase {
         addRegistrationToCancel(bundleContext.registerService(ConfigurationConsumer.class.getCanonicalName(), configurationConsumer, null));
         addRegistrationToCancel(bundleContext.registerService(SwordfishContextAware.class.getCanonicalName(), new SwordfishContextAware() {
             public void setContext(SwordfishContext swordfishContext) {
-                swordfishContext.updateConfiguration("MockConfigurationConsumerIdTest1", configuration);
+                swordfishContext.getConfigurationService().updateConfiguration("MockConfigurationConsumerIdTest1", configuration);
                 contextInjectedLatch.countDown();
             }
         }, null));
