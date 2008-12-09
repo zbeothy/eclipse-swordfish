@@ -9,11 +9,11 @@ import org.eclipse.swordfish.api.FilterStrategy;
 import org.eclipse.swordfish.api.Interceptor;
 import org.eclipse.swordfish.api.SortingStrategy;
 import org.eclipse.swordfish.core.planner.api.Planner;
-import org.eclipse.swordfish.core.test.BaseMavenOsgiTestCase;
-import org.eclipse.swordfish.core.test.mock.DefaultHintFilterStrategy;
-import org.eclipse.swordfish.core.test.mock.MockHintExtractor;
-import org.eclipse.swordfish.core.test.mock.MockInterceptor;
-import org.eclipse.swordfish.core.test.mock.MockSortingStrategy;
+import org.eclipse.swordfish.core.test.util.base.BaseMavenOsgiTestCase;
+import org.eclipse.swordfish.core.test.util.mock.DefaultHintFilterStrategy;
+import org.eclipse.swordfish.core.test.util.mock.MockHintExtractor;
+import org.eclipse.swordfish.core.test.util.mock.MockInterceptor;
+import org.eclipse.swordfish.core.test.util.mock.MockSortingStrategy;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.Constants;
 import org.osgi.framework.ServiceReference;
@@ -24,6 +24,51 @@ import org.springframework.osgi.util.OsgiStringUtils;
  */
 public class PlannerTest extends BaseMavenOsgiTestCase {
 
+
+    /**
+     * The location of the packaged OSGi bundles to be installed for this test.
+     * Values are Spring resource paths. The bundles we want to use are part of
+     * the same multi-project maven build as this project is. Hence we use the
+     * localMavenArtifact helper method to find the bundles produced by the
+     * package phase of the maven build (these tests will run after the
+     * packaging phase, in the integration-test phase).
+     *
+     * JUnit, commons-logging, spring-core and the spring OSGi test bundle are
+     * automatically included so do not need to be specified here.
+     */
+    @Override
+    protected String[] getTestBundlesNames() {
+        return new String[] {
+                getBundle("org.eclipse", "org.eclipse.osgi.services"),
+//                getBundle("org.eclipse.equinox", "org.eclipse.equinox.cm"),
+                getBundle("org.apache.geronimo.specs",
+                        "geronimo-activation_1.1_spec"),
+                getBundle("javax.wsdl",
+                        "com.springsource.javax.wsdl"),
+                getBundle("org.apache.servicemix.jbi",
+                        "org.apache.servicemix.jbi.api"),
+                getBundle("org.apache.servicemix.jbi",
+                        "org.apache.servicemix.jbi.runtime"),
+                getBundle("org.apache.servicemix.nmr",
+                        "org.apache.servicemix.nmr.api"),
+                getBundle("org.apache.servicemix.nmr",
+                        "org.apache.servicemix.nmr.core"),
+                getBundle("org.eclipse.swordfish", "org.eclipse.swordfish.api"),
+                getBundle("org.eclipse.swordfish",
+            			"org.eclipse.swordfish.core.test.util"),
+                getBundle("org.eclipse.swordfish",
+                	"org.eclipse.swordfish.core.util"),
+                getBundle("org.eclipse.swordfish",
+                	"org.eclipse.swordfish.core"),
+                getBundle("org.eclipse.swordfish",
+                	"org.eclipse.swordfish.core.event"),
+                getBundle("org.eclipse.swordfish",
+                        "org.eclipse.swordfish.core.planner"),
+                getBundle("org.springframework.osgi",
+                        "spring-osgi-core")
+        };
+    }
+    
     public void test1OsgiPlatformStarts() throws Exception {
         LOG.info(bundleContext.getProperty(Constants.FRAMEWORK_VENDOR));
         LOG.info(bundleContext.getProperty(Constants.FRAMEWORK_VERSION));
