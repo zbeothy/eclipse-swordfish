@@ -52,11 +52,11 @@ public class RegistryImpl<T> implements Registry<T>, BundleContextAware, Disposa
             }
         }
     }
-    public void unregister(T key) throws SwordfishException {
+    public void unregister(T key, Map<String, ?> properties) throws SwordfishException {
         Assert.notNull(key, "key should not be null");
         if (key != null && registry.remove(key) != null) {
             try {
-                doUnregister(key);
+                doUnregister(key, properties);
             } catch (Exception e) {
                 LOG.info("Unable to unregister key " +
                         key + ". Reason: " + e);
@@ -65,11 +65,12 @@ public class RegistryImpl<T> implements Registry<T>, BundleContextAware, Disposa
             }
         }
     }
+    
 
     protected void doRegister(T key, Map<String, ?> properties) throws Exception {
     }
 
-    protected void doUnregister(T key) throws Exception {
+    protected void doUnregister(T key, Map<String, ?> properties) throws Exception {
     }
 
     public Set<T> getKeySet() {

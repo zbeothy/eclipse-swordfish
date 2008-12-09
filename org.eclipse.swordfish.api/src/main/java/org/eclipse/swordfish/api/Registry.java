@@ -41,7 +41,7 @@ public interface Registry<T> extends ReadOnlyRegistry<T> {
 	 * @throws SwordfishException if an item cannot be unregistered due to
 	 * the internal state of the system.
 	 */
-	void unregister(T item)
+	void unregister(T item, Map<String, ?> properties)
 			throws SwordfishException;
  
 }

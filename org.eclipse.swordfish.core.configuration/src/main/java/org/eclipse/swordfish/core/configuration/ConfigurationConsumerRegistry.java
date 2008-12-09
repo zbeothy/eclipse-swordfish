@@ -34,11 +34,11 @@ public class ConfigurationConsumerRegistry extends RegistryImpl<ConfigurationCon
         super.doRegister(configurationConsumer, properties);
     }
     @Override
-    protected void doUnregister(ConfigurationConsumer key) throws Exception {
+    protected void doUnregister(ConfigurationConsumer key, Map<String, ?> properties) throws Exception {
         ServiceRegistration serviceRegistration = registrations.get(key);
         Assert.notNull(serviceRegistration, "serviceRegistration for the configurationConsumer with id = ["+ key.getId() + "] can not be found");
         serviceRegistration.unregister();
-        super.doUnregister(key);
+        super.doUnregister(key, properties);
     }
     @Override
     protected void doDestroy() throws Exception {

@@ -1,4 +1,4 @@
-/*package org.eclipse.swordfish.core.event.test;
+package org.eclipse.swordfish.core.event.test;
 
 import java.util.Dictionary;
 import java.util.Hashtable;
@@ -13,8 +13,8 @@ import org.eclipse.swordfish.core.event.EventHandlerRegistry;
 import org.eclipse.swordfish.core.event.EventServiceImpl;
 import org.eclipse.swordfish.core.event.SeverityEventFilter;
 import org.eclipse.swordfish.core.event.TrackingEventImpl;
-import org.eclipse.swordfish.core.test.TargetPlatformOsgiTestCase;
 import org.eclipse.swordfish.core.test.util.OsgiSupport;
+import org.eclipse.swordfish.core.test.util.base.TargetPlatformOsgiTestCase;
 import org.osgi.framework.ServiceRegistration;
 import org.osgi.service.event.EventAdmin;
 
@@ -61,9 +61,7 @@ public class EventListenerTest extends TargetPlatformOsgiTestCase {
             public String getSubscribedTopic() {
                 return EventConstants.TOPIC_TRACKING_EVENT;
             }
-            public int getSeverity() {
-                return Severity.ALL;
-            }
+
             public void handleEvent(TrackingEvent arg0) {
                 receiveCount[0]++;
             }
@@ -131,7 +129,7 @@ public class EventListenerTest extends TargetPlatformOsgiTestCase {
         TrackingEventImpl event = new TrackingEventImpl();
         event.setSeverity(Severity.INFO);
         eventSender.postEvent(event);
-        Thread.sleep(99500);
+        Thread.sleep(500);
         assertEquals(1, receiveCount[0]);
 
         // send event with LOWER severity
@@ -157,4 +155,10 @@ public class EventListenerTest extends TargetPlatformOsgiTestCase {
         Thread.sleep(500);
         assertEquals(2, receiveCount[0]);
      }
-}*/
+
+	@Override
+	protected String getManifestLocation() {
+	    return "classpath:org/eclipse/swordfish/core/event/test/MANIFEST.MF";
+	}
+    
+}
