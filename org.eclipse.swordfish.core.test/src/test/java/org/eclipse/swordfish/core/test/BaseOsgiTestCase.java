@@ -33,6 +33,9 @@ public class BaseOsgiTestCase extends AbstractConfigurableBundleCreatorTests {
 
     static {
         try {
+            System.setProperty("org.osgi.vendor.framework",
+                    "org.eclipse.swordfish.core.test");
+            System.setProperty("eclipse.ignoreApp", "true");
             System.setProperty("osgi.clean", "true");
             System.setProperty("osgi.console", "22763");
         } catch (Throwable t) {

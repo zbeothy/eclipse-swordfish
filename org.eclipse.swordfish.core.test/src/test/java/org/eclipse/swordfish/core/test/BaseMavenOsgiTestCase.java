@@ -6,21 +6,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
-import org.eclipse.swordfish.core.test.util.LocalMavenRepositoryLocator;
-import org.springframework.osgi.test.provisioning.ArtifactLocator;
-import org.springframework.osgi.test.provisioning.internal.LocalFileSystemMavenRepository;
-
 public class BaseMavenOsgiTestCase extends BaseOsgiTestCase {
-    private static LocalFileSystemMavenRepository localFileSystemMavenRepository = null;
 
-    static {
-        try {
-            localFileSystemMavenRepository = new LocalFileSystemMavenRepository();
-        } catch (Throwable t) {
-        }
-    }
-    private ArtifactLocator locator = new LocalMavenRepositoryLocator(
-            localFileSystemMavenRepository);
     protected String getBundle(String groupId, String artifactId) {
         return groupId + "," + artifactId + ","
                 + getBundleVersion(groupId, artifactId);
@@ -32,7 +19,7 @@ public class BaseMavenOsgiTestCase extends BaseOsgiTestCase {
         if (dependencies == null) {
             try {
                 File f = new File(System.getProperty("basedir"),
-                        "src/test/resources/dependencies.properties");
+                        "target/test-classes/dependencies.properties");
                 Properties prop = new Properties();
                 prop.load(new FileInputStream(f));
                 dependencies = prop;
@@ -51,22 +38,8 @@ public class BaseMavenOsgiTestCase extends BaseOsgiTestCase {
         return version;
     }
 
-    /**
-     * Returns the ArtifactLocator used by this test suite. Subclasses should
-     * override this method if the default locator (searching the local Maven2
-     * repository) is not enough.
-     *
-     * <p>
-     * <b>Note</b>: This method will be used each time a bundle has to be
-     * retrieved; it is highly recommended to return a cached instance instead
-     * of a new one each time.
-     *
-     * @return artifact locator used by this test.
-     */
-    @Override
-    protected ArtifactLocator getLocator() {
-        return locator;
-    }
+
+
 
     /**
      * The location of the packaged OSGi bundles to be installed for this test.
