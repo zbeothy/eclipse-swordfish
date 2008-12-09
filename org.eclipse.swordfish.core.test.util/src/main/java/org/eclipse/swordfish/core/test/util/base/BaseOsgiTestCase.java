@@ -1,4 +1,4 @@
-package org.eclipse.swordfish.core.test;
+package org.eclipse.swordfish.core.test.util.base;
 
 import java.util.ArrayList;
 import java.util.List;

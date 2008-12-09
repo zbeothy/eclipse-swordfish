@@ -1,4 +1,4 @@
-package org.eclipse.swordfish.core.test.mock;
+package org.eclipse.swordfish.core.test.util.mock;
 
 import java.util.HashMap;
 import java.util.Map;
