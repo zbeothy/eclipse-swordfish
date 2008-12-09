@@ -41,14 +41,15 @@ public class SwordfishCoreIntegrationTest extends TargetPlatformOsgiTestCase {
         final CountDownLatch contextInjectedLatch = new CountDownLatch(1);
         final CountDownLatch configurationUpdated = new CountDownLatch(1);
         final Map<String, String> configuration = new HashMap<String, String>();
-        configuration.put("TestTime", String.valueOf(System.currentTimeMillis()));
+        configuration.put("TestTime", String.valueOf(System.nanoTime()));
         MockConfigurationConsumer configurationConsumer = new MockConfigurationConsumer() {
             @Override
             public void onReceiveConfiguration(Map configuration) {
-               if (configuration != null && configuration.containsKey("TestTime")) {
+                if (configuration != null && configuration.containsKey("TestTime")) {
+                    super.onReceiveConfiguration(configuration);
                    configurationUpdated.countDown();
                }
-               super.onReceiveConfiguration(configuration);
+
             }
         };
         configurationConsumer.setId("MockConfigurationConsumerIdTest1");
@@ -61,7 +62,8 @@ public class SwordfishCoreIntegrationTest extends TargetPlatformOsgiTestCase {
         }, null));
         assertTrue(contextInjectedLatch.await(4, TimeUnit.SECONDS));
         assertTrue(configurationUpdated.await(9999, TimeUnit.SECONDS));
-        assertEquals(configurationConsumer.getConfiguration().get("TestTime"), configuration.get("TestTime"));
+        assertEquals(configurationConsumer.getConfiguration().get("TestTime"),
+                configuration.get("TestTime"));
     }
     public void test2ConfigurationPollableSourceTest() throws Exception {
         final CountDownLatch configurationUpdated = new CountDownLatch(1);
@@ -71,9 +73,10 @@ public class SwordfishCoreIntegrationTest extends TargetPlatformOsgiTestCase {
             @Override
             public void onReceiveConfiguration(Map configuration) {
                if (configuration != null && configuration.containsKey("TestTime")) {
+                   super.onReceiveConfiguration(configuration);
                    configurationUpdated.countDown();
                }
-               super.onReceiveConfiguration(configuration);
+
             }
         };
         configurationConsumer.setId("MockConfigurationConsumerIdTest2");
@@ -86,17 +89,19 @@ public class SwordfishCoreIntegrationTest extends TargetPlatformOsgiTestCase {
     public void test3AsynchronousConfigurationUpdateTest() throws Exception {
         final CountDownLatch configurationUpdated = new CountDownLatch(1);
         final Map<String, String> configuration = new HashMap<String, String>();
-        configuration.put("TestTime", String.valueOf(System.currentTimeMillis()));
+        configuration.put("TestTime", String.valueOf(System.nanoTime()));
         EventServiceImpl eventSender = (EventServiceImpl)OsgiSupport.getReference(bundleContext, EventService.class);
         assertNotNull(eventSender);
         assertNotNull(eventSender.getEventAdmin());
         MockConfigurationConsumer configurationConsumer = new MockConfigurationConsumer() {
             @Override
             public void onReceiveConfiguration(Map configuration) {
+
                if (configuration != null && configuration.containsKey("TestTime")) {
+                   super.onReceiveConfiguration(configuration);
                    configurationUpdated.countDown();
                }
-               super.onReceiveConfiguration(configuration);
+
             }
         };
         configurationConsumer.setId("MockConfigurationConsumerIdTest3");
@@ -107,7 +112,8 @@ public class SwordfishCoreIntegrationTest extends TargetPlatformOsgiTestCase {
         configurationEvent.setConfiguration(configurations);
         eventSender.postEvent(configurationEvent);
         assertTrue(configurationUpdated.await(4, TimeUnit.SECONDS));
-        assertEquals(configurationConsumer.getConfiguration().get("TestTime"), configuration.get("TestTime"));
+        assertEquals(configurationConsumer.getConfiguration().get("TestTime"),
+                configuration.get("TestTime"));
     }
 
     public void test4SimplePlannerInterceptorChain() throws Exception {

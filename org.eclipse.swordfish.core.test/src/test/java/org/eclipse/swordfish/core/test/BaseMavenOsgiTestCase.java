@@ -6,6 +6,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
+import org.junit.Ignore;
+@Ignore
 public class BaseMavenOsgiTestCase extends BaseOsgiTestCase {
 
     protected String getBundle(String groupId, String artifactId) {
@@ -38,7 +40,18 @@ public class BaseMavenOsgiTestCase extends BaseOsgiTestCase {
         return version;
     }
 
-
+    /**
+     * Returns the ArtifactLocator used by this test suite. Subclasses should
+     * override this method if the default locator (searching the local Maven2
+     * repository) is not enough.
+     *
+     * <p>
+     * <b>Note</b>: This method will be used each time a bundle has to be
+     * retrieved; it is highly recommended to return a cached instance instead
+     * of a new one each time.
+     *
+     * @return artifact locator used by this test.
+     */
 
 
     /**

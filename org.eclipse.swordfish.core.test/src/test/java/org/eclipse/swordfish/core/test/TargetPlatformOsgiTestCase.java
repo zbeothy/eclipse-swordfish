@@ -3,15 +3,15 @@ package org.eclipse.swordfish.core.test;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import org.junit.Ignore;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
-
+@Ignore
 public class TargetPlatformOsgiTestCase extends BaseOsgiTestCase {
     public static final String TARGET_PLATFORM_SYS_PORPERTY = "swordfishTargetPlatform";
     @Override
@@ -41,6 +41,30 @@ public class TargetPlatformOsgiTestCase extends BaseOsgiTestCase {
     protected List<Pattern> getExcludeBundlePatterns() {
         return Arrays.asList(Pattern.compile("org.eclipse.swordfish.samples.cxfendpoint.*"), Pattern.compile("org.eclipse.swordfish.samples.http.*"), Pattern.compile("org.eclipse.osgi-3.4.2.*"));
     }
+    private int getIndex(Resource[] bundles, String bundleNamePart) {
+        int i = -1;
+        for (Resource resource : bundles) {
+            i++;
+            if (resource.getFilename().contains(bundleNamePart)) {
+                return i;
+            }
+        }
+        return i;
+    }
+    private <T> void swap(T[] arr, int fisrtIndex, int secondIndex) {
+            T temp = arr[fisrtIndex];
+            arr[fisrtIndex] = arr[secondIndex];
+            arr[secondIndex] = temp;
+
+    }
+    private void adjustBundleOrder(Resource[] bundles) {
+        int coreIndex = 0;
+        int coreConfigurationIndex = getIndex(bundles, "org.eclipse.swordfish.core.configuration-");
+        Assert.state(coreConfigurationIndex >= 0);
+        if (coreConfigurationIndex > 0) {
+            swap(bundles, coreIndex, coreConfigurationIndex);
+        }
+    }
 
     @Override
     protected Resource[] getTestBundles() {
@@ -51,7 +75,6 @@ public class TargetPlatformOsgiTestCase extends BaseOsgiTestCase {
         List<Resource> bundles = new ArrayList<Resource>();
         List<Pattern> excludePatterns = getExcludeBundlePatterns();
         boolean exclude;
-
         for (File bundle : new File(targetPlatformPath).listFiles()) {
             exclude = false;
             for (Pattern pattern : excludePatterns) {
@@ -67,8 +90,9 @@ public class TargetPlatformOsgiTestCase extends BaseOsgiTestCase {
          *test framework we need to load org.eclipse.swordfish.core.configuration and org.eclipse.swordfish.core.event bundles
          *before org.eclipse.swordfish.core
          *TODO: Could anyone propose any less uglier solution  */
-        Collections.reverse(bundles);
-        return bundles.toArray(new Resource[bundles.size()]);
+        Resource[] bundleArray = bundles.toArray(new Resource[bundles.size()]);
+        adjustBundleOrder(bundleArray);
+        return bundleArray;
     }
 
 }

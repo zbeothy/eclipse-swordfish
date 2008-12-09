@@ -3,12 +3,13 @@ package org.eclipse.swordfish.core.test;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.Ignore;
 import org.osgi.framework.ServiceRegistration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.osgi.test.AbstractConfigurableBundleCreatorTests;
 import org.springframework.util.Assert;
-
+@Ignore
 public class BaseOsgiTestCase extends AbstractConfigurableBundleCreatorTests {
     protected Logger LOG = LoggerFactory.getLogger(getClass());
 
@@ -35,7 +36,6 @@ public class BaseOsgiTestCase extends AbstractConfigurableBundleCreatorTests {
         try {
             System.setProperty("org.osgi.vendor.framework",
                     "org.eclipse.swordfish.core.test");
-            System.setProperty("eclipse.ignoreApp", "true");
             System.setProperty("osgi.clean", "true");
             System.setProperty("osgi.console", "22763");
         } catch (Throwable t) {
