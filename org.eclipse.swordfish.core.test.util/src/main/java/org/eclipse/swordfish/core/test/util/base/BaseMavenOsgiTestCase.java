@@ -32,7 +32,7 @@ public class BaseMavenOsgiTestCase extends BaseOsgiTestCase {
         if (dependencies == null) {
             try {
             	File f = new File(System.getProperty("basedir"),
-                			"target/test-classes/dependencies.properties");
+                			"target/classes/META-INF/maven/dependencies.properties");
             	Properties prop = new Properties();
                 prop.load(new FileInputStream(f));
                 dependencies = prop;
