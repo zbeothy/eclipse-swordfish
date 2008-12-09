@@ -31,9 +31,9 @@ public class BaseMavenOsgiTestCase extends BaseOsgiTestCase {
     protected String getBundleVersion(String groupId, String artifactId) {
         if (dependencies == null) {
             try {
-                File f = new File(System.getProperty("basedir"),
-                        "src/test/resources/dependencies.properties");
-                Properties prop = new Properties();
+            	File f = new File(System.getProperty("basedir"),
+                			"target/test-classes/dependencies.properties");
+            	Properties prop = new Properties();
                 prop.load(new FileInputStream(f));
                 dependencies = prop;
             } catch (IOException e) {
