@@ -47,6 +47,7 @@
     <modules>
         <module>org.eclipse.swordfish.api</module>
         <module>org.eclipse.swordfish.core.util</module>
+        <module>org.eclipse.swordfish.core.test.util</module>
         <module>org.eclipse.swordfish.core</module>
         <module>org.eclipse.swordfish.core.planner</module>
         <module>org.eclipse.swordfish.core.configuration</module>
