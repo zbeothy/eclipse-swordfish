@@ -11,7 +11,7 @@
   	</parent>
 
 	<groupId>org.eclipse.swordfish</groupId>
-	<packaging>jar</packaging>
+	<packaging>bundle</packaging>
 	<artifactId>org.eclipse.swordfish.core.test.util</artifactId>
 	<name>org.eclipse.swordfish.core.test.util</name>
 	<version>${swordfishVersion}</version>
@@ -191,4 +191,45 @@
             <version>1.0-m1</version>
         </dependency>
 	</dependencies>
+		<build>
+		<plugins>
+
+		<!-- generate dependencies versions -->
+	      <plugin>
+	        <groupId>org.apache.servicemix.tooling</groupId>
+	        <artifactId>depends-maven-plugin</artifactId>
+	        <version>${depends.maven.plugin.version}</version>
+	        <executions>
+	          <execution>
+	            <id>generate-depends-file</id>
+	            <goals>
+	              <goal>generate-depends-file</goal>
+	            </goals>
+	          </execution>
+	        </executions>
+	      </plugin>		
+			<plugin>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>maven-bundle-plugin</artifactId>
+				<extensions>true</extensions>
+				<configuration>
+					<instructions>
+						<Bundle-Name>${artifactId}</Bundle-Name>
+						<Bundle-SymbolicName>${artifactId}
+						</Bundle-SymbolicName>
+						<Import-Package>*</Import-Package>
+						<Bundle-Activator>org.springframework.osgi.test.JUnitTestActivator</Bundle-Activator>
+					</instructions>
+				</configuration>
+			</plugin>
+			<!--
+				<plugin> <groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId> <version>2.2</version>
+				<configuration> <archive>
+				<manifestFile>src/main/resources/META-INF/MANIFEST.MF
+				</manifestFile> </archive> </configuration> </plugin>
+			-->
+		</plugins>
+	</build>
+	
 </project>
