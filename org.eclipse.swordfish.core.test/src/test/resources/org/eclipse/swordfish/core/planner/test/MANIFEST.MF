@@ -30,3 +30,5 @@ Import-Package: junit.framework,
  org.apache.servicemix.nmr.api,
  org.apache.servicemix.nmr.api.internal,
  org.eclipse.swordfish.core.planner, org.eclipse.swordfish.core.util.xml
+Bundle-ClassPath: .,
+ org.eclipse.swordfish.core.test.util-1.0-SNAPSHOT.jar
