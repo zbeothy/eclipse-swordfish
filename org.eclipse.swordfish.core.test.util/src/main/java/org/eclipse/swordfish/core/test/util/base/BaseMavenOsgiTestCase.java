@@ -6,21 +6,10 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
-import org.eclipse.swordfish.core.test.util.LocalMavenRepositoryLocator;
-import org.springframework.osgi.test.provisioning.ArtifactLocator;
-import org.springframework.osgi.test.provisioning.internal.LocalFileSystemMavenRepository;
-
+import org.junit.Ignore;
+@Ignore
 public class BaseMavenOsgiTestCase extends BaseOsgiTestCase {
-    private static LocalFileSystemMavenRepository localFileSystemMavenRepository = null;
 
-    static {
-        try {
-            localFileSystemMavenRepository = new LocalFileSystemMavenRepository();
-        } catch (Throwable t) {
-        }
-    }
-    private ArtifactLocator locator = new LocalMavenRepositoryLocator(
-            localFileSystemMavenRepository);
     protected String getBundle(String groupId, String artifactId) {
         return groupId + "," + artifactId + ","
                 + getBundleVersion(groupId, artifactId);
@@ -31,9 +20,9 @@ public class BaseMavenOsgiTestCase extends BaseOsgiTestCase {
     protected String getBundleVersion(String groupId, String artifactId) {
         if (dependencies == null) {
             try {
-            	File f = new File(System.getProperty("basedir"),
-                			"target/classes/META-INF/maven/dependencies.properties");
-            	Properties prop = new Properties();
+                File f = new File(System.getProperty("basedir"),
+                        "target/test-classes/dependencies.properties");
+                Properties prop = new Properties();
                 prop.load(new FileInputStream(f));
                 dependencies = prop;
             } catch (IOException e) {
@@ -63,10 +52,7 @@ public class BaseMavenOsgiTestCase extends BaseOsgiTestCase {
      *
      * @return artifact locator used by this test.
      */
-    @Override
-    protected ArtifactLocator getLocator() {
-        return locator;
-    }
+
 
     /**
      * The location of the packaged OSGi bundles to be installed for this test.
