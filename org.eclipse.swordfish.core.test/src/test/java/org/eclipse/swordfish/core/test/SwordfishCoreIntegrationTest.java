@@ -27,12 +27,13 @@ import org.eclipse.swordfish.core.interceptor.CxfDecoratingInterceptor;
 import org.eclipse.swordfish.core.interceptor.EndpointResolverInterceptor;
 import org.eclipse.swordfish.core.interceptor.LoggingInterceptor;
 import org.eclipse.swordfish.core.planner.api.Planner;
-import org.eclipse.swordfish.core.test.mock.MockConfigurationConsumer;
-import org.eclipse.swordfish.core.test.mock.MockInterceptor;
-import org.eclipse.swordfish.core.test.mock.PollableConfigurationSourceMock;
 import org.eclipse.swordfish.core.test.util.OsgiSupport;
 import org.eclipse.swordfish.core.test.util.ServiceMixSupport;
 import org.eclipse.swordfish.core.test.util.ServiceMixSupport.ExchangeProcessorImpl;
+import org.eclipse.swordfish.core.test.util.base.TargetPlatformOsgiTestCase;
+import org.eclipse.swordfish.core.test.util.mock.MockConfigurationConsumer;
+import org.eclipse.swordfish.core.test.util.mock.MockInterceptor;
+import org.eclipse.swordfish.core.test.util.mock.PollableConfigurationSourceMock;
 import org.eclipse.swordfish.core.util.xml.StringSource;
 import org.osgi.framework.ServiceReference;
 
@@ -193,5 +194,9 @@ public class SwordfishCoreIntegrationTest extends TargetPlatformOsgiTestCase {
             nmr.getEndpointRegistry().unregister(endpointService1, null);
             nmr.getEndpointRegistry().unregister(endpointService2, null);
         }
+    }
+    
+    protected String getManifestLocation() {
+        return "classpath:org/eclipse/swordfish/core/planner/test/MANIFEST.MF";
     }
 }
