@@ -24,6 +24,10 @@ import org.springframework.osgi.util.OsgiStringUtils;
  */
 public class PlannerTest extends BaseMavenOsgiTestCase {
 
+    @Override
+    protected String getManifestLocation() {
+        return "classpath:META-INF/MANIFEST.MF";
+    }
 
     /**
      * The location of the packaged OSGi bundles to be installed for this test.
@@ -43,6 +47,8 @@ public class PlannerTest extends BaseMavenOsgiTestCase {
 //                getBundle("org.eclipse.equinox", "org.eclipse.equinox.cm"),
                 getBundle("org.apache.geronimo.specs",
                         "geronimo-activation_1.1_spec"),
+                getBundle("org.springframework.osgi",
+                        "spring-osgi-test"),
                 getBundle("javax.wsdl",
                         "com.springsource.javax.wsdl"),
                 getBundle("org.apache.servicemix.jbi",
