@@ -17,6 +17,7 @@ import java.util.Map;
 
 import org.eclipse.swordfish.api.Interceptor;
 import org.eclipse.swordfish.api.SwordfishException;
+import org.eclipse.swordfish.core.util.RegistryImpl;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 import org.springframework.osgi.context.BundleContextAware;
