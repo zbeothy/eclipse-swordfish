@@ -38,86 +38,8 @@ import org.eclipse.swordfish.core.util.xml.StringSource;
 import org.osgi.framework.ServiceReference;
 
 public class SwordfishCoreIntegrationTest extends TargetPlatformOsgiTestCase {
-    public void test1SimpleConfiguration() throws Exception {
-        final CountDownLatch contextInjectedLatch = new CountDownLatch(1);
-        final CountDownLatch configurationUpdated = new CountDownLatch(1);
-        final Map<String, String> configuration = new HashMap<String, String>();
-        configuration.put("TestTime", String.valueOf(System.nanoTime()));
-        MockConfigurationConsumer configurationConsumer = new MockConfigurationConsumer() {
-            @Override
-            public void onReceiveConfiguration(Map configuration) {
-                if (configuration != null && configuration.containsKey("TestTime")) {
-                    super.onReceiveConfiguration(configuration);
-                   configurationUpdated.countDown();
-               }
 
-            }
-        };
-        configurationConsumer.setId("MockConfigurationConsumerIdTest1");
-        addRegistrationToCancel(bundleContext.registerService(ConfigurationConsumer.class.getCanonicalName(), configurationConsumer, null));
-        addRegistrationToCancel(bundleContext.registerService(SwordfishContextAware.class.getCanonicalName(), new SwordfishContextAware() {
-            public void setContext(SwordfishContext swordfishContext) {
-                swordfishContext.getConfigurationService().updateConfiguration("MockConfigurationConsumerIdTest1", configuration);
-                contextInjectedLatch.countDown();
-            }
-        }, null));
-        assertTrue(contextInjectedLatch.await(4, TimeUnit.SECONDS));
-        assertTrue(configurationUpdated.await(9999, TimeUnit.SECONDS));
-        assertEquals(configurationConsumer.getConfiguration().get("TestTime"),
-                configuration.get("TestTime"));
-    }
-    public void test2ConfigurationPollableSourceTest() throws Exception {
-        final CountDownLatch configurationUpdated = new CountDownLatch(1);
-        final Map<String, String> configuration = new HashMap<String, String>();
-        configuration.put("TestTime", String.valueOf(System.currentTimeMillis()));
-        MockConfigurationConsumer configurationConsumer = new MockConfigurationConsumer() {
-            @Override
-            public void onReceiveConfiguration(Map configuration) {
-               if (configuration != null && configuration.containsKey("TestTime")) {
-                   super.onReceiveConfiguration(configuration);
-                   configurationUpdated.countDown();
-               }
-
-            }
-        };
-        configurationConsumer.setId("MockConfigurationConsumerIdTest2");
-        addRegistrationToCancel(bundleContext.registerService(ConfigurationConsumer.class.getCanonicalName(), configurationConsumer, null));
-        addRegistrationToCancel(bundleContext.registerService(PollableConfigurationSource.class.getCanonicalName(),
-                new PollableConfigurationSourceMock().addConfiguration("MockConfigurationConsumerIdTest2", configuration), null));
-        assertTrue(configurationUpdated.await(4, TimeUnit.SECONDS));
-        assertEquals(configurationConsumer.getConfiguration().get("TestTime"), configuration.get("TestTime"));
-    }
-    public void test3AsynchronousConfigurationUpdateTest() throws Exception {
-        final CountDownLatch configurationUpdated = new CountDownLatch(1);
-        final Map<String, String> configuration = new HashMap<String, String>();
-        configuration.put("TestTime", String.valueOf(System.nanoTime()));
-        EventServiceImpl eventSender = (EventServiceImpl)OsgiSupport.getReference(bundleContext, EventService.class);
-        assertNotNull(eventSender);
-        assertNotNull(eventSender.getEventAdmin());
-        MockConfigurationConsumer configurationConsumer = new MockConfigurationConsumer() {
-            @Override
-            public void onReceiveConfiguration(Map configuration) {
-
-               if (configuration != null && configuration.containsKey("TestTime")) {
-                   super.onReceiveConfiguration(configuration);
-                   configurationUpdated.countDown();
-               }
-
-            }
-        };
-        configurationConsumer.setId("MockConfigurationConsumerIdTest3");
-        addRegistrationToCancel(bundleContext.registerService(ConfigurationConsumer.class.getCanonicalName(), configurationConsumer, null));
-        ConfigurationEventImpl configurationEvent = new ConfigurationEventImpl();
-        Map<String, Object> configurations = new HashMap<String, Object>();
-        configurations.put("MockConfigurationConsumerIdTest3", configuration);
-        configurationEvent.setConfiguration(configurations);
-        eventSender.postEvent(configurationEvent);
-        assertTrue(configurationUpdated.await(4, TimeUnit.SECONDS));
-        assertEquals(configurationConsumer.getConfiguration().get("TestTime"),
-                configuration.get("TestTime"));
-    }
-
-    public void test4SimplePlannerInterceptorChain() throws Exception {
+    public void test1SimplePlannerInterceptorChain() throws Exception {
         ServiceReference[] serviceReferences = bundleContext.getAllServiceReferences(Planner.class.getName(), null);
         assertEquals(serviceReferences.length, 1);
         Planner planner = (Planner) bundleContext.getService(serviceReferences[0]);
@@ -128,7 +50,7 @@ public class SwordfishCoreIntegrationTest extends TargetPlatformOsgiTestCase {
         assertEquals(interceptors.get(2).getProperties().get(Interceptor.TYPE_PROPERTY), LoggingInterceptor.class);
     }
 
-    public void test5NonBlockingInterceptingCall() throws Exception {
+    public void test2NonBlockingInterceptingCall() throws Exception {
         EndpointImpl endpointService1 = null;
         EndpointImpl endpointService2 = null;
         NMR nmr = OsgiSupport.getReference(bundleContext, NMR.class);
@@ -162,7 +84,7 @@ public class SwordfishCoreIntegrationTest extends TargetPlatformOsgiTestCase {
         }
     }
 
-    public void test6BlockingInterceptingCall() throws Exception {
+    public void test3BlockingInterceptingCall() throws Exception {
         EndpointImpl endpointService1 = null;
         EndpointImpl endpointService2 = null;
         NMR nmr = OsgiSupport.getReference(bundleContext, NMR.class);
