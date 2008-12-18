@@ -34,7 +34,7 @@ public void setBundleContext(BundleContext bundleContext) {
     this.bundleContext = bundleContext;
 }
 @Override
-public void register(Interceptor key, Map properties)
+public void register(Interceptor key, Map<String, ?> properties)
         throws SwordfishException {
     Interceptor actualInterceptor = key;
     if (actualInterceptor instanceof ImportedOsgiServiceProxy) {
