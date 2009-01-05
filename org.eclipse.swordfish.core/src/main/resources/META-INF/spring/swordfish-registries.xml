@@ -19,14 +19,40 @@
 
     <osgi:reference id="configurationService" interface="org.eclipse.swordfish.api.configuration.ConfigurationService"/>  
     				   
-    <bean id="swordfishContext" class="org.eclipse.swordfish.core.context.SwordfishContextImpl" 
-        p:nmr-ref="nmr" p:configurationService-ref="configurationService"/>
+    <bean id="swordfishContext" 
+          class="org.eclipse.swordfish.core.context.SwordfishContextImpl" 
+          p:nmr-ref="nmr" 
+          p:configurationService-ref="configurationService"/>
+          
     <osgi:service ref="swordfishContext" auto-export="interfaces"/>
+    
     <bean id="swordfishContextAwareRegistry" 
-          class="org.eclipse.swordfish.core.context.SwordfishContextAwareRegistry" p:swordfishContext-ref="swordfishContext"/>
-    <osgi:list id="swordfishContextAwareList" interface="org.eclipse.swordfish.api.context.SwordfishContextAware"
-            cardinality="0..N">
-         <osgi:listener bind-method="register" unbind-method="unregister" ref="swordfishContextAwareRegistry" />
+          class="org.eclipse.swordfish.core.context.SwordfishContextAwareRegistry" 
+          p:swordfishContext-ref="swordfishContext"/>
+          
+    <osgi:list id="swordfishContextAwareList" 
+               interface="org.eclipse.swordfish.api.context.SwordfishContextAware"
+               cardinality="0..N">
+         <osgi:listener bind-method="register" 
+                        unbind-method="unregister" 
+                        ref="swordfishContextAwareRegistry" />
     </osgi:list>
+    
+    
+    <!--  interceptor exception listeners registry -->
+                
+    <bean id="exceptionListenerRegistry" 
+          class="org.eclipse.swordfish.core.exception.InterceptorExceptionListenerRegistry"
+          p:bundleContext-ref="bundleContext"
+          destroy-method="destroy"/>
+    
+    <osgi:list id="exceptionListenerList" interface="org.eclipse.swordfish.api.InterceptorExceptionListener" cardinality="0..N">
+          <osgi:listener bind-method="register" 
+          			     unbind-method="unregister" 
+          			     ref="exceptionListenerRegistry" />
+    </osgi:list>
+    
+    <osgi:service ref="exceptionListenerRegistry" 
+    	          interface="org.eclipse.swordfish.core.exception.InterceptorExceptionListenerRegistry"/>
       
 </beans>

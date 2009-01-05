@@ -1,19 +1,17 @@
 package org.eclipse.swordfish.core.exception;
 
-import java.util.Dictionary;
-import java.util.Hashtable;
+
+import javax.jbi.messaging.MessageExchange;
 
 import org.eclipse.swordfish.api.Interceptor;
+import org.eclipse.swordfish.api.event.EventService;
 import org.eclipse.swordfish.core.util.AopProxyUtil;
 import org.osgi.framework.BundleContext;
-import org.osgi.service.event.Event;
+
 import org.osgi.service.event.EventAdmin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.aop.config.AopConfigUtils;
 import org.springframework.osgi.context.BundleContextAware;
-
-import javax.jbi.messaging.MessageExchange;
 
 public class InterceptorExceptionNofiticationSender implements BundleContextAware {
     
@@ -27,32 +25,31 @@ public class InterceptorExceptionNofiticationSender implements BundleContextAwar
     public static final String INTERCEPTOR_EVENT_PROPERTY = "interceptor.event.property";
 
     private BundleContext bundleContext;
-    private EventAdmin eventAdmin;
+
+    private EventService eventService;
 
     public <T extends Interceptor> void sendNotification(Exception exception, MessageExchange exchange,
             T interceptor) {
         LOG.debug(String.format("received exception [%s] thrown during [%s] interceptor work "
                         + "for message exchange [%s]", exception, interceptor.getClass().getName(), exchange));
         LOG.debug("Proceed to sending notification event");
+        InterceptorExceptionEvent event = new InterceptorExceptionEvent(exception, exchange, 
+        		                                    AopProxyUtil.getTargetService(interceptor, bundleContext));
+        eventService.postEvent(event);
 
-        Dictionary<String, Object> properties = new Hashtable<String, Object>();
-        properties.put(EXEPTION_EVENT_PROPERTY, exception);
-        properties.put(EXCHANGE_EVENT_PROPERTY, exchange);
-        properties.put(INTERCEPTOR_EVENT_PROPERTY, AopProxyUtil.getTargetService(interceptor, bundleContext));
-
-        Event event = new Event(EXCEPTION_TOPIC, properties);
-        eventAdmin.postEvent(event);
     }
 
-    public EventAdmin getEventAdmin() {
-        return eventAdmin;
-    }
+    
+    public EventService getEventService() {
+		return eventService;
+	}
 
-    public void setEventAdmin(EventAdmin eventAdmin) {
-        this.eventAdmin = eventAdmin;
-    }
+	public void setEventService(EventService eventService) {
+		this.eventService = eventService;
+	}
 
-    public void setBundleContext(BundleContext bundleContext) {
+	public void setBundleContext(BundleContext bundleContext) {
         this.bundleContext = bundleContext;
     }
+    
 }

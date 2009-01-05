@@ -1,36 +1,37 @@
 package org.eclipse.swordfish.core.exception;
 
 import java.util.Dictionary;
-import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.jbi.messaging.MessageExchange;
 
 import org.eclipse.swordfish.api.Interceptor;
 import org.eclipse.swordfish.api.InterceptorExceptionListener;
+import org.eclipse.swordfish.api.event.EventFilter;
+import org.eclipse.swordfish.api.event.EventHandler;
+import org.eclipse.swordfish.core.util.RegistryImpl;
 import org.osgi.framework.BundleContext;
-import org.osgi.framework.ServiceReference;
 import org.osgi.framework.ServiceRegistration;
-import org.osgi.service.event.Event;
-import org.osgi.service.event.EventConstants;
-import org.osgi.service.event.EventHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.Assert;
 
-public class InterceptorExceptionListenerRegistry {
+public class InterceptorExceptionListenerRegistry extends RegistryImpl<InterceptorExceptionListener> {
 	
 	private static final Logger LOG = LoggerFactory.getLogger(InterceptorExceptionListenerRegistry.class);
 	
 	
 	private Dictionary<String,Object> execptionProperties = new Hashtable<String, Object>();
 	
-	private Map<InterceptorExceptionListener, ServiceReference> eventListenersMap = 
-		new HashMap<InterceptorExceptionListener, ServiceReference>();	
+    protected ConcurrentHashMap<InterceptorExceptionListener, ServiceRegistration> registrations = 
+    	new ConcurrentHashMap<InterceptorExceptionListener, ServiceRegistration>();
+
 	BundleContext bundleContext;
 	
 	public InterceptorExceptionListenerRegistry() {
-		execptionProperties.put(EventConstants.EVENT_TOPIC, InterceptorExceptionNofiticationSender.EXCEPTION_TOPIC);
+		//execptionProperties.put(EventConstants.EVENT_TOPIC, InterceptorExceptionNofiticationSender.EXCEPTION_TOPIC);
 	}
 	
 	public BundleContext getBundleContext() {
@@ -41,43 +42,52 @@ public class InterceptorExceptionListenerRegistry {
 		this.bundleContext = bundleContext;
 	}
 
-	public void onBindExceptionListener(final InterceptorExceptionListener exceptionListener, 
-							final Map properties) throws Exception {
+	protected void doRegister(final InterceptorExceptionListener exceptionListener, Map<String, ?> properties) throws Exception {
 		
+		LOG.debug("Registeting Interceptor Exception Listener Service [%s] ", exceptionListener);
 		
-		EventHandler exceptionHandler = new EventHandler(){
-			public void handleEvent(Event event) {
-				MessageExchange exchange = 
-					(MessageExchange)event.getProperty(InterceptorExceptionNofiticationSender.EXCHANGE_EVENT_PROPERTY);
-				Exception exception = 
-					(Exception)event.getProperty(InterceptorExceptionNofiticationSender.EXEPTION_EVENT_PROPERTY);
-				Interceptor interceptor = 
-					(Interceptor)event.getProperty(InterceptorExceptionNofiticationSender.INTERCEPTOR_EVENT_PROPERTY);
+		Assert.notNull(exceptionListener);
+		
+		EventHandler<InterceptorExceptionEvent> exceptionHandler = new EventHandler<InterceptorExceptionEvent>(){
+			public void handleEvent(InterceptorExceptionEvent event) {
+				Exception exception = event.getException();
+				MessageExchange exchange = event.getExchange();
+				Interceptor interceptor = event.getInterceptor();
 				exceptionListener.handle(exception, exchange, interceptor);
+			}
+
+			public EventFilter getEventFilter() {
+				return null;
+			}
+
+			public String getSubscribedTopic() {
+				return InterceptorExceptionEvent.TOPIC_INTECEPTOR_EXCEPTOIN_EVENT;
 			}
 		};
 	
 		//registering service
 		ServiceRegistration serviceRegistration = 
 			bundleContext.registerService(EventHandler.class.getName(),exceptionHandler, execptionProperties);
-		eventListenersMap.put(exceptionListener, serviceRegistration.getReference());
 		
-		LOG.debug("Interceptor Exception Listener Service [%s] binded", exceptionListener);
+        registrations.put(exceptionListener, bundleContext.registerService(
+        		EventHandler.class.getName(), 
+        		exceptionHandler, null));
+        super.doRegister(exceptionListener, properties);
+		
 	}
 
-	public void onUnbindExceptionListener(InterceptorExceptionListener exceptionListener, Map properties) throws Exception {
-		ServiceReference handlerServiceReference = eventListenersMap.remove(exceptionListener);
-		bundleContext.ungetService(handlerServiceReference);
-		LOG.debug("Interceptor Exception Listener Service [%s] unbinded", exceptionListener);
-	}
-	
-	public void destroy() throws Exception {
-		for(InterceptorExceptionListener listener : eventListenersMap.keySet()){
-			try {
-				onUnbindExceptionListener(listener, null);
-			} catch (Exception ex){
-				LOG.error("Error during unregistering interceptor exception listener service");
-			}
-		}
-	}
+    protected void doUnregister(InterceptorExceptionListener key, Map<String, ?> properties) throws Exception {
+        ServiceRegistration serviceRegistration = registrations.get(key);
+        Assert.notNull(serviceRegistration, 
+        		String.format(" service registration for interceptor exception listener [%s] can not be found", key));
+        serviceRegistration.unregister();
+        super.doUnregister(key, properties);
+    }
+    
+    protected void doDestroy() throws Exception {
+        for (ServiceRegistration registration : registrations.values()) {
+            registration.unregister();
+        }
+        super.doDestroy();
+    }
 }
