@@ -89,7 +89,7 @@ public class EventListenerTest extends TargetPlatformOsgiTestCase {
        Thread.sleep(500);
        assertEquals(intitialSize - 1, eventListenerRegistry.getKeySet().size());
 
-       // sending event that shouldn't received anywere
+       // sending event that shouldn't received anymore
        eventSender.postEvent(event);
        Thread.sleep(500);
        assertEquals(1, receiveCount[0]);
