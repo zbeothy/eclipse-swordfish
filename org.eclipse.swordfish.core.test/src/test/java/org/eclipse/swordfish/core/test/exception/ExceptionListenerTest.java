@@ -19,6 +19,7 @@ import org.eclipse.swordfish.core.test.util.ServiceMixSupport;
 import org.eclipse.swordfish.core.test.util.ServiceMixSupport.ExchangeProcessorImpl;
 import org.eclipse.swordfish.core.test.util.base.TargetPlatformOsgiTestCase;
 import org.eclipse.swordfish.core.util.xml.StringSource;
+import org.osgi.framework.ServiceRegistration;
 
 
 public class ExceptionListenerTest extends TargetPlatformOsgiTestCase {
@@ -34,8 +35,11 @@ public class ExceptionListenerTest extends TargetPlatformOsgiTestCase {
                 interceptor, null));
 
         SimpleInterceptorExceptionListener exceptionListener = new SimpleInterceptorExceptionListener();
-        addRegistrationToCancel(bundleContext.registerService(InterceptorExceptionListener.class.getCanonicalName(),
-                exceptionListener, null));
+        
+        ServiceRegistration interceptorExceptionListenerSegistration =
+        	bundleContext.registerService(InterceptorExceptionListener.class.getCanonicalName(), exceptionListener, null);
+        addRegistrationToCancel(interceptorExceptionListenerSegistration);
+        
 
         Thread.sleep(500);
         try {
@@ -59,10 +63,32 @@ public class ExceptionListenerTest extends TargetPlatformOsgiTestCase {
             assertEquals(exception, exceptionListener.exception);
             assertEquals(exchange.getId(), exceptionListener.exchange.getExchangeId());
             assertEquals(interceptor, exceptionListener.interceptor);
+            
+            // now try to unregister exception listener and send exchange one more time
+            interceptorExceptionListenerSegistration.unregister();
+            
+            // setting exception listener properties to null
+            exceptionListener.exception = null;
+            exceptionListener.exchange = null;
+            exceptionListener.interceptor = null;
+            
+            try {
+                assertTrue(nmr.createChannel().sendSync(exchange));
+                fail();
+            } catch(Exception ex){
+            }
+            Thread.sleep(500);
+            assertNull(exceptionListener.exception);
+            assertNull(exceptionListener.exchange);
+            assertNull(exceptionListener.interceptor);
 
         } finally {
             nmr.getEndpointRegistry().unregister(endpointService1, null);
             nmr.getEndpointRegistry().unregister(endpointService2, null);
         }
+    }
+    
+    protected String getManifestLocation() {
+        return "classpath:org/eclipse/swordfish/core/planner/test/MANIFEST.MF";
     }
 }
