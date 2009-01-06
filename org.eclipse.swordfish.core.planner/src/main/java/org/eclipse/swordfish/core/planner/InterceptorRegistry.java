@@ -30,9 +30,11 @@ import org.springframework.osgi.service.importer.ServiceReferenceProxy;
  */
 public class InterceptorRegistry extends RegistryImpl<Interceptor> implements BundleContextAware {
 private BundleContext bundleContext;
+@Override
 public void setBundleContext(BundleContext bundleContext) {
     this.bundleContext = bundleContext;
 }
+
 @Override
 public void register(Interceptor key, Map<String, ?> properties)
         throws SwordfishException {

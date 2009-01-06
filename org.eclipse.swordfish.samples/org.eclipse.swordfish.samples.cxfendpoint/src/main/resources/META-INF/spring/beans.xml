@@ -19,9 +19,7 @@
 	                implementor="org.eclipse.swordfish.samples.cxf.BookingServiceImpl"
 	                address="nmr:BookingService"> 
 	                <jaxws:inInterceptors>
-<bean class="org.apache.cxf.interceptor.LoggingInInterceptor"/>
-</jaxws:inInterceptors>
-</jaxws:endpoint>	
-          
-
+                        <bean class="org.apache.cxf.interceptor.LoggingInInterceptor"/>
+                    </jaxws:inInterceptors>
+    </jaxws:endpoint>
 </beans>
