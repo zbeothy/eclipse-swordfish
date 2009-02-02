@@ -6,12 +6,14 @@ import org.apache.servicemix.nmr.api.EndpointRegistry;
 import org.apache.servicemix.nmr.api.NMR;
 import org.eclipse.swordfish.api.configuration.ConfigurationService;
 import org.eclipse.swordfish.api.context.SwordfishContext;
+import org.eclipse.swordfish.api.event.EventService;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.Assert;
 
 public class SwordfishContextImpl implements SwordfishContext, InitializingBean {
     private NMR nmr;
     private ConfigurationService configurationService;
+    private EventService eventService;
 
     public ComponentContext getComponentContext() {
        throw new UnsupportedOperationException("This method is not implemented yet");
@@ -41,5 +43,15 @@ public class SwordfishContextImpl implements SwordfishContext, InitializingBean 
     public void setConfigurationService(ConfigurationService configurationService) {
         this.configurationService = configurationService;
     }
+
+	public EventService getEventService() {
+		return eventService;
+	}
+
+	public void setEventService(EventService eventService) {
+		this.eventService = eventService;
+	}
+	
+
 
 }

@@ -21,11 +21,6 @@
         </dependency>
         <dependency>
             <groupId>org.eclipse.swordfish</groupId>
-            <artifactId>org.eclipse.swordfish.core.event</artifactId>
-            <version>${swordfishVersion}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.swordfish</groupId>
             <artifactId>org.eclipse.swordfish.core.util</artifactId>
             <version>${swordfishVersion}</version>
         </dependency>
@@ -33,7 +28,12 @@
             <groupId>org.eclipse.swordfish</groupId>
             <artifactId>org.eclipse.swordfish.core.planner</artifactId>
             <version>${swordfishVersion}</version>
-        </dependency>        
+        </dependency>   
+        <dependency>
+            <groupId>org.eclipse.swordfish</groupId>
+            <artifactId>org.eclipse.swordfish.core.event</artifactId>
+            <version>${swordfishVersion}</version>
+        </dependency>      
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>

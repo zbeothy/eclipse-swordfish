@@ -29,6 +29,7 @@ public class ExceptionListenerTest extends TargetPlatformOsgiTestCase {
         EndpointImpl endpointService2 = null;
         NMR nmr = OsgiSupport.getReference(bundleContext, NMR.class);
         assertNotNull(nmr);
+        // prepeare objects for test
         SwordfishException exception = new SwordfishException("This exception for testing Interceptor Exception Listener");
         ExceptionThrowableInterceptor interceptor = new ExceptionThrowableInterceptor(exception);
         addRegistrationToCancel(bundleContext.registerService(Interceptor.class.getCanonicalName(),

@@ -51,8 +51,9 @@
         <module>org.eclipse.swordfish.core.planner</module>
         <module>org.eclipse.swordfish.core.configuration</module>
         <module>org.eclipse.swordfish.core.event</module>
-         <module>org.eclipse.swordfish.core</module>
-	 <module>org.eclipse.swordfish.samples</module>
+        <module>org.eclipse.swordfish.core</module>
+        <module>org.eclipse.swordfish.core.tracking</module>
+        <module>org.eclipse.swordfish.samples</module>
         <module>org.eclipse.swordfish.endpoints</module>
         <module>org.eclipse.swordfish.compatibility</module>
         <module>org.eclipse.swordfish.bundles</module>
@@ -132,6 +133,7 @@
     <build>
         <defaultGoal>install</defaultGoal>
         <plugins>
+            <!--
             <plugin>
                     <artifactId>maven-antrun-plugin</artifactId>
                         <executions>
@@ -153,7 +155,7 @@
                             </execution>
                         </executions>
                   </plugin>
-                  <!--
+                  
                   <plugin>
                     <artifactId>maven-antrun-plugin</artifactId>
                         <executions>

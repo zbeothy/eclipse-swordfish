@@ -15,6 +15,7 @@ import javax.jbi.component.ComponentContext;
 
 import org.apache.servicemix.nmr.api.EndpointRegistry;
 import org.eclipse.swordfish.api.configuration.ConfigurationService;
+import org.eclipse.swordfish.api.event.EventService;
 
 /**
  * Provides the access to the underlying Swordfish and SMX facilities.
@@ -38,4 +39,9 @@ public interface SwordfishContext {
      * @return the platform JBI context.
      */
     ComponentContext getComponentContext();
+    
+    /**
+     * Access to Swordfish EventService
+	 */
+    EventService getEventService();
 }

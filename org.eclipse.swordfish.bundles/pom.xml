@@ -453,6 +453,11 @@
             <artifactId>org.eclipse.swordfish.compatibility.smx3</artifactId>
             <version>${swordfishVersion}</version>
         </dependency>
+        <dependency>
+            <groupId>org.eclipse.swordfish</groupId>
+            <artifactId>org.eclipse.swordfish.core.tracking</artifactId>
+            <version>${swordfishVersion}</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>

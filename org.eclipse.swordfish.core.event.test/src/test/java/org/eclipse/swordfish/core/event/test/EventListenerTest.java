@@ -3,7 +3,6 @@ package org.eclipse.swordfish.core.event.test;
 import java.util.Dictionary;
 import java.util.Hashtable;
 
-import org.eclipse.swordfish.api.event.EventConstants;
 import org.eclipse.swordfish.api.event.EventFilter;
 import org.eclipse.swordfish.api.event.EventHandler;
 import org.eclipse.swordfish.api.event.EventService;
@@ -59,7 +58,7 @@ public class EventListenerTest extends TargetPlatformOsgiTestCase {
        final int[] receiveCount = new int[]{0};
        EventHandler genericListener = new EventHandler<TrackingEvent>() {
             public String getSubscribedTopic() {
-                return EventConstants.TOPIC_TRACKING_EVENT;
+                return SimpleTrackingEvent.TOPIC;
             }
 
             public void handleEvent(TrackingEvent arg0) {
@@ -78,7 +77,7 @@ public class EventListenerTest extends TargetPlatformOsgiTestCase {
        assertEquals(intitialSize + 1, eventListenerRegistry.getKeySet().size());
 
        // send test event
-       TrackingEvent event = new TrackingEventImpl();
+       TrackingEvent event = new SimpleTrackingEvent(null);
        eventSender.postEvent(event);
        Thread.sleep(500);
        assertEquals(1, receiveCount[0]);
@@ -106,7 +105,7 @@ public class EventListenerTest extends TargetPlatformOsgiTestCase {
         final int[] receiveCount = new int[]{0};
         EventHandler genericListener = new EventHandler<TrackingEvent>() {
              public String getSubscribedTopic() {
-                 return EventConstants.TOPIC_TRACKING_EVENT;
+                 return SimpleTrackingEvent.TOPIC;
              }
              public void handleEvent(TrackingEvent arg0) {
                  receiveCount[0]++;
@@ -126,21 +125,21 @@ public class EventListenerTest extends TargetPlatformOsgiTestCase {
         addRegistrationToCancel(eventListenerSegistration);
 
         // send test event with similar severity
-        TrackingEventImpl event = new TrackingEventImpl();
+        TrackingEventImpl event = new SimpleTrackingEvent(null);
         event.setSeverity(Severity.INFO);
         eventSender.postEvent(event);
         Thread.sleep(500);
         assertEquals(1, receiveCount[0]);
 
         // send event with LOWER severity
-        event = new TrackingEventImpl();
+        event = new SimpleTrackingEvent(null);
         event.setSeverity(Severity.DEBUG);
         eventSender.postEvent(event);
         Thread.sleep(500);
         assertEquals(1, receiveCount[0]);
         
         // send event with GRATER severity
-        event = new TrackingEventImpl();
+        event = new SimpleTrackingEvent(null);
         event.setSeverity(Severity.ERROR);
         eventSender.postEvent(event);
         Thread.sleep(500);

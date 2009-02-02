@@ -26,12 +26,13 @@
     
     <osgi:reference id="planner" interface="org.eclipse.swordfish.core.planner.api.Planner"/>
     <osgi:reference id="registry" interface="org.eclipse.swordfish.api.Registry"/>
-    
+    <osgi:reference id="swordfishContext" interface="org.eclipse.swordfish.api.context.SwordfishContext"/>	
     <!-- Expose the Planner -->
     <bean id="exchangeListener" class="org.eclipse.swordfish.core.integration.nmr.SwordfishExchangeListener"
           p:nmr-ref="nmr" 
           p:planner-ref="planner" 
           p:interceptorRegistry-ref="registry"
-          p:exceptionNotificationSender-ref="exceptionNotificationSender"/>
+          p:exceptionNotificationSender-ref="exceptionNotificationSender"
+          p:swordfishContext-ref="swordfishContext"/>
      
 </beans>

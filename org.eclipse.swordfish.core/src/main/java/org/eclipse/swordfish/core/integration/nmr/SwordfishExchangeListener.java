@@ -12,6 +12,9 @@ import org.apache.servicemix.nmr.api.event.ExchangeListener;
 import org.eclipse.swordfish.api.Interceptor;
 import org.eclipse.swordfish.api.Registry;
 import org.eclipse.swordfish.api.SwordfishException;
+import org.eclipse.swordfish.api.context.SwordfishContext;
+import org.eclipse.swordfish.api.event.TrackingEvent;
+import org.eclipse.swordfish.core.event.TrackingEventImpl;
 import org.eclipse.swordfish.core.exception.InterceptorExceptionNofiticationSender;
 import org.eclipse.swordfish.core.planner.api.Planner;
 import org.slf4j.Logger;
@@ -25,7 +28,8 @@ public class SwordfishExchangeListener implements ExchangeListener, Initializing
 	private Planner planner;
 	private Registry<Interceptor> interceptorRegistry;
 	private InterceptorExceptionNofiticationSender exceptionNotificationSender;
-	
+    private SwordfishContext swordfishContext;
+    
 	public Registry<Interceptor> getInterceptorRegistry() {
 		return interceptorRegistry;
 	}
@@ -51,6 +55,10 @@ public class SwordfishExchangeListener implements ExchangeListener, Initializing
 	public void exchangeSent(Exchange exchange) {
 		MessageExchangeImpl exchangeImpl = new MessageExchangeImpl(exchange);
 		try {
+			
+        	TrackingEvent trackingEvent = new TrackingEventImpl(exchangeImpl);
+        	swordfishContext.getEventService().postEvent(trackingEvent);
+			
 			List<Interceptor> interceptors = planner.getInterceptorChain(interceptorRegistry.getKeySet(), exchangeImpl);
 			for (Interceptor interceptor : interceptors) {
 				try {
@@ -58,11 +66,15 @@ public class SwordfishExchangeListener implements ExchangeListener, Initializing
 				} catch (SwordfishException ex) {
 					LOG.warn("The interceptor has thrown exception", ex);
 					exceptionNotificationSender.sendNotification(ex, exchangeImpl, interceptor);
+					
+					exchangeImpl.setError(ex);
+					// send tracking event
+		        	trackingEvent = new TrackingEventImpl(exchangeImpl);
+		        	swordfishContext.getEventService().postEvent(trackingEvent);
+		        	
 	                if(exchangeImpl.getRole() == Role.CONSUMER) {
 	                    throw ex;
-	                } else {
-	                    exchangeImpl.setError(ex);
-	                }
+	                } 
 				}
 			}
 		} catch (Exception ex) {
@@ -87,10 +99,16 @@ public class SwordfishExchangeListener implements ExchangeListener, Initializing
 	protected void start() {
 		nmr.getListenerRegistry().register(this, null);
 	}
+	
+	public void setSwordfishContext(SwordfishContext swordfishContext) {
+		this.swordfishContext = swordfishContext;
+	}
+	
 	public void afterPropertiesSet() throws Exception {
 		Assert.notNull(nmr);
 		Assert.notNull(planner);
 		Assert.notNull(interceptorRegistry);
+		Assert.notNull(swordfishContext);
 		start();
 	}
 }
