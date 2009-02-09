@@ -1,6 +1,7 @@
 package org.eclipse.swordfish.core.test.util.base;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -16,8 +17,12 @@ public class TargetPlatformOsgiTestCase extends BaseOsgiTestCase {
     public static final String TARGET_PLATFORM_SYS_PORPERTY = "swordfishTargetPlatform";
     @Override
     protected Resource getTestingFrameworkBundlesConfiguration() {
-        return new InputStreamResource(
-           getClass().getClassLoader().getResourceAsStream("boot-bundles.properties"));
+        try {
+            return new InputStreamResource(
+                    TargetPlatformOsgiTestCase.class.getClassLoader().getResource("boot-bundles.properties").openStream());
+        } catch (IOException ex) {
+            throw new IllegalStateException(ex);
+        }
     }
     private String getTargetPlatformPath() {
         String ret = null;
@@ -66,6 +71,7 @@ public class TargetPlatformOsgiTestCase extends BaseOsgiTestCase {
         }
     }
 
+
     @Override
     protected Resource[] getTestBundles() {
         String targetPlatformPath = getTargetPlatformPath();
@@ -73,6 +79,7 @@ public class TargetPlatformOsgiTestCase extends BaseOsgiTestCase {
                 "] should be set or there should be the org.eclipse.swordfish.bundles project containing bundles " +
                 "needed to launch the Swordfish env");
         List<Resource> bundles = new ArrayList<Resource>();
+        bundles.add(BaseMavenOsgiTestCase.getMavenRepositoryBundle("org.eclipse.swordfish", "org.eclipse.swordfish.core.test.util"));
         List<Pattern> excludePatterns = getExcludeBundlePatterns();
         boolean exclude;
         for (File bundle : new File(targetPlatformPath).listFiles()) {

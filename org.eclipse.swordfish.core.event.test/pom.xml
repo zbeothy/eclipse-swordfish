@@ -220,7 +220,6 @@
 						</Bundle-SymbolicName>
 						<Import-Package>*</Import-Package>
 						<Export-Package>org.eclipse.swordfish.core.planner,org.eclipse.swordfish.api</Export-Package>
-						<Bundle-Activator>org.springframework.osgi.test.JUnitTestActivator</Bundle-Activator>
 					</instructions>
 				</configuration>
 			</plugin>

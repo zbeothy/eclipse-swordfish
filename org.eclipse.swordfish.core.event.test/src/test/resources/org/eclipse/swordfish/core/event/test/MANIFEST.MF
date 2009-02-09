@@ -32,5 +32,4 @@ Import-Package: junit.framework,
  org.apache.servicemix.jbi.jaxp,
  org.eclipse.swordfish.core.planner,
  org.eclipse.swordfish.core.util.xml
-Bundle-ClassPath: .,
- org.eclipse.swordfish.core.test.util-1.0-SNAPSHOT.jar
+Require-Bundle: org.eclipse.swordfish.core.test.util

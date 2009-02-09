@@ -1,49 +1,53 @@
 package org.eclipse.swordfish.core.test.util.base;
 
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 
 import org.eclipse.swordfish.core.test.util.spring.LocalFileSystemMavenRepository;
 import org.eclipse.swordfish.core.test.util.spring.LocalMavenRepositoryLocator;
+import org.springframework.core.io.Resource;
 import org.springframework.osgi.test.provisioning.ArtifactLocator;
 
 public class BaseMavenOsgiTestCase extends BaseOsgiTestCase {
-	
-    private static LocalFileSystemMavenRepository localFileSystemMavenRepository = null;
 
-    static {
-        try {
-            localFileSystemMavenRepository = new LocalFileSystemMavenRepository();
-        } catch (Throwable t) {
-        }
-    }
-    
-    private ArtifactLocator locator = new LocalMavenRepositoryLocator(
-            localFileSystemMavenRepository);
-    
+
+
+    private static ArtifactLocator artifactLocator = new LocalMavenRepositoryLocator(
+            new LocalFileSystemMavenRepository());
+
     protected String getBundle(String groupId, String artifactId) {
         return groupId + "," + artifactId + ","
                 + getBundleVersion(groupId, artifactId);
     }
 
     private Properties dependencies;
+    public static Resource getMavenRepositoryBundle(String groupId, String artifactId) {
+        return artifactLocator.locateArtifact(groupId, artifactId, getBundleVersion(groupId, artifactId));
 
-    protected String getBundleVersion(String groupId, String artifactId) {
-        if (dependencies == null) {
+    }
+
+    protected static String getBundleVersion(String groupId, String artifactId) {
+        Properties dependencies = null;
+        InputStream inputStream = null;
             try {
-            	File f = new File(System.getProperty("basedir"),
-                			"target/classes/META-INF/maven/dependencies.properties");
-            	Properties prop = new Properties();
-                prop.load(new FileInputStream(f));
+                inputStream = BaseMavenOsgiTestCase.class.getClassLoader().getResource("META-INF/maven/dependencies.properties").openStream();
+                Properties prop = new Properties();
+                prop.load(inputStream);
                 dependencies = prop;
             } catch (IOException e) {
                 throw new IllegalStateException(
                         "Unable to load dependencies informations", e);
+            } finally {
+                if (inputStream != null) {
+                    try {
+                        inputStream.close();
+                    } catch (IOException e) {
+                        throw new AssertionError();
+                    }
+                }
             }
-        }
         String version = dependencies.getProperty(groupId + "/" + artifactId
                 + "/version");
         if (version == null) {
@@ -68,7 +72,7 @@ public class BaseMavenOsgiTestCase extends BaseOsgiTestCase {
      */
     @Override
     protected ArtifactLocator getLocator() {
-        return locator;
+        return artifactLocator;
     }
 
     /**

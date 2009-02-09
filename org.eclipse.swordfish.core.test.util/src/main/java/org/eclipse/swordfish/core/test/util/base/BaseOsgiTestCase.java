@@ -11,7 +11,7 @@ import org.springframework.util.Assert;
 
 public class BaseOsgiTestCase extends AbstractConfigurableBundleCreatorTests {
     protected Logger LOG = LoggerFactory.getLogger(getClass());
-    
+
     private List<ServiceRegistration> regirstrationsToCancel = new ArrayList<ServiceRegistration>();
     protected void addRegistrationToCancel(ServiceRegistration serviceRegistration) {
         regirstrationsToCancel.add(serviceRegistration);
@@ -41,7 +41,7 @@ public class BaseOsgiTestCase extends AbstractConfigurableBundleCreatorTests {
         } catch (Throwable t) {
         }
     }
-        
+
     @Override
     protected String getManifestLocation() {
         return "classpath:org/eclipse/swordfish/test/META-INF/MANIFEST.MF";

@@ -190,7 +190,13 @@
             </artifactId>
             <version>1.0-m1</version>
         </dependency>
+         <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.4</version>
+        </dependency>
 	</dependencies>
+   
 		<build>
 		<plugins>
 
@@ -202,7 +208,8 @@
 	        <executions>
 	          <execution>
 	            <id>generate-depends-file</id>
-	            <goals>
+	            <phase>compile</phase>
+                <goals>
 	              <goal>generate-depends-file</goal>
 	            </goals>
 	          </execution>
@@ -218,8 +225,12 @@
 						<Bundle-SymbolicName>${artifactId}
 						</Bundle-SymbolicName>
 						<Import-Package>*</Import-Package>
-						<Bundle-Activator>org.springframework.osgi.test.JUnitTestActivator</Bundle-Activator>
-					</instructions>
+                        <Embed-Dependency>junit</Embed-Dependency>	
+                        <Include-Resource>  
+  META-INF/maven/dependencies.properties=target/classes/META-INF/maven/dependencies.properties,				
+    boot-bundles.properties=target/classes/boot-bundles.properties</Include-Resource>             
+    	
+    				</instructions>
 				</configuration>
 			</plugin>
 			<!--
