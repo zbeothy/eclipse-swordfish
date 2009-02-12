@@ -27,7 +27,7 @@
                         <Bundle-SymbolicName>${artifactId}</Bundle-SymbolicName>
                         <Private-Package>org.eclipse.swordfish.compatibility</Private-Package>
                         <Import-Package></Import-Package>
-                        <Fragment-Host>org.apache.cxf.cxf-bundle-minimal</Fragment-Host>
+                        <Fragment-Host>org.apache.cxf.cxf-bundle</Fragment-Host>
                         <Export-Package></Export-Package>
                         <Require-Bundle>com.springsource.com.sun.xml.bind</Require-Bundle>
                     </instructions>

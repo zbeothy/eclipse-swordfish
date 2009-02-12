@@ -30,6 +30,11 @@
             <name>maven2 repository</name>
             <url>http://repo2.maven.org/eclipse/</url>
         </repository>
+        <repository>
+            <id>iona</id>
+            <name>iona repository</name>
+            <url>http://repo.open.iona.com/maven2</url>
+        </repository>
         <!--
             <repository> <id>eclipse-repo</id> <name>eclipse maven
             repository</name> <url>http://repo1.maven.org/eclipse</url>
@@ -202,11 +207,55 @@
             <groupId>org.apache.servicemix.nmr</groupId>
             <artifactId>org.apache.servicemix.nmr.spring</artifactId>
             <version>${smx4.version}</version>
-        </dependency>   
+        </dependency> 
+         <dependency>
+            <groupId>org.apache.servicemix</groupId>
+            <artifactId>servicemix-utils</artifactId> 
+            <version>1.0.0</version>
+        </dependency>    
+        <dependency>
+            <groupId>org.apache.servicemix</groupId>
+             <artifactId>servicemix-common</artifactId>
+            <version>2008.01</version>
+ 
+        </dependency>
+        <dependency>
+             <groupId>org.apache.servicemix</groupId>
+            <artifactId>servicemix-soap</artifactId>
+            <version>2008.01</version> 
+        </dependency>        
+        <dependency>
+             <groupId>org.apache.servicemix</groupId>
+            <artifactId>servicemix-soap2</artifactId>
+            <version>2008.01</version> 
+        </dependency> 
+      <dependency>
+        <groupId>org.apache.servicemix.specs</groupId>
+    <artifactId>org.apache.servicemix.specs.jbi-api-1.0</artifactId>
+    <version>1.2.0.0-fuse</version>    
+        </dependency> 
+   
+     
+           
 <!-- Other bundles-->
+    <dependency>
+        <groupId>org.apache.xbean</groupId>
+        <artifactId>xbean-spring</artifactId>
+        <version>3.4.1</version>
+    </dependency>   
         <dependency>
             <groupId>org.apache.cxf</groupId>
-            <artifactId>cxf-bundle-minimal</artifactId>
+            <artifactId>cxf-bundle</artifactId>
+            <version>2.1.3</version>
+        </dependency>
+         <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-bindings-jbi</artifactId>
+            <version>2.1.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-transports-jbi</artifactId>
             <version>2.1.3</version>
         </dependency>
         <dependency>
@@ -447,12 +496,7 @@
             <groupId>org.eclipse.swordfish</groupId>
             <artifactId>org.eclipse.swordfish.compatibility.smx.nmr.osgi</artifactId>
             <version>${swordfishVersion}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.swordfish</groupId>
-            <artifactId>org.eclipse.swordfish.compatibility.smx3</artifactId>
-            <version>${swordfishVersion}</version>
-        </dependency>
+        </dependency>        
         <dependency>
             <groupId>org.eclipse.swordfish</groupId>
             <artifactId>org.eclipse.swordfish.core.tracking</artifactId>

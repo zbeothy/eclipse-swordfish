@@ -40,7 +40,7 @@
 						<Import-Package>
 							javax.jws,javax.wsdl, *, org.apache.servicemix.nmr.api,org.springframework.beans.factory.config,com.sun.xml.bind.v2</Import-Package>
 						<Private-Package>org.eclipse.swordfish.samples.cxf.*</Private-Package>
-                        <Require-Bundle>org.apache.cxf.cxf-bundle-minimal,org.apache.servicemix.cxf.transport.nmr</Require-Bundle>
+                        <Require-Bundle>org.apache.cxf.cxf-bundle,org.apache.servicemix.cxf.transport.nmr</Require-Bundle>
 					</instructions>
 				</configuration>
 			</plugin>
