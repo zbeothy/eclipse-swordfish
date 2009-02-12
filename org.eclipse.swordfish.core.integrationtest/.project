@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>org.eclipse.swordfish.core.integrationtest</name>
+	<comment></comment>
+	<projects>
+		<project>org.eclipse.swordfish.core.integrationtest</project>
+	</projects>
+	<buildSpec>
+	</buildSpec>
+	<natures>
+	</natures>
+</projectDescription>

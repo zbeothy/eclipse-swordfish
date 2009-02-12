@@ -1,0 +1,24 @@
+<?xml version="1.0"?><project>
+  <parent>
+    <artifactId>parent</artifactId>
+    <groupId>org.eclipse.swordfish</groupId>
+    <version>basic</version>
+  </parent>
+  
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.eclipse.swordfish</groupId>
+  <artifactId>org.eclipse.swordfish.integrationtest</artifactId>
+  <packaging>pom</packaging>
+  
+  <name>Swordfish Integrationtests</name>
+  <version>${swordfishVersion}</version>
+  <url>http://www.eclipse.org/swordfish</url>
+  
+  <modules>
+      <module>../org.eclipse.swordfish.core.test.util</module>
+      <module>../org.eclipse.swordfish.core.configuration.test</module>
+      <module>../org.eclipse.swordfish.core.event.test</module>
+      <module>../org.eclipse.swordfish.core.planner.test</module>
+      <module>../org.eclipse.swordfish.core.tracking.test</module>
+  </modules>
+</project>
