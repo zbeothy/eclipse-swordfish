@@ -30,11 +30,6 @@
             <name>maven2 repository</name>
             <url>http://repo2.maven.org/eclipse/</url>
         </repository>
-        <repository>
-            <id>iona</id>
-            <name>iona repository</name>
-            <url>http://repo.open.iona.com/maven2</url>
-        </repository>
         <!--
             <repository> <id>eclipse-repo</id> <name>eclipse maven
             repository</name> <url>http://repo1.maven.org/eclipse</url>
@@ -160,11 +155,6 @@
         </dependency>
         <dependency>
             <groupId>org.apache.servicemix.jbi</groupId>
-            <artifactId>org.apache.servicemix.jbi.api</artifactId>
-            <version>${smx4.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.servicemix.jbi</groupId>
             <artifactId>org.apache.servicemix.jbi.deployer</artifactId>
             <version>${smx4.version}</version>
         </dependency>
@@ -178,12 +168,34 @@
             <artifactId>org.apache.servicemix.jbi.runtime</artifactId>
             <version>${smx4.version}</version>
         </dependency>
+ <dependency>
+            <groupId>org.apache.servicemix.document</groupId>
+            <artifactId>org.apache.servicemix.document</artifactId>
+            <version>${smx4.version}</version>
+        </dependency>
+       
         <dependency>
             <groupId>org.apache.servicemix.kernel</groupId>
             <artifactId>org.apache.servicemix.kernel.filemonitor</artifactId>
-            <version>${smx4.version}</version>
+            <version>1.0.0-rc2</version>
+        </dependency>
+         <dependency>
+            <groupId>org.apache.servicemix.kernel.jaas</groupId>
+            <artifactId>org.apache.servicemix.kernel.jaas.config</artifactId>
+            <version>1.0.0-rc2</version>
+        </dependency>
+         <dependency>
+            <groupId>org.apache.servicemix.kernel.jaas</groupId>
+            <artifactId>org.apache.servicemix.kernel.jaas.boot</artifactId>
+            <version>1.0.0-rc2</version>
         </dependency>
         <dependency>
+            <groupId>org.apache.servicemix.kernel.jaas</groupId>
+            <artifactId>org.apache.servicemix.kernel.jaas.keystore</artifactId>
+            <version>1.0.0-rc2</version>
+        </dependency>
+       
+	<dependency>
             <groupId>org.apache.servicemix.management</groupId>
             <artifactId>org.apache.servicemix.management.core</artifactId>
             <version>4.0-m1</version>
@@ -228,11 +240,18 @@
              <groupId>org.apache.servicemix</groupId>
             <artifactId>servicemix-soap2</artifactId>
             <version>2008.01</version> 
-        </dependency> 
+        </dependency>
+ <dependency>
+         
+<groupId>org.apache.servicemix</groupId>
+  <artifactId>servicemix-http</artifactId>
+  <version>2008.01</version>
+        </dependency>
+ 
       <dependency>
         <groupId>org.apache.servicemix.specs</groupId>
     <artifactId>org.apache.servicemix.specs.jbi-api-1.0</artifactId>
-    <version>1.2.0.0-fuse</version>    
+    <version>1.2.0</version>    
         </dependency> 
    
      
@@ -306,7 +325,7 @@
             <artifactId>geronimo-servlet_2.5_spec</artifactId>
             <version>1.2</version>
         </dependency>
-        <dependency>
+         <dependency>
             <groupId>org.apache.geronimo.specs</groupId>
             <artifactId>geronimo-stax-api_1.0_spec</artifactId>
             <version>1.0.1</version>
@@ -337,12 +356,13 @@
             <artifactId>jetty-util</artifactId>
             <version>6.1.11</version>
         </dependency>
+	<dependency>
+      		<groupId>org.mortbay.jetty</groupId>
+      		<artifactId>jetty-client</artifactId>
+      		<version>6.1.11</version>
+    </dependency>
+    
 <!--SpringSource bundles-->
-        <dependency>
-            <groupId>javax.xml.stream</groupId>
-            <artifactId>com.springsource.javax.xml.stream</artifactId>
-            <version>1.0.1</version>
-        </dependency>
         <dependency>
             <groupId>org.objectweb.asm</groupId>
             <artifactId>com.springsource.org.objectweb.asm</artifactId>
@@ -494,7 +514,7 @@
         </dependency>
         <dependency>
             <groupId>org.eclipse.swordfish</groupId>
-            <artifactId>org.eclipse.swordfish.compatibility.smx.nmr.osgi</artifactId>
+            <artifactId>org.eclipse.swordfish.compatibility.stax-api</artifactId>
             <version>${swordfishVersion}</version>
         </dependency>        
         <dependency>
