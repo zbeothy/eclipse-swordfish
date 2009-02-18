@@ -12,29 +12,7 @@
 	<artifactId>org.eclipse.swordfish.core.test.util</artifactId>
 	<name>org.eclipse.swordfish.core.test.util</name>
 	<version>${swordfishVersion}</version>
-	<repositories>
-		<repository>
-			<id>com.springsource.repository.bundles.release</id>
-			<name>SpringSource Enterprise Bundle Repository -
-				SpringSource Bundle Releases</name>
-			<url>http://repository.springsource.com/maven/bundles/release</url>
-		</repository>
-		<repository>
-			<id>com.springsource.repository.bundles.external</id>
-			<name>SpringSource Enterprise Bundle Repository -
-				External Bundle Releases</name>
-			<url>http://repository.springsource.com/maven/bundles/external</url>
-		</repository>
-		<repository>
-			<id>i21-s3-osgi-repo</id>
-			<name>i21 osgi artifacts repo</name>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-			<url>http://maven.springframework.org/osgi</url>
-		</repository>
-	</repositories>
-	<description />
+	
 	<dependencies>
 		<dependency>
 			<groupId>org.eclipse.swordfish</groupId>
@@ -61,42 +39,15 @@
 			<artifactId>org.eclipse.swordfish.core.event</artifactId>
 			<version>${swordfishVersion}</version>
 		</dependency>
-		<dependency>
-			<groupId>org.eclipse.swordfish</groupId>
-			<artifactId>org.eclipse.swordfish.compatibility.smx3</artifactId>
-			<version>${swordfishVersion}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-beans</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.osgi</groupId>
-			<artifactId>spring-osgi-core</artifactId>
-			<version>${spring.osgi.version}</version>
-		</dependency>
-		<dependency>
-          <groupId>org.springframework.osgi</groupId>
-          <artifactId>spring-osgi-annotation</artifactId>
-          <version>${spring.osgi.version}</version>
-        </dependency> 
+		
+		
 		<dependency>
 			<groupId>org.apache.servicemix.jbi</groupId>
 			<artifactId>org.apache.servicemix.jbi.api 
 			</artifactId>
 			<version>1.0-m1</version>
 		</dependency>
-		<dependency>
-			<groupId>org.apache.servicemix.nmr</groupId>
-			<artifactId>org.apache.servicemix.nmr.core</artifactId>
-			<version>1.0-m1</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.servicemix.nmr</groupId>
-			<artifactId>org.apache.servicemix.nmr.osgi</artifactId>
-			<version>1.0-m1</version>
-		</dependency>
+		
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>

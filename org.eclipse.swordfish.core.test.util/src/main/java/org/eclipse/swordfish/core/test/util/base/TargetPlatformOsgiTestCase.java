@@ -44,7 +44,7 @@ public class TargetPlatformOsgiTestCase extends BaseOsgiTestCase {
     }
 
     protected List<Pattern> getExcludeBundlePatterns() {
-        return Arrays.asList(Pattern.compile("org.eclipse.swordfish.samples.cxfendpoint.*"), Pattern.compile("org.eclipse.swordfish.samples.http.*"), Pattern.compile("org.eclipse.osgi-3.4.2.*"));
+        return Arrays.asList(Pattern.compile("org.eclipse.swordfish.samples.cxfendpoint.*"), Pattern.compile("org.eclipse.swordfish.samples.http.*"), Pattern.compile("servicemix-http-.*"),Pattern.compile("org.eclipse.osgi-3.4.2.*"));
     }
     private int getIndex(Resource[] bundles, String bundleNamePart) {
         int i = -1;
@@ -90,6 +90,7 @@ public class TargetPlatformOsgiTestCase extends BaseOsgiTestCase {
                 }
             }
             if (!exclude && bundle.isFile() && bundle.getName().endsWith("jar")) {
+                //System.out.println(bundle.getName());
                 bundles.add(new FileSystemResource(bundle));
             }
         }
