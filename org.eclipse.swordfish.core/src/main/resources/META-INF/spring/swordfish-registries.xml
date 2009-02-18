@@ -27,7 +27,7 @@
           p:configurationService-ref="configurationService"
           p:eventService-ref="eventService"/>
           
-    <osgi:service ref="swordfishContext" auto-export="interfaces"/>    
+    <osgi:service ref="swordfishContext" interface="org.eclipse.swordfish.api.context.SwordfishContext"/>    
              
        
     

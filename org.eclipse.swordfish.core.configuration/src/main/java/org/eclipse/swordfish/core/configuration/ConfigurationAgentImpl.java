@@ -2,7 +2,7 @@ package org.eclipse.swordfish.core.configuration;
 
 import java.util.Map;
 
-import org.eclipse.swordfish.api.context.SwordfishContext;
+import org.eclipse.swordfish.api.configuration.ConfigurationService;
 import org.eclipse.swordfish.api.event.ConfigurationEvent;
 import org.eclipse.swordfish.api.event.EventConstants;
 import org.eclipse.swordfish.api.event.EventFilter;
@@ -16,7 +16,7 @@ import org.springframework.util.Assert;
 public class ConfigurationAgentImpl implements EventHandler<ConfigurationEvent>, ConfigurationAgent {
     private static final Logger LOG = LoggerFactory.getLogger(ConfigurationAgentImpl.class);
     private PollableConfigurationSourceRegistry configurationSourceRegistry;
-    private SwordfishContext swordfishContext;
+    private ConfigurationService configurationService;
 
 
     public Severity getSeverity() {
@@ -35,14 +35,20 @@ public class ConfigurationAgentImpl implements EventHandler<ConfigurationEvent>,
 
     public void handleConfiguration(Map<String, ?> configurations) {
         Assert.notNull(configurations);
-        Assert.notNull(swordfishContext);
+        Assert.notNull(configurationService);
         for (Object id : configurations.keySet()) {
             Object configuration = configurations.get(id);
             if (! (configuration instanceof Map)) {
                 throw new UnsupportedOperationException("Only map based configuration is supported as for now");
             }
-            swordfishContext.getConfigurationService().updateConfiguration((String) id, (Map)configuration);
+            configurationService.updateConfiguration((String) id, (Map)configuration);
         }
+    }
+    public ConfigurationService getConfigurationService() {
+        return configurationService;
+    }
+    public void setConfigurationService(ConfigurationService configurationService) {
+        this.configurationService = configurationService;
     }
     public PollableConfigurationSourceRegistry getConfigurationSourceRegistry() {
         return configurationSourceRegistry;
@@ -51,12 +57,7 @@ public class ConfigurationAgentImpl implements EventHandler<ConfigurationEvent>,
             PollableConfigurationSourceRegistry configurationSourceRegistry) {
         this.configurationSourceRegistry = configurationSourceRegistry;
     }
-    public SwordfishContext getSwordfishContext() {
-        return swordfishContext;
-    }
-    public void setSwordfishContext(SwordfishContext swordfishContext) {
-        this.swordfishContext = swordfishContext;
-    }
+
     public EventFilter getEventFilter() {
     	return null;
     }

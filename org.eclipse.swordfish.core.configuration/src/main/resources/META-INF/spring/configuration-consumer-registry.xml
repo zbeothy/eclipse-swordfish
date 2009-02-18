@@ -15,12 +15,11 @@
   http://www.springframework.org/schema/osgi
   http://www.springframework.org/schema/osgi/spring-osgi.xsd">
     
-      <osgi:reference id="swordfishContext" interface="org.eclipse.swordfish.api.context.SwordfishContext"/>
+      <osgi:reference id="configurationService" interface="org.eclipse.swordfish.api.configuration.ConfigurationService"/>
       <osgi:reference id="configurationAdmin" interface="org.osgi.service.cm.ConfigurationAdmin"/>
       
       <bean id="configurationConsumerRegistry" 
-          class="org.eclipse.swordfish.core.configuration.ConfigurationConsumerRegistry"
-          p:configurationAdmin-ref="configurationAdmin" p:swordfishContext-ref="swordfishContext"/>
+          class="org.eclipse.swordfish.core.configuration.ConfigurationConsumerRegistry"/>
           
        <osgi:list id="configurationConsumerList" interface="org.eclipse.swordfish.api.configuration.ConfigurationConsumer"
             cardinality="0..N">
@@ -28,7 +27,7 @@
        </osgi:list>  
        
       <bean id="configurationAgent" 
-          class="org.eclipse.swordfish.core.configuration.ConfigurationAgentImpl" p:swordfishContext-ref="swordfishContext" p:configurationSourceRegistry-ref="pollableConfigurationSourceRegistry"/>
+          class="org.eclipse.swordfish.core.configuration.ConfigurationAgentImpl" p:configurationService-ref="configurationService" p:configurationSourceRegistry-ref="pollableConfigurationSourceRegistry"/>
       
       <bean id="pollableConfigurationSourceRegistry" 
           class="org.eclipse.swordfish.core.configuration.PollableConfigurationSourceRegistry" p:configurationAgent-ref="configurationAgent"/>
