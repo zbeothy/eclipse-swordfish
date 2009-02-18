@@ -8,7 +8,6 @@ import java.util.concurrent.TimeUnit;
 import org.eclipse.swordfish.api.configuration.ConfigurationConsumer;
 import org.eclipse.swordfish.api.configuration.PollableConfigurationSource;
 import org.eclipse.swordfish.api.context.SwordfishContext;
-import org.eclipse.swordfish.api.context.SwordfishContextAware;
 import org.eclipse.swordfish.api.event.EventService;
 import org.eclipse.swordfish.core.event.ConfigurationEventImpl;
 import org.eclipse.swordfish.core.event.EventServiceImpl;
@@ -37,13 +36,10 @@ public class ConfigurationTest extends TargetPlatformOsgiTestCase {
         };
         configurationConsumer.setId("MockConfigurationConsumerIdTest1");
         addRegistrationToCancel(bundleContext.registerService(ConfigurationConsumer.class.getCanonicalName(), configurationConsumer, null));
-        addRegistrationToCancel(bundleContext.registerService(SwordfishContextAware.class.getCanonicalName(), new SwordfishContextAware() {
-            public void setContext(SwordfishContext swordfishContext) {
-                swordfishContext.getConfigurationService().updateConfiguration("MockConfigurationConsumerIdTest1", configuration);
-                contextInjectedLatch.countDown();
-            }
-        }, null));
-        assertTrue(contextInjectedLatch.await(4, TimeUnit.SECONDS));
+
+        SwordfishContext swordfishContext = (SwordfishContext) bundleContext.getService(bundleContext.getServiceReference(SwordfishContext.class.getCanonicalName()));
+        swordfishContext.getConfigurationService().updateConfiguration("MockConfigurationConsumerIdTest1", configuration);
+
         assertTrue(configurationUpdated.await(9999, TimeUnit.SECONDS));
         assertEquals(configurationConsumer.getConfiguration().get("TestTime"),
                 configuration.get("TestTime"));
@@ -98,7 +94,8 @@ public class ConfigurationTest extends TargetPlatformOsgiTestCase {
         assertEquals(configurationConsumer.getConfiguration().get("TestTime"),
                 configuration.get("TestTime"));
     }
-    
+
+    @Override
     protected String getManifestLocation() {
         return "classpath:org/eclipse/swordfish/core/configuration/test/MANIFEST.MF";
     }

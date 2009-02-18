@@ -3,8 +3,6 @@ package org.eclipse.swordfish.core.test;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
 
 import javax.xml.namespace.QName;
 
@@ -16,13 +14,6 @@ import org.apache.servicemix.nmr.api.Pattern;
 import org.apache.servicemix.nmr.core.ChannelImpl;
 import org.apache.servicemix.nmr.core.ExchangeImpl;
 import org.eclipse.swordfish.api.Interceptor;
-import org.eclipse.swordfish.api.configuration.ConfigurationConsumer;
-import org.eclipse.swordfish.api.configuration.PollableConfigurationSource;
-import org.eclipse.swordfish.api.context.SwordfishContext;
-import org.eclipse.swordfish.api.context.SwordfishContextAware;
-import org.eclipse.swordfish.api.event.EventService;
-import org.eclipse.swordfish.core.event.ConfigurationEventImpl;
-import org.eclipse.swordfish.core.event.EventServiceImpl;
 import org.eclipse.swordfish.core.interceptor.CxfDecoratingInterceptor;
 import org.eclipse.swordfish.core.interceptor.EndpointResolverInterceptor;
 import org.eclipse.swordfish.core.interceptor.LoggingInterceptor;
@@ -31,9 +22,7 @@ import org.eclipse.swordfish.core.test.util.OsgiSupport;
 import org.eclipse.swordfish.core.test.util.ServiceMixSupport;
 import org.eclipse.swordfish.core.test.util.ServiceMixSupport.ExchangeProcessorImpl;
 import org.eclipse.swordfish.core.test.util.base.TargetPlatformOsgiTestCase;
-import org.eclipse.swordfish.core.test.util.mock.MockConfigurationConsumer;
 import org.eclipse.swordfish.core.test.util.mock.MockInterceptor;
-import org.eclipse.swordfish.core.test.util.mock.PollableConfigurationSourceMock;
 import org.eclipse.swordfish.core.util.xml.StringSource;
 import org.osgi.framework.ServiceReference;
 
@@ -117,7 +106,8 @@ public class SwordfishCoreIntegrationTest extends TargetPlatformOsgiTestCase {
             nmr.getEndpointRegistry().unregister(endpointService2, null);
         }
     }
-    
+
+    @Override
     protected String getManifestLocation() {
         return "classpath:org/eclipse/swordfish/core/planner/test/MANIFEST.MF";
     }

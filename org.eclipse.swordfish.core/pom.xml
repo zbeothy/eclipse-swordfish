@@ -73,6 +73,7 @@
                         <Import-Package>*</Import-Package>
                         <Private-Package></Private-Package>
                         <Export-Package>${groupId}.*</Export-Package>
+                        <Spring-Context>*;create-asynchronously:=true</Spring-Context> 
                     </instructions>
                 </configuration>
             </plugin>

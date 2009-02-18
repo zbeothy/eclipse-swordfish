@@ -32,7 +32,7 @@ public class SimpleClient extends EndpointImpl implements InitializingBean {
 	private String dataToSend;
 	private String uriToSend;
 	private String endpointNameToSend;
-	private Integer delayBeforeSending = 5000;
+	private Integer delayBeforeSending = 10000;
 	private NMR nmr;
 	private Map<String, Object> endpointProps;
 	private SoapHelper soapHelper;
