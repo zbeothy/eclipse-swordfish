@@ -30,7 +30,7 @@ public class TargetPlatformOsgiTestCase extends BaseOsgiTestCase {
         try {
         if (ret == null) {
             File dir = new File(getClass().getClassLoader().getResource(".").getPath());
-            dir = dir.getParentFile().getParentFile().getParentFile();
+            dir = dir.getParentFile().getParentFile().getParentFile().getParentFile();
             String path = dir.getPath() + "/org.eclipse.swordfish.bundles/target/bundles/";
             dir = new File(path);
             if (dir.exists() && dir.isDirectory()) {

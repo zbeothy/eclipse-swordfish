@@ -45,9 +45,10 @@
         <xbean.version>3.4.3</xbean.version>
     </properties>
     <modules>
-        <module>org.eclipse.swordfish.api</module>
+        <module>org.eclipse.swordfish.core.integrationtest/org.eclipse.swordfish.core.test.util</module>
+      
+	<module>org.eclipse.swordfish.api</module>
         <module>org.eclipse.swordfish.core.util</module>
-        <module>org.eclipse.swordfish.core.test.util</module>
         <module>org.eclipse.swordfish.core.planner</module>
         <module>org.eclipse.swordfish.core.configuration</module>
         <module>org.eclipse.swordfish.core.event</module>

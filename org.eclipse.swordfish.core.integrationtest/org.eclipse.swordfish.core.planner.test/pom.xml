@@ -6,7 +6,7 @@
 
 	<parent>
     		<groupId>org.eclipse.swordfish</groupId>
-    		<artifactId>parent</artifactId>
+    		<artifactId>org.eclipse.swordfish.integrationtest</artifactId>
     		<version>basic</version>
   	</parent>
 
@@ -21,33 +21,10 @@
 	<description />
 	<dependencies>
 		<dependency>
-            <groupId>org.eclipse.swordfish</groupId>
-            <artifactId>org.eclipse.swordfish.api</artifactId>
-            <version>${swordfishVersion}</version>
-        </dependency>
-		<dependency>
-            <groupId>org.eclipse.swordfish</groupId>
-            <artifactId>org.eclipse.swordfish.core.util</artifactId>
-            <version>${swordfishVersion}</version>
-        </dependency>
-		<dependency>
-            <groupId>org.eclipse.swordfish</groupId>
-            <artifactId>org.eclipse.swordfish.core</artifactId>
-            <version>${swordfishVersion}</version>
-        </dependency>
-		
-		<dependency>
-            <groupId>org.eclipse.swordfish</groupId>
-            <artifactId>org.eclipse.swordfish.core.test.util</artifactId>
-            <version>${swordfishVersion}</version>
-        </dependency>
-  		
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.4</version>
-		</dependency>
-		
+			<groupId>org.eclipse.swordfish</groupId>
+			<artifactId>org.eclipse.swordfish.core.test.util</artifactId>
+			<version>${swordfishVersion}</version>
+		</dependency> 
 	</dependencies>
 	<build>
 		<plugins>

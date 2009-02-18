@@ -8,17 +8,85 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.eclipse.swordfish</groupId>
   <artifactId>org.eclipse.swordfish.integrationtest</artifactId>
+  <version>basic</version>
+
   <packaging>pom</packaging>
   
   <name>Swordfish Integrationtests</name>
-  <version>${swordfishVersion}</version>
   <url>http://www.eclipse.org/swordfish</url>
   
   <modules>
-      <module>../org.eclipse.swordfish.core.test.util</module>
-      <module>../org.eclipse.swordfish.core.configuration.test</module>
-      <module>../org.eclipse.swordfish.core.event.test</module>
-      <module>../org.eclipse.swordfish.core.planner.test</module>
-      <module>../org.eclipse.swordfish.core.tracking.test</module>
+      <module>org.eclipse.swordfish.core.configuration.test</module>
+      <module>org.eclipse.swordfish.core.event.test</module>
+      <module>org.eclipse.swordfish.core.planner.test</module>
+      <module>org.eclipse.swordfish.core.tracking.test</module>
+      <module>org.eclipse.swordfish.core.test</module>
+        
   </modules>
+    <dependencies>
+        <dependency>
+            <groupId>org.eclipse.swordfish</groupId>
+            <artifactId>org.eclipse.swordfish.api</artifactId>
+            <version>${swordfishVersion}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.swordfish</groupId>
+            <artifactId>org.eclipse.swordfish.core</artifactId>
+            <version>${swordfishVersion}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.swordfish</groupId>
+            <artifactId>org.eclipse.swordfish.core.event</artifactId>
+            <version>${swordfishVersion}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.servicemix.jbi</groupId>
+            <artifactId>org.apache.servicemix.jbi.api 
+            </artifactId>
+            <version>1.0-m1</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.4</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.osgi</groupId>
+            <artifactId>spring-osgi-test</artifactId>
+            <version>${spring.osgi.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.osgi</groupId>
+            <artifactId>org.eclipse.osgi</artifactId>
+            <version>3.4.2.R34x_v20080826-1230</version>
+        </dependency>
+         <dependency>
+   <groupId>org.slf4j</groupId>
+   <artifactId>slf4j-api</artifactId>
+   <version>1.5.5</version>
+  </dependency>
+  <dependency>
+   <groupId>org.slf4j</groupId>
+   <artifactId>slf4j-jcl</artifactId>
+   <version>1.5.5</version>
+  </dependency>
+<dependency>
+   <groupId>org.objectweb.asm</groupId>
+   <artifactId>com.springsource.org.objectweb.asm</artifactId>
+   <version>2.2.3</version>
+  </dependency>
+
+<dependency>
+   <groupId>edu.emory.mathcs.backport</groupId>
+   <artifactId>com.springsource.edu.emory.mathcs.backport</artifactId>
+   <version>3.1.0</version>
+  </dependency>
+
+<dependency>
+   <groupId>org.junit</groupId>
+   <artifactId>com.springsource.junit</artifactId>
+   <version>3.8.2</version>
+  </dependency>
+        </dependencies>
 </project>

@@ -6,7 +6,7 @@
 
 	<parent>
     		<groupId>org.eclipse.swordfish</groupId>
-    		<artifactId>parent</artifactId>
+    		<artifactId>org.eclipse.swordfish.integrationtest</artifactId>
     		<version>basic</version>
   	</parent>
 
