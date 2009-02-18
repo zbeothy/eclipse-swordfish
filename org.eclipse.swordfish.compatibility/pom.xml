@@ -15,6 +15,6 @@
 	<description />
   <modules>
       <module>org.eclipse.swordfish.compatibility.cxf.minimal</module>
-      <module>org.eclipse.swordfish.compatibility.smx.nmr.osgi</module>
+      <module>org.eclipse.swordfish.compatibility.stax-api</module>
   </modules>
 </project>
