@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.eclipse.swordfish</groupId>
+		<artifactId>parent</artifactId>
+		<version>basic</version>
+	</parent>
+	<groupId>org.eclipse.swordfish</groupId>
+	<packaging>bundle</packaging>
+	<artifactId>org.eclipse.swordfish.core.configuration.test 
+	</artifactId>
+	<name>org.eclipse.swordfish.core.configuration.test 
+	</name>
+	<version>${swordfishVersion}</version>
+	
+	<description />
+	<dependencies>
+		<dependency>
+			<groupId>org.eclipse.swordfish</groupId>
+			<artifactId>org.eclipse.swordfish.api</artifactId>
+			<version>${swordfishVersion}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.eclipse.swordfish</groupId>
+			<artifactId>org.eclipse.swordfish.core</artifactId>
+			<version>${swordfishVersion}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.eclipse.swordfish</groupId>
+			<artifactId>org.eclipse.swordfish.core.test.util</artifactId>
+			<version>${swordfishVersion}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.apache.servicemix.jbi</groupId>
+			<artifactId>org.apache.servicemix.jbi.api 
+			</artifactId>
+			<version>1.0-m1</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.4</version>
+		</dependency>		
+	</dependencies>
+	<build>
+		<plugins>			
+			<plugin>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>maven-bundle-plugin</artifactId>
+				<extensions>true</extensions>
+				<configuration>
+					<instructions>
+						<Bundle-Name>${artifactId}</Bundle-Name>
+						<Bundle-SymbolicName>${artifactId} 
+						</Bundle-SymbolicName>
+						<Import-Package>*</Import-Package>
+						<Export-Package>org.eclipse.swordfish.core.planner,org.eclipse.swordfish.api</Export-Package>
+						<Bundle-Activator>org.springframework.osgi.test.JUnitTestActivator</Bundle-Activator>
+					</instructions>
+				</configuration>
+			</plugin>
+			<!--
+				<plugin> <groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId> <version>2.2</version>
+				<configuration> <archive>
+				<manifestFile>src/main/resources/META-INF/MANIFEST.MF
+				</manifestFile> </archive> </configuration> </plugin>
+			-->
+		</plugins>
+	</build>
+</project>
