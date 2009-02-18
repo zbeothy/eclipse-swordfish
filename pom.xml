@@ -71,6 +71,16 @@
     </prerequisites>
   
     <repositories>
+     <repository>
+            <id>ibiblio</id>
+            <name>ibiblio</name>
+            <url>http://http://mirrors.ibiblio.org/pub/mirrors/maven2/</url>
+        </repository>
+     <repository>
+      <id>apache-incubating</id>
+      <name>Apache Incubating Repository</name>
+      <url>http://people.apache.org/repo/m2-incubating-repository/</url>
+    </repository>
         <repository>
             <id>com.springsource.repository.bundles.release</id>
             <name>SpringSource Enterprise Bundle Repository - SpringSource Bundle Releases</name>
@@ -81,11 +91,7 @@
             <name>SpringSource Enterprise Bundle Repository - External Bundle Releases</name>  
             <url>http://repository.springsource.com/maven/bundles/external</url> 
         </repository>
-	<repository>
-            <id>ibiblio</id>
-            <name>ibiblio</name>
-            <url>http://http://mirrors.ibiblio.org/pub/mirrors/maven2/</url>
-        </repository>
+	
          
     </repositories>
 
