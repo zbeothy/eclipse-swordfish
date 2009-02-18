@@ -10,13 +10,15 @@ import javax.jbi.messaging.NormalizedMessage;
 import javax.xml.namespace.QName;
 import javax.xml.transform.Source;
 
-import org.apache.servicemix.JbiConstants;
+import org.apache.servicemix.common.JbiConstants;
 import org.apache.servicemix.jbi.jaxp.SourceTransformer;
 import org.apache.servicemix.jbi.runtime.impl.EndpointImpl;
 import org.apache.servicemix.jbi.runtime.impl.MessageExchangeImpl;
+import org.apache.servicemix.jbi.runtime.impl.NormalizedMessageImpl;
 import org.apache.servicemix.nmr.api.Endpoint;
 import org.apache.servicemix.nmr.api.NMR;
 import org.apache.servicemix.nmr.core.ExchangeImpl;
+import org.apache.servicemix.nmr.core.MessageImpl;
 import org.apache.servicemix.soap.Context;
 import org.apache.servicemix.soap.SoapHelper;
 import org.apache.servicemix.soap.marshalers.SoapMessage;
@@ -74,7 +76,7 @@ public class SimpleClient extends EndpointImpl implements InitializingBean {
 	public void sendRequestSynchronously() throws Exception {
 	    getSoapHelper().getSoapMarshaler().setUseDom(true);
 	    SoapMessage soapMessage = getSoapHelper().getSoapMarshaler().createReader().read(ServiceMixHelper.convertStringToIS(dataToSend, "UTF8"));
-		NormalizedMessage normalizedMessage = new org.apache.servicemix.jbi.messaging.NormalizedMessageImpl();
+		NormalizedMessage normalizedMessage = new NormalizedMessageImpl(new MessageImpl());
 		getSoapHelper().getJBIMarshaler().toNMS(normalizedMessage, soapMessage);
 		Context ctx = getSoapHelper().createContext(soapMessage);
 		MessageExchange messageExchange = getSoapHelper().onReceive(ctx);

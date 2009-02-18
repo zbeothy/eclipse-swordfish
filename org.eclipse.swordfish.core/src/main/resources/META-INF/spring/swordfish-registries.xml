@@ -27,20 +27,9 @@
           p:configurationService-ref="configurationService"
           p:eventService-ref="eventService"/>
           
-    <osgi:service ref="swordfishContext" auto-export="interfaces"/>
-    
-    <bean id="swordfishContextAwareRegistry" 
-          class="org.eclipse.swordfish.core.context.SwordfishContextAwareRegistry" 
-          p:swordfishContext-ref="swordfishContext"/>
-          
-    <osgi:list id="swordfishContextAwareList" 
-               interface="org.eclipse.swordfish.api.context.SwordfishContextAware"
-               cardinality="0..N">
-         <osgi:listener bind-method="register" 
-                        unbind-method="unregister" 
-                        ref="swordfishContextAwareRegistry" />
-    </osgi:list>
-    
+    <osgi:service ref="swordfishContext" auto-export="interfaces"/>    
+             
+       
     
     <!--  interceptor exception listeners registry -->
                 

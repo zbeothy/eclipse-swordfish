@@ -1,0 +1,20 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:http="http://servicemix.apache.org/http/1.0"       
+       xmlns:osgi="http://www.springframework.org/schema/osgi"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+	 http://www.springframework.org/schema/beans
+	 http://www.springframework.org/schema/beans/spring-beans.xsd
+	 http://www.springframework.org/schema/osgi
+	 http://www.springframework.org/schema/osgi/spring-osgi.xsd
+	 http://servicemix.apache.org/http/1.0
+	 http://servicemix.apache.org/http/1.0/servicemix-http.xsd">  
+	<bean class="org.apache.servicemix.common.osgi.EndpointExporter" />  
+  	<http:endpoint service="b:http"
+                 endpoint="endpoint"
+                 targetService="b:pipeline"
+                 role="consumer" 
+                 locationURI="http://0.0.0.0:8192/bridge/"
+                 defaultMep="http://www.w3.org/2004/08/wsdl/in-only" />
+</beans>               
+                 

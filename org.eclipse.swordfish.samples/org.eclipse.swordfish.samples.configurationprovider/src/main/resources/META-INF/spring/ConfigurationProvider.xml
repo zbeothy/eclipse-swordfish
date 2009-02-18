@@ -14,10 +14,10 @@
   http://www.springframework.org/schema/util/spring-util.xsd
   http://www.springframework.org/schema/osgi
   http://www.springframework.org/schema/osgi/spring-osgi.xsd">
- 
+ <osgi:reference id="swordfishContext" interface="org.eclipse.swordfish.api.context.SwordfishContext"/>
  <bean id="configurationProvider"
-        class="org.eclipse.swordfish.samples.configuration.ConfigurationProvider" p:id="org.eclipse.swordfish.samples.configuration.ConfigurationConsumer"/>
-  <osgi:service ref="configurationProvider" auto-export="interfaces"/>
+        class="org.eclipse.swordfish.samples.configuration.ConfigurationProvider" p:id="org.eclipse.swordfish.samples.configuration.ConfigurationConsumer" p:context-ref="swordfishContext"/>
+  
       
         
   </beans>

@@ -29,7 +29,7 @@ public class SwordfishExchangeListener implements ExchangeListener, Initializing
 	private Registry<Interceptor> interceptorRegistry;
 	private InterceptorExceptionNofiticationSender exceptionNotificationSender;
     private SwordfishContext swordfishContext;
-    
+
 	public Registry<Interceptor> getInterceptorRegistry() {
 		return interceptorRegistry;
 	}
@@ -55,10 +55,10 @@ public class SwordfishExchangeListener implements ExchangeListener, Initializing
 	public void exchangeSent(Exchange exchange) {
 		MessageExchangeImpl exchangeImpl = new MessageExchangeImpl(exchange);
 		try {
-			
+
         	TrackingEvent trackingEvent = new TrackingEventImpl(exchangeImpl);
         	swordfishContext.getEventService().postEvent(trackingEvent);
-			
+
 			List<Interceptor> interceptors = planner.getInterceptorChain(interceptorRegistry.getKeySet(), exchangeImpl);
 			for (Interceptor interceptor : interceptors) {
 				try {
@@ -66,15 +66,15 @@ public class SwordfishExchangeListener implements ExchangeListener, Initializing
 				} catch (SwordfishException ex) {
 					LOG.warn("The interceptor has thrown exception", ex);
 					exceptionNotificationSender.sendNotification(ex, exchangeImpl, interceptor);
-					
+
 					exchangeImpl.setError(ex);
 					// send tracking event
 		        	trackingEvent = new TrackingEventImpl(exchangeImpl);
 		        	swordfishContext.getEventService().postEvent(trackingEvent);
-		        	
+
 	                if(exchangeImpl.getRole() == Role.CONSUMER) {
 	                    throw ex;
-	                } 
+	                }
 				}
 			}
 		} catch (Exception ex) {
@@ -99,11 +99,11 @@ public class SwordfishExchangeListener implements ExchangeListener, Initializing
 	protected void start() {
 		nmr.getListenerRegistry().register(this, null);
 	}
-	
+
 	public void setSwordfishContext(SwordfishContext swordfishContext) {
 		this.swordfishContext = swordfishContext;
 	}
-	
+
 	public void afterPropertiesSet() throws Exception {
 		Assert.notNull(nmr);
 		Assert.notNull(planner);

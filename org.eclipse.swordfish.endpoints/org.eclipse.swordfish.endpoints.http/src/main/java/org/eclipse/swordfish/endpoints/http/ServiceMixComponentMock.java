@@ -9,6 +9,7 @@ import javax.jbi.servicedesc.ServiceEndpoint;
 import javax.xml.namespace.QName;
 
 import org.apache.commons.logging.Log;
+import org.apache.servicemix.common.Container;
 import org.apache.servicemix.common.Endpoint;
 import org.apache.servicemix.common.Registry;
 import org.apache.servicemix.common.ServiceMixComponent;
@@ -95,5 +96,32 @@ public class ServiceMixComponentMock implements ServiceMixComponent {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+    public Container getContainer() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public Object getSmx3Container() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public void handleExchange(Endpoint endpoint, MessageExchange exchange,
+            boolean add) {
+        // TODO Auto-generated method stub
+
+    }
+
+    public void prepareExchange(MessageExchange exchange, Endpoint endpoint)
+            throws MessagingException {
+        // TODO Auto-generated method stub
+
+    }
+
+    public void prepareShutdown(Endpoint endpoint) throws InterruptedException {
+        // TODO Auto-generated method stub
+
+    }
 
 }

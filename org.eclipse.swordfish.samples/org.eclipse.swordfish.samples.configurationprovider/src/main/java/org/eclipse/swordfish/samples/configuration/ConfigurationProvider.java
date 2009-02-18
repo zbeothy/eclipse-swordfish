@@ -8,14 +8,13 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import org.eclipse.swordfish.api.context.SwordfishContext;
-import org.eclipse.swordfish.api.context.SwordfishContextAware;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.Assert;
 
 
-public class ConfigurationProvider  implements SwordfishContextAware, InitializingBean {
+public class ConfigurationProvider  implements InitializingBean {
     private static final Logger LOG = LoggerFactory.getLogger(ConfigurationProvider.class);
 
     private SwordfishContext swordfishContext;

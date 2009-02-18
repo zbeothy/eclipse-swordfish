@@ -12,7 +12,8 @@
   http://www.springframework.org/schema/util/spring-util.xsd
   http://www.springframework.org/schema/osgi
   http://www.springframework.org/schema/osgi/spring-osgi.xsd">
-   
+   <osgi:reference id="swordfishContext" interface="org.eclipse.swordfish.api.context.SwordfishContext"/>
+ 
   <osgi:reference id="nmr" interface="org.apache.servicemix.nmr.api.NMR"/>
   <bean id="endpointResolverInterceptor"
         class="org.eclipse.swordfish.core.interceptor.EndpointResolverInterceptor"
@@ -26,7 +27,7 @@
   </osgi:service>
   
     <bean id="configurationInjector" class="org.eclipse.swordfish.core.configuration.ConfigurationInjector"
-        p:id="org.eclipse.swordfish.core.interceptor.EndpointResolverInterceptor">
+        p:id="org.eclipse.swordfish.core.interceptor.EndpointResolverInterceptor" p:context-ref="swordfishContext">
         <property name="configuration"><map><entry key="wsdlStorage"> <ref bean="resourceToStringConverter.url"/></entry></map></property>
     </bean> 
     <bean id="resourceToStringConverter.url" class="org.springframework.beans.factory.config.PropertyPathFactoryBean"/>
