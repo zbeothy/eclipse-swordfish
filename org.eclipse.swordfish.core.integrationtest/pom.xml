@@ -78,6 +78,12 @@
   </dependency>
 
 <dependency>
+   <groupId>org.springframework</groupId>
+   <artifactId>spring-test</artifactId>
+   <version>2.5.5</version>
+  </dependency>
+
+<dependency>
    <groupId>edu.emory.mathcs.backport</groupId>
    <artifactId>com.springsource.edu.emory.mathcs.backport</artifactId>
    <version>3.1.0</version>
@@ -88,5 +94,17 @@
    <artifactId>com.springsource.junit</artifactId>
    <version>3.8.2</version>
   </dependency>
+  <dependency>
+   <groupId>org.springframework.osgi</groupId>
+   <artifactId>log4j.osgi</artifactId>
+   <version>1.2.15-SNAPSHOT</version>
+  </dependency>
+  
+  <dependency>
+   <groupId>org.springframework.osgi</groupId>
+   <artifactId>spring-osgi-annotation</artifactId>
+   <version>1.1.2</version>
+  </dependency>
+ 
         </dependencies>
 </project>
