@@ -56,7 +56,6 @@ public class CxfDecoratingInterceptor implements Interceptor {
 		return false;
 	}
 
-
 	public void process(MessageExchange exchange) throws SwordfishException {
 		InternalExchange messageExchange = (InternalExchange) ServiceMixSupport.toNMRExchange(exchange);
 		if (messageExchange.getTarget() == null) {
