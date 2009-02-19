@@ -8,7 +8,7 @@
  		<version>basic</version>
 	</parent>
 	<groupId>org.eclipse.swordfish</groupId>
-	<packaging>bundle</packaging>
+	<packaging>jar</packaging>
 	<artifactId>org.eclipse.swordfish.core.configuration.test 
 	</artifactId>
 	<name>org.eclipse.swordfish.core.configuration.test 
@@ -25,28 +25,7 @@
 	</dependencies>
 	<build>
 		<plugins>			
-			<plugin>
-				<groupId>org.apache.felix</groupId>
-				<artifactId>maven-bundle-plugin</artifactId>
-				<extensions>true</extensions>
-				<configuration>
-					<instructions>
-						<Bundle-Name>${artifactId}</Bundle-Name>
-						<Bundle-SymbolicName>${artifactId} 
-						</Bundle-SymbolicName>
-						<Import-Package>*</Import-Package>
-						<Export-Package>org.eclipse.swordfish.core.planner,org.eclipse.swordfish.api</Export-Package>
-						<Bundle-Activator>org.springframework.osgi.test.JUnitTestActivator</Bundle-Activator>
-					</instructions>
-				</configuration>
-			</plugin>
-			<!--
-				<plugin> <groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId> <version>2.2</version>
-				<configuration> <archive>
-				<manifestFile>src/main/resources/META-INF/MANIFEST.MF
-				</manifestFile> </archive> </configuration> </plugin>
-			-->
+			
 		</plugins>
 	</build>
 </project>
