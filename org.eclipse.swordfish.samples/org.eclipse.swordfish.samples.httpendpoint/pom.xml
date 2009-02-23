@@ -24,11 +24,10 @@
 					<instructions>
 						<Bundle-SymbolicName>${pom.artifactId}
 						</Bundle-SymbolicName>
-						<Import-Package>com.ctc.wstx.stax,
-							org.eclipse.swordfish.endpoints.http, org.springframework.beans.factory.config, org.apache.servicemix.nmr.api, org.apache.servicemix.common.osgi</Import-Package>
+						<Import-Package>org.eclipse.swordfish.endpoints.http, com.ctc.wstx.stax, org.springframework.beans.factory.config, org.apache.servicemix.nmr.api, org.apache.servicemix.common.osgi, javax.jbi.component</Import-Package>
 						<Private-Package>org.eclipse.swordfish.samples.http.*</Private-Package>
-						 <Spring-Context>*;create-asynchronously:=true</Spring-Context>	
-                          	
+						 <Spring-Context>*;create-asynchronously:=false</Spring-Context>	
+                          	<Require-Bundle>servicemix-http</Require-Bundle> 
 					</instructions>
 				</configuration>
 			</plugin>

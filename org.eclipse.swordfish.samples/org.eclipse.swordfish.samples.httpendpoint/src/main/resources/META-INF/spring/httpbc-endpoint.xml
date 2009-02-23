@@ -10,11 +10,16 @@
 	 http://servicemix.apache.org/http/1.0
 	 http://servicemix.apache.org/http/1.0/servicemix-http.xsd">  
 	<bean class="org.apache.servicemix.common.osgi.EndpointExporter" />  
-  	<http:endpoint service="b:http"
+  	
+    <http:endpoint 
+                 service="jaba"
                  endpoint="endpoint"
-                 targetService="b:pipeline"
+                 targetService="pipeline"
                  role="consumer" 
                  locationURI="http://0.0.0.0:8192/bridge/"
                  defaultMep="http://www.w3.org/2004/08/wsdl/in-only" />
+                 
+    <osgi:reference id="httpComponent" interface="javax.jbi.component.Component"
+        filter="(NAME=servicemix-http)" timeout="4000"/>             
 </beans>               
                  

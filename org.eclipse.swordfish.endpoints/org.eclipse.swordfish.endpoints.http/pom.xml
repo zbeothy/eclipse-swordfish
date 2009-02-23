@@ -15,12 +15,12 @@
 		<dependency>
 			<groupId>org.apache.servicemix</groupId>
 			<artifactId>servicemix-common</artifactId>
-			<version>2008.01</version>
+			<version>2009.01-SNAPSHOT</version>
 		</dependency>		
 		<dependency>
 			<groupId>org.apache.servicemix</groupId>
 			<artifactId>servicemix-soap</artifactId>
-			<version>2008.01</version>
+			<version>2009.01-SNAPSHOT</version>
 		</dependency>
         <dependency> 
                 <groupId>wsdl4j</groupId>
@@ -45,11 +45,12 @@
 			</artifactId>
 			<version>1.1.1</version>
 		</dependency>
-		<dependency>
+		
+        <dependency>
 			<groupId>org.apache.servicemix.jbi</groupId>
 			<artifactId>org.apache.servicemix.jbi.runtime
 			</artifactId>
-			<version>1.0-m1</version>
+			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.osgi</groupId>

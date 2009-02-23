@@ -70,6 +70,19 @@
             <artifactId>org.apache.servicemix.bundles.aopalliance</artifactId>
             <version>1.0_1</version>
         </dependency>
+<dependency>
+ <groupId>org.apache.servicemix.bundles</groupId>
+    <artifactId>org.apache.servicemix.bundles.jetty-bundle</artifactId>
+    
+    <version>6.1.14_1</version>
+</dependency>
+<dependency>
+
+    <groupId>org.apache.servicemix.bundles</groupId>
+    <artifactId>org.apache.servicemix.bundles.jaxp-ri</artifactId>
+    <version>1.4.2_1</version>
+</dependency>
+   
 <!--Eclipse bundles-->
         <dependency>
             <groupId>org.eclipse.osgi</groupId>
@@ -177,28 +190,34 @@
         <dependency>
             <groupId>org.apache.servicemix.kernel</groupId>
             <artifactId>org.apache.servicemix.kernel.filemonitor</artifactId>
-            <version>1.0.0-rc2</version>
+            <version>1.1.0-SNAPSHOT</version>
         </dependency>
          <dependency>
             <groupId>org.apache.servicemix.kernel.jaas</groupId>
             <artifactId>org.apache.servicemix.kernel.jaas.config</artifactId>
-            <version>1.0.0-rc2</version>
+            <version>1.1.0-SNAPSHOT</version>
         </dependency>
          <dependency>
             <groupId>org.apache.servicemix.kernel.jaas</groupId>
             <artifactId>org.apache.servicemix.kernel.jaas.boot</artifactId>
-            <version>1.0.0-rc2</version>
+            <version>1.1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.apache.servicemix.kernel.jaas</groupId>
-            <artifactId>org.apache.servicemix.kernel.jaas.keystore</artifactId>
-            <version>1.0.0-rc2</version>
+            <artifactId>org.apache.servicemix.kernel.jaas.modules</artifactId>
+            <version>1.1.0-SNAPSHOT</version>
         </dependency>
-       
+        <dependency>
+        
+	<groupId>org.apache.servicemix.kernel</groupId>
+   	 <artifactId>org.apache.servicemix.kernel.management</artifactId>
+    	<version>1.1.0-SNAPSHOT</version>
+	</dependency>
+        
 	<dependency>
-            <groupId>org.apache.servicemix.management</groupId>
-            <artifactId>org.apache.servicemix.management.core</artifactId>
-            <version>4.0-m1</version>
+            <groupId>org.apache.servicemix.nmr</groupId>
+            <artifactId>org.apache.servicemix.nmr.management</artifactId>
+            <version>${smx4.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.servicemix.nmr</groupId>
@@ -228,25 +247,25 @@
         <dependency>
             <groupId>org.apache.servicemix</groupId>
              <artifactId>servicemix-common</artifactId>
-            <version>2008.01</version>
+            <version>2009.01-SNAPSHOT</version>
  
         </dependency>
         <dependency>
              <groupId>org.apache.servicemix</groupId>
             <artifactId>servicemix-soap</artifactId>
-            <version>2008.01</version> 
+            <version>2009.01-SNAPSHOT</version> 
         </dependency>        
         <dependency>
              <groupId>org.apache.servicemix</groupId>
             <artifactId>servicemix-soap2</artifactId>
-            <version>2008.01</version> 
+            <version>2009.01-SNAPSHOT</version> 
         </dependency>
- <dependency>
+        <dependency>
+             <groupId>org.apache.servicemix</groupId>
+            <artifactId>servicemix-http</artifactId>
+            <version>2009.01-SNAPSHOT</version> 
+        </dependency>
          
-<groupId>org.apache.servicemix</groupId>
-  <artifactId>servicemix-http</artifactId>
-  <version>2008.01</version>
-        </dependency>
  
       <dependency>
         <groupId>org.apache.servicemix.specs</groupId>
@@ -260,7 +279,7 @@
     <dependency>
         <groupId>org.apache.xbean</groupId>
         <artifactId>xbean-spring</artifactId>
-        <version>3.4.1</version>
+        <version>3.5</version>
     </dependency>   
         <dependency>
             <groupId>org.apache.cxf</groupId>
@@ -295,7 +314,7 @@
         <dependency>
             <groupId>org.apache.xbean</groupId>
             <artifactId>xbean-classloader</artifactId>
-            <version>3.4.1</version>
+            <version>3.5</version>
         </dependency>       
 <!--Geronimo bundles-->
         <dependency>
@@ -341,27 +360,7 @@
             <artifactId>jaxp-api</artifactId>
             <version>1.4</version>
         </dependency>
-        <dependency>
-            <groupId>org.mortbay.jetty</groupId>
-            <artifactId>jetty</artifactId>
-            <version>6.1.11</version>
-        </dependency>
-        <dependency>
-            <groupId>org.mortbay.jetty</groupId>
-            <artifactId>jetty-management</artifactId>
-            <version>6.1.11</version>
-        </dependency>
-        <dependency>
-            <groupId>org.mortbay.jetty</groupId>
-            <artifactId>jetty-util</artifactId>
-            <version>6.1.11</version>
-        </dependency>
-	<dependency>
-      		<groupId>org.mortbay.jetty</groupId>
-      		<artifactId>jetty-client</artifactId>
-      		<version>6.1.11</version>
-    </dependency>
-    
+        
 <!--SpringSource bundles-->
         <dependency>
             <groupId>org.objectweb.asm</groupId>

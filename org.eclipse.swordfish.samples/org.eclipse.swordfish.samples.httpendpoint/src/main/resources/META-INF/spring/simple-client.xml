@@ -11,21 +11,13 @@
 	<osgi:reference id="nmr" interface="org.apache.servicemix.nmr.api.NMR"/>
 		
 	
-	<bean id="httpConsumerEndpoint"
-		class="org.eclipse.swordfish.endpoints.http.HttpConsumerEndpoint"
-		p:port="9090" p:locationPath="BookingService" p:nmr-ref="nmr"
-		p:endpointName="{http://cxf.samples.swordfish.eclipse.org/}BookingServiceImpl_Http"/>
 	
-	<bean id="simpleClient" class="org.eclipse.swordfish.endpoints.http.SimpleClient"
-		 p:endpointName="simpleClientEndpoint"
+	<bean id="simpleClient" class="org.eclipse.swordfish.endpoints.http.SimpleClient"		 
 		p:nmr-ref="nmr" >
 		<property name="dataToSend">
     	 <value><![CDATA[<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:wsa="http://www.w3.org/2005/08/addressing"><soap:Header><wsa:Action>http://cxf.samples.swordfish.eclipse.org//BookingService/createReservation</wsa:Action></soap:Header><soap:Body><ns2:createReservation xmlns:ns2="http://cxf.samples.swordfish.eclipse.org/"><passengers><age>24</age><firstName>Volodymyr</firstName><id>1</id><lastName>Zhabiuk</lastName></passengers><flight><flightNumber>LC023</flightNumber><id>1</id></flight></ns2:createReservation></soap:Body></soap:Envelope>]]></value>
 		</property>
 	</bean>
 	
-	<bean id="httpProviderEndpoint"
-		class="org.eclipse.swordfish.endpoints.http.HttpProviderEndpoint"
-		p:nmr-ref="nmr"	
-		p:endpointName="{http://cxf.samples.swordfish.eclipse.org/}HttpProviderEndpoint" />
+	
 </beans>
