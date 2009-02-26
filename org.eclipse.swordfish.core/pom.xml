@@ -83,7 +83,7 @@
                         <Bundle-SymbolicName>${artifactId}</Bundle-SymbolicName>
                         <Import-Package>*</Import-Package>
                         <Private-Package></Private-Package>
-                        <Export-Package></Export-Package>
+                        <Export-Package>${groupId}.*</Export-Package>
                         <Spring-Context>*;create-asynchronously:=true</Spring-Context> 
                     </instructions>
                 </configuration>
