@@ -17,8 +17,14 @@ import org.apache.servicemix.nmr.core.util.Filter;
 import org.eclipse.swordfish.core.util.xml.StringSource;
 
 public class ServiceMixSupport {
+
     public static EndpointImpl createAndRegisterEndpoint(NMR nmr, QName serviceName, final ExchangeProcessor delegate) {
-        EndpointImpl endpoint = new EndpointImpl(){
+        Map<String, String> props = new HashMap<String, String>();
+        props.put(EndpointImpl.ENDPOINT_NAME, serviceName.getLocalPart() + "Endpoint");
+        props.put(EndpointImpl.SERVICE_NAME, serviceName.toString());
+        props.put(EndpointImpl.NAME, serviceName.getLocalPart() + "Endpoint");
+
+        EndpointImpl endpoint = new EndpointImpl(props){
                 @Override
                 public void process(Exchange exchange) {
                     super.process(exchange);
@@ -30,13 +36,7 @@ public class ServiceMixSupport {
                 }
             };
         endpoint.setQueue(new LinkedList<Exchange>());
-        endpoint.setEndpointName(serviceName.getLocalPart() + "Endpoint");
-        endpoint.setServiceName(serviceName);
-        Map<String, String> props = new HashMap<String, String>();
-        props.put(EndpointImpl.ENDPOINT_NAME, endpoint.getEndpointName());
-        props.put(EndpointImpl.SERVICE_NAME, endpoint.getServiceName().toString());
-        props.put(EndpointImpl.NAME, endpoint.getEndpointName());
-        nmr.getEndpointRegistry().register(endpoint, props);
+       nmr.getEndpointRegistry().register(endpoint, props);
         return endpoint;
     }
 

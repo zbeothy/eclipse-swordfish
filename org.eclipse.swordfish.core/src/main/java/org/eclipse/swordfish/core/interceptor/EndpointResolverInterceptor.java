@@ -76,7 +76,7 @@ public class EndpointResolverInterceptor<T> implements ConfigurationConsumer<T>,
 				throw new SwordfishException("Error resolving endpoint - cannot resolve service for port type " + interfaceName
 						+ " operation " + operation);
 			Map<String,Object> props = new HashMap<String, Object>();
-			props.put(Endpoint.SERVICE_NAME, service);
+			props.put(Endpoint.SERVICE_NAME, service.toString());
 			InternalEndpoint serviceEndpoint = ServiceMixSupport.getEndpoint(nmr, props);
 			if (serviceEndpoint != null) {
 				logger.info("The service endpoint for the servicename + [" + service + "} has been found");

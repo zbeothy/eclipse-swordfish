@@ -11,7 +11,6 @@ import javax.jbi.messaging.MessageExchange.Role;
 import javax.xml.namespace.QName;
 
 import org.apache.servicemix.jbi.runtime.impl.EndpointImpl;
-import org.apache.servicemix.jbi.runtime.impl.MessageExchangeImpl;
 import org.apache.servicemix.nmr.api.Endpoint;
 import org.apache.servicemix.nmr.api.NMR;
 import org.apache.servicemix.nmr.api.Pattern;
@@ -35,7 +34,7 @@ public class TrackingEventHandlerTest extends TargetPlatformOsgiTestCase {
 	public void test1BlockingInterceptingCall() throws Exception {
 		EndpointImpl endpointService1 = null;
 		EndpointImpl endpointService2 = null;
-		NMR nmr = OsgiSupport.getReference(bundleContext, NMR.class);
+		final NMR nmr = OsgiSupport.getReference(bundleContext, NMR.class);
 		assertNotNull(nmr);
 		// prepeare objects for tes
 
@@ -85,11 +84,18 @@ public class TrackingEventHandlerTest extends TargetPlatformOsgiTestCase {
 					exchangeList.get(1).out.getContent().toString());
 
 		} finally {
-			nmr.getEndpointRegistry().unregister(endpointService1, null);
-			nmr.getEndpointRegistry().unregister(endpointService2, null);
+		    unregisterEndpoints(nmr, endpointService1, endpointService2);
 		}
 	}
-
+	public void unregisterEndpoints(NMR nmr, Endpoint... endpoints) {
+	    for (Endpoint endpoint : endpoints) {
+	        try {
+	            nmr.getEndpointRegistry().unregister(endpoint, null);
+	        } catch (Exception ex) {
+	            ex.printStackTrace();
+	        }
+	    }
+	}
 	public void test1BlockingInterceptingCallWithException() throws Exception {
         EndpointImpl endpointService1 = null;
         EndpointImpl endpointService2 = null;
@@ -98,9 +104,9 @@ public class TrackingEventHandlerTest extends TargetPlatformOsgiTestCase {
 
         final List<SimpleExchange> exchangeList = new ArrayList<SimpleExchange>();
 
-        addRegistrationToCancel(bundleContext.registerService(EventHandler.class.getName(), 
+        addRegistrationToCancel(bundleContext.registerService(EventHandler.class.getName(),
         				                                      new SimpleHandler(exchangeList), null));
-        
+
         final String EXCEPTION_TEST_MESSAGE = "messageForException";
         addRegistrationToCancel(bundleContext.registerService(Interceptor.class.getCanonicalName(),
                                                               new ExceptionThrowableInterceptor(EXCEPTION_TEST_MESSAGE), null));
@@ -123,27 +129,27 @@ public class TrackingEventHandlerTest extends TargetPlatformOsgiTestCase {
             } catch(Exception ex){
             }
             Thread.sleep(500);
-            
+
             assertEquals(2, exchangeList.size());
-            
+
             assertEquals(Role.CONSUMER, exchangeList.get(0).role);
             assertEquals("StringSource[<Hello/>]", exchangeList.get(0).in.getContent().toString());
             assertEquals(null, exchangeList.get(0).out);
-            
+
             assertEquals(exchangeList.get(0).id, exchangeList.get(1).id);
             assertEquals(Role.CONSUMER, exchangeList.get(1).role);
             assertEquals("StringSource[<Hello/>]", exchangeList.get(1).in.getContent().toString());
             assertEquals(null, exchangeList.get(1).out.getContent());
             assertEquals(EXCEPTION_TEST_MESSAGE, exchangeList.get(1).error.getMessage());
-            
+
 
         } finally {
-            nmr.getEndpointRegistry().unregister(endpointService1, null);
-            nmr.getEndpointRegistry().unregister(endpointService2, null);
+            unregisterEndpoints(nmr, endpointService1, endpointService2);
         }
     }
 
-	protected String getManifestLocation() {
+	@Override
+    protected String getManifestLocation() {
 		return "classpath:org/eclipse/swordfish/core/tracking/test/MANIFEST.MF";
 	}
 
@@ -183,11 +189,11 @@ public class TrackingEventHandlerTest extends TargetPlatformOsgiTestCase {
 			return EventConstants.TOPIC_TRACKING_EVENT;
 		}
 	}
-	
+
 	private static class ExceptionThrowableInterceptor implements Interceptor {
 
 		private String message;
-		
+
 	    public ExceptionThrowableInterceptor(String message) {
 			this.message = message;
 		}
@@ -195,7 +201,7 @@ public class TrackingEventHandlerTest extends TargetPlatformOsgiTestCase {
 		public void process(MessageExchange exchange) throws SwordfishException {
 			throw new SwordfishException(message);
 		}
-	    
+
 	    public Map<String, ?> getProperties() {
 	        return null;
 	    }

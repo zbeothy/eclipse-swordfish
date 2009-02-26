@@ -4,7 +4,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 import org.junit.Ignore;
@@ -15,6 +18,14 @@ import org.springframework.util.Assert;
 @Ignore
 public class TargetPlatformOsgiTestCase extends BaseOsgiTestCase {
     public static final String TARGET_PLATFORM_SYS_PORPERTY = "swordfishTargetPlatform";
+    private static Map<String, Integer> bundlePriorities;
+    static {
+        bundlePriorities = new HashMap<String, Integer>();
+        bundlePriorities.put("org.eclipse.swordfish.core.configuration", 1);
+        bundlePriorities.put("org.apache.servicemix.kernel.management", 1);
+        bundlePriorities.put("servicemix.kernel.filemonitor", -1);
+    }
+
     @Override
     protected Resource getTestingFrameworkBundlesConfiguration() {
         try {
@@ -62,13 +73,21 @@ public class TargetPlatformOsgiTestCase extends BaseOsgiTestCase {
             arr[secondIndex] = temp;
 
     }
-    private void adjustBundleOrder(Resource[] bundles) {
-        int coreIndex = 0;
-        int coreConfigurationIndex = getIndex(bundles, "org.eclipse.swordfish.core.configuration-");
-        Assert.state(coreConfigurationIndex >= 0);
-        if (coreConfigurationIndex > 0) {
-            swap(bundles, coreIndex, coreConfigurationIndex);
+    private int getPriority(Resource bundle) {
+        for (String key : bundlePriorities.keySet()) {
+            if (bundle.getFilename().contains(key)) {
+                return bundlePriorities.get(key);
+            }
         }
+        return 0;
+    }
+
+    private void adjustBundleOrder(Resource[] bundles) {
+        Arrays.sort(bundles, new Comparator<Resource>() {
+            public int compare(Resource resource1, Resource resource2) {
+                return getPriority(resource2) - getPriority(resource1);
+            }
+        });
     }
 
 
@@ -90,7 +109,6 @@ public class TargetPlatformOsgiTestCase extends BaseOsgiTestCase {
                 }
             }
             if (!exclude && bundle.isFile() && bundle.getName().endsWith("jar")) {
-                //System.out.println(bundle.getName());
                 bundles.add(new FileSystemResource(bundle));
             }
         }
@@ -100,6 +118,9 @@ public class TargetPlatformOsgiTestCase extends BaseOsgiTestCase {
          *TODO: Could anyone propose any less uglier solution  */
         Resource[] bundleArray = bundles.toArray(new Resource[bundles.size()]);
         adjustBundleOrder(bundleArray);
+        for (Resource bundle : bundleArray) {
+            System.out.println(bundle.getFilename());
+        }
         return bundleArray;
     }
 
