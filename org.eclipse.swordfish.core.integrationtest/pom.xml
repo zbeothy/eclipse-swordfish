@@ -41,9 +41,9 @@
         </dependency>
         <dependency>
             <groupId>org.apache.servicemix.jbi</groupId>
-            <artifactId>org.apache.servicemix.jbi.api 
+            <artifactId>org.apache.servicemix.jbi.runtime 
             </artifactId>
-            <version>1.0-m1</version>
+            <version>${smx4.version}</version>
         </dependency>
         
         <dependency>
