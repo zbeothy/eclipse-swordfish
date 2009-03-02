@@ -24,11 +24,7 @@
     </parent>
     <description />
     <dependencies>
-        <dependency>
-            <groupId>org.eclipse.swordfish</groupId>
-            <artifactId>org.eclipse.swordfish.core</artifactId>
-            <version>${swordfishVersion}</version>
-        </dependency>
+       
         <dependency>
             <groupId>org.eclipse.swordfish</groupId>
             <artifactId>org.eclipse.swordfish.api</artifactId>
@@ -82,7 +78,7 @@
                         <Bundle-SymbolicName>${artifactId}</Bundle-SymbolicName>
                         <Import-Package>*</Import-Package>
                         <Private-Package></Private-Package>
-                        <Export-Package>${groupId}.*</Export-Package>
+                        <Export-Package>${artifactId}.*</Export-Package>
                         <Spring-Context>*;create-asynchronously:=true</Spring-Context> 
                     </instructions>
                 </configuration>
