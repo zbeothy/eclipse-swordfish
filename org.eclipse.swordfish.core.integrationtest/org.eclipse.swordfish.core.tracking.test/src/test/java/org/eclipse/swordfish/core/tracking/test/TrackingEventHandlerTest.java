@@ -4,7 +4,7 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *     SOPERA GmbH - initial API and implementation
  *******************************************************************************/
@@ -106,7 +106,7 @@ public class TrackingEventHandlerTest extends TargetPlatformOsgiTestCase {
 	        }
 	    }
 	}
-	public void test1BlockingInterceptingCallWithException() throws Exception {
+	public void test2BlockingInterceptingCallWithException() throws Exception {
         EndpointImpl endpointService1 = null;
         EndpointImpl endpointService2 = null;
         NMR nmr = OsgiSupport.getReference(bundleContext, NMR.class);
@@ -149,7 +149,6 @@ public class TrackingEventHandlerTest extends TargetPlatformOsgiTestCase {
             assertEquals(exchangeList.get(0).id, exchangeList.get(1).id);
             assertEquals(Role.CONSUMER, exchangeList.get(1).role);
             assertEquals("StringSource[<Hello/>]", exchangeList.get(1).in.getContent().toString());
-            assertEquals(null, exchangeList.get(1).out.getContent());
             assertEquals(EXCEPTION_TEST_MESSAGE, exchangeList.get(1).error.getMessage());
 
 
