@@ -121,4 +121,9 @@ public class SwordfishExchangeListener implements ExchangeListener, Initializing
 		Assert.notNull(swordfishContext);
 		start();
 	}
+
+    public void exchangeFailed(Exchange arg0) {
+        // TODO Auto-generated method stub
+
+    }
 }

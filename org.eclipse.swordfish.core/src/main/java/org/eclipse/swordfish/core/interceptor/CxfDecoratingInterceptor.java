@@ -4,7 +4,7 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *     SOPERA GmbH - initial API and implementation
  *******************************************************************************/
@@ -17,6 +17,7 @@ import java.util.Map;
 import javax.jbi.messaging.MessageExchange;
 import javax.xml.transform.Source;
 
+import org.apache.servicemix.jbi.jaxp.SourceTransformer;
 import org.apache.servicemix.nmr.api.Endpoint;
 import org.apache.servicemix.nmr.api.NMR;
 import org.apache.servicemix.nmr.api.Role;
@@ -98,7 +99,7 @@ public class CxfDecoratingInterceptor implements Interceptor {
 					endIndex = cutMessage.substring(0, endIndex).lastIndexOf("</");
 					String bodyMessage = cutMessage.substring(startIndex, endIndex);
 					bodyMessage = xmlPrefix + bodyMessage;
-					messageExchange.getOut(false).setBody(new StringSource(bodyMessage));
+					messageExchange.getOut(false).setBody(new SourceTransformer().toDOMSource(new StringSource(bodyMessage)));
 				}
 			}
 		if (messageExchange.getStatus() == Status.Active) {

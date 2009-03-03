@@ -8,7 +8,7 @@
  * Contributors:
  *     SOPERA GmbH - initial API and implementation
  *******************************************************************************/
-package org.eclipse.swordfish.endpoints.http;
+package org.eclipse.swordfish.core.util;
 
 import java.net.URI;
 import java.util.concurrent.atomic.AtomicBoolean;

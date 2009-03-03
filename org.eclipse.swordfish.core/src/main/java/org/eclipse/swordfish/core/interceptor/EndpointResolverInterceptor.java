@@ -4,7 +4,7 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *     SOPERA GmbH - initial API and implementation
  *******************************************************************************/
@@ -58,7 +58,11 @@ public class EndpointResolverInterceptor<T> implements ConfigurationConsumer<T>,
 		if (exchange.getRole() != Role.Consumer) {
 			return;
 		}
-			QName interfaceName = (QName) exchange.getProperty(Endpoint.INTERFACE_NAME);
+		if (exchange.getTarget() != null && ServiceMixSupport.getEndpoint(exchange.getTarget()) != null) {
+		    return;
+		}
+		QName interfaceName = (QName) exchange.getProperty(Endpoint.INTERFACE_NAME);
+
 		if (interfaceName == null) {
 			interfaceName = (QName) exchange.getProperty(MessageExchangeImpl.INTERFACE_NAME_PROP);
 		}

@@ -27,7 +27,6 @@
   
   <bean id="loggingInterceptor"
 		class="org.eclipse.swordfish.core.interceptor.LoggingInterceptor"/> 
-  <osgi:service ref="loggingInterceptor" interface="org.eclipse.swordfish.api.Interceptor"/>	
   
   <bean id="cxfDecoratingInterceptor"
 		class="org.eclipse.swordfish.core.interceptor.CxfDecoratingInterceptor" p:nmr-ref="nmr"/>

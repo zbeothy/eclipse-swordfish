@@ -4,7 +4,7 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *     SOPERA GmbH - initial API and implementation
  *******************************************************************************/
@@ -66,7 +66,7 @@ public class ServiceMixSupport {
 		messageExchange.setProperty(JbiConstants.SENDER_ENDPOINT, serviceEndpoints[0].getServiceName() + ":" + serviceEndpoints[0].getEndpointName());
 	}
 	public static InternalEndpoint getEndpoint(Reference reference) {
-    	Iterator<InternalEndpoint> endpointsIterator = ((InternalReference)reference).choose().iterator();
+	    Iterator<InternalEndpoint> endpointsIterator = ((InternalReference)reference).choose().iterator();
     	if (!endpointsIterator.hasNext()) {
     		return null;
         }
@@ -79,5 +79,18 @@ public class ServiceMixSupport {
         	return null;
         }
         return endpointsIterator.next();
+    }
+
+	public static java.io.InputStream convertStringToIS(String xml,
+            String encoding) {
+        if (xml == null)
+            return null;
+        xml = xml.trim();
+        java.io.InputStream in = null;
+        try {
+            in = new java.io.ByteArrayInputStream(xml.getBytes(encoding));
+        } catch (Exception ex) {
+        }
+        return in;
     }
 }

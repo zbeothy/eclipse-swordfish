@@ -4,11 +4,11 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *     SOPERA GmbH - initial API and implementation
  *******************************************************************************/
-package org.eclipse.swordfish.endpoints.http;
+package org.eclipse.swordfish.core.util;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,6 +23,7 @@ import org.apache.servicemix.common.JbiConstants;
 import org.apache.servicemix.jbi.jaxp.SourceTransformer;
 import org.apache.servicemix.jbi.runtime.impl.MessageExchangeImpl;
 import org.apache.servicemix.jbi.runtime.impl.NormalizedMessageImpl;
+import org.apache.servicemix.nmr.api.Endpoint;
 import org.apache.servicemix.nmr.api.NMR;
 import org.apache.servicemix.nmr.core.ClientChannel;
 import org.apache.servicemix.nmr.core.ExchangeImpl;
@@ -41,7 +42,14 @@ public class SimpleClient implements InitializingBean {
     private static Logger log = LoggerFactory.getLogger(SimpleClient.class);
     private String dataToSend;
     private String uriToSend;
-    private String endpointNameToSend;
+    private String targetEndpointName;
+    public String getTargetEndpointName() {
+        return targetEndpointName;
+    }
+
+    public void setTargetEndpointName(String targetEndpointName) {
+        this.targetEndpointName = targetEndpointName;
+    }
 
     private Integer delayBeforeSending = 10000;
     private NMR nmr;
@@ -78,7 +86,7 @@ public class SimpleClient implements InitializingBean {
         JBIMarshaler marshaler  = new JBIMarshaler();
         SoapMessage soapMessage = soapMarshaler
                 .createReader().read(
-                        ServiceMixHelper.convertStringToIS(dataToSend, "UTF8"));
+                        ServiceMixSupport.convertStringToIS(dataToSend, "UTF8"));
         NormalizedMessage normalizedMessage = new NormalizedMessageImpl(
                 new MessageImpl());
         marshaler.toNMS(normalizedMessage, soapMessage);
@@ -93,7 +101,7 @@ public class SimpleClient implements InitializingBean {
         }
         //exchange.setSource(ServiceMixHelper.getEndpoint(nmr, endpointProps));
         Map<String, Object> targetProps = new HashMap<String, Object>();
-        // targetProps.put(ENDPOINT_NAME, endpointNameToSend);
+        targetProps.put(Endpoint.ENDPOINT_NAME, targetEndpointName);
         exchange.setTarget(nmr.getEndpointRegistry().lookup(targetProps));
         log.info("Sending synchronous request with in message " + dataToSend);
         new ClientChannel(nmr).sendSync(exchange);
@@ -126,13 +134,6 @@ public class SimpleClient implements InitializingBean {
         this.uriToSend = uriToSend;
     }
 
-    public String getEndpointNameToSend() {
-        return endpointNameToSend;
-    }
-
-    public void setEndpointNameToSend(String endpointNameToSend) {
-        this.endpointNameToSend = endpointNameToSend;
-    }
 
     public Integer getDelayBeforeSending() {
         return delayBeforeSending;

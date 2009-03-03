@@ -55,7 +55,6 @@
         <module>org.eclipse.swordfish.core</module>
         <module>org.eclipse.swordfish.core.tracking</module>
         <module>org.eclipse.swordfish.samples</module>
-        <module>org.eclipse.swordfish.endpoints</module>
         <module>org.eclipse.swordfish.compatibility</module>
         <module>org.eclipse.swordfish.bundles</module>
     </modules>
@@ -119,7 +118,7 @@
      <dependency>
 		<groupId>org.apache.servicemix.jbi</groupId>
 		<artifactId>org.apache.servicemix.jbi.runtime</artifactId>
-        <version>1.0-m1</version>
+        <version>${smx4.version}</version>
         <scope>provided</scope>
 	</dependency>
 	<dependency>
