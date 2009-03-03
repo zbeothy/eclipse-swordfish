@@ -51,7 +51,7 @@ public class SimpleClient implements InitializingBean {
         this.targetEndpointName = targetEndpointName;
     }
 
-    private Integer delayBeforeSending = 10000;
+    private Integer delayBeforeSending = 5000;
     private NMR nmr;
 
     public SimpleClient() {
@@ -101,6 +101,10 @@ public class SimpleClient implements InitializingBean {
         }
         //exchange.setSource(ServiceMixHelper.getEndpoint(nmr, endpointProps));
         Map<String, Object> targetProps = new HashMap<String, Object>();
+        //TODO please find more suitable solution
+        if (targetEndpointName == null) {
+            targetEndpointName = "JustDummyEndpointName";
+        }
         targetProps.put(Endpoint.ENDPOINT_NAME, targetEndpointName);
         exchange.setTarget(nmr.getEndpointRegistry().lookup(targetProps));
         log.info("Sending synchronous request with in message " + dataToSend);
