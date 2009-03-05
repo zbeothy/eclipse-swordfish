@@ -24,8 +24,9 @@
                  locationURI="http://localhost:8192/cxfsampleProvider/"
                  soap="true"
                  role="provider"/>             
+    
+    
     <osgi:reference id="httpComponent" interface="javax.jbi.component.Component"
-        filter="(NAME=servicemix-http)" timeout="4000" cardinality="1..1"/>  
-         
+        filter="(NAME=servicemix-http)" timeout="4000" cardinality="1..1"/>         
 </beans>               
                  

@@ -57,7 +57,7 @@ public class CxfDecoratingInterceptor implements Interceptor {
 			Field endpointField = InternalEndpointWrapper.class.getDeclaredField("endpoint");
 			endpointField.setAccessible(true);
 			Endpoint innerEndpoint = (Endpoint)endpointField.get(endpointWrapper);
-			if (innerEndpoint != null && innerEndpoint.getClass().getCanonicalName().contains("cxf")) {
+			if (innerEndpoint != null && innerEndpoint.getClass().getCanonicalName() != null && innerEndpoint.getClass().getCanonicalName().contains("cxf")) {
 				return true;
 			}
 		} catch (Exception ex) {

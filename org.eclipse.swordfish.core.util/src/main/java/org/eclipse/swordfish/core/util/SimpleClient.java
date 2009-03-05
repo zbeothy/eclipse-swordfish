@@ -107,7 +107,7 @@ public class SimpleClient implements InitializingBean {
         }
         targetProps.put(Endpoint.ENDPOINT_NAME, targetEndpointName);
         exchange.setTarget(nmr.getEndpointRegistry().lookup(targetProps));
-        log.info("Sending synchronous request with in message " + dataToSend);
+        log.info("!!SimpleClient is sending synchronous request with in message " + dataToSend);
         new ClientChannel(nmr).sendSync(exchange);
         if (exchange.getError() != null) {
             log.error("The invocation wasn't successful", exchange.getError());
@@ -117,7 +117,7 @@ public class SimpleClient implements InitializingBean {
             log.error("The invocation wasn't successful "
                     + exchange.getFault().getBody().toString());
         }
-        log.info("The response is "
+        log.info("!!SimpleClient have received the response: "
                 + new SourceTransformer().toString(exchange.getOut().getBody(
                         Source.class)));
     }

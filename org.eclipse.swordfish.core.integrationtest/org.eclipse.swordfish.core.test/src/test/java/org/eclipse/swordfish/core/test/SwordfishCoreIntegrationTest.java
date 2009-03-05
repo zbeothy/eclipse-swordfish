@@ -10,15 +10,18 @@
  *******************************************************************************/
 package org.eclipse.swordfish.core.test;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.jbi.messaging.MessageExchange;
 import javax.xml.namespace.QName;
 
 import org.apache.servicemix.jbi.runtime.impl.EndpointImpl;
 import org.apache.servicemix.jbi.runtime.impl.MessageExchangeImpl;
 import org.apache.servicemix.nmr.api.Endpoint;
+import org.apache.servicemix.nmr.api.Exchange;
 import org.apache.servicemix.nmr.api.NMR;
 import org.apache.servicemix.nmr.api.Pattern;
 import org.apache.servicemix.nmr.core.ChannelImpl;
@@ -70,9 +73,14 @@ public class SwordfishCoreIntegrationTest extends TargetPlatformOsgiTestCase {
             Thread.sleep(500);
             assertEquals(endpointService2.getQueue().size(), 1);
             assertEquals(endpointService1.getQueue().size(), 1);
-            assertEquals(mockInterceptor.getExchanges().size(), 2);
-            MessageExchangeImpl messageExchangeImpl = (MessageExchangeImpl) mockInterceptor.getExchanges().get(0);
-            assertEquals(exchange, messageExchangeImpl.getInternalExchange());
+            List<Exchange> exchanges = new ArrayList<Exchange>();
+            for (MessageExchange messageExchangeIt : mockInterceptor.getExchanges()) {
+                Exchange innerExchange = ((MessageExchangeImpl) messageExchangeIt).getInternalExchange();
+                if (innerExchange == exchange) {
+                    exchanges.add(innerExchange);
+                }
+            }
+            assertEquals(exchanges.size(), 2);
         } finally {
             nmr.getEndpointRegistry().unregister(endpointService1, null);
             nmr.getEndpointRegistry().unregister(endpointService2, null);
@@ -80,6 +88,7 @@ public class SwordfishCoreIntegrationTest extends TargetPlatformOsgiTestCase {
     }
 
     public void test3BlockingInterceptingCall() throws Exception {
+        System.out.println("!!!Test3");
         EndpointImpl endpointService1 = null;
         EndpointImpl endpointService2 = null;
         NMR nmr = OsgiSupport.getReference(bundleContext, NMR.class);
@@ -101,12 +110,16 @@ public class SwordfishCoreIntegrationTest extends TargetPlatformOsgiTestCase {
             assertEquals(endpointService2.getQueue().size(), 0);
             assertEquals(endpointService1.getQueue().size(), 0);
             assertTrue(nmr.createChannel().sendSync(exchange));
-            Thread.sleep(500);
             assertEquals(endpointService2.getQueue().size(), 1);
             assertEquals(endpointService1.getQueue().size(), 0);
-            assertEquals(mockInterceptor.getExchanges().size(), 2);
-            MessageExchangeImpl messageExchangeImpl = (MessageExchangeImpl) mockInterceptor.getExchanges().get(0);
-            assertEquals(exchange, messageExchangeImpl.getInternalExchange());
+            List<Exchange> exchanges = new ArrayList<Exchange>();
+            for (MessageExchange messageExchangeIt : mockInterceptor.getExchanges()) {
+                Exchange innerExchange = ((MessageExchangeImpl) messageExchangeIt).getInternalExchange();
+                if (innerExchange == exchange) {
+                    exchanges.add(innerExchange);
+                }
+            }
+            assertEquals(exchanges.size(), 2);
         } finally {
             nmr.getEndpointRegistry().unregister(endpointService1, null);
             nmr.getEndpointRegistry().unregister(endpointService2, null);

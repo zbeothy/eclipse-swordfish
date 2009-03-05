@@ -4,7 +4,7 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *     SOPERA GmbH - initial API and implementation
  *******************************************************************************/
@@ -31,9 +31,15 @@ public class TargetPlatformOsgiTestCase extends BaseOsgiTestCase {
     private static Map<String, Integer> bundlePriorities;
     static {
         bundlePriorities = new HashMap<String, Integer>();
+        bundlePriorities.put("servicemix.transaction", 2);
+        bundlePriorities.put("geronimo-jta", 2);
         bundlePriorities.put("org.eclipse.swordfish.core.configuration", 1);
         bundlePriorities.put("org.apache.servicemix.kernel.management", 1);
-        bundlePriorities.put("servicemix.kernel.filemonitor", -1);
+        bundlePriorities.put("servicemix.kernel.filemonitor", -5);
+        bundlePriorities.put("servicemix.transaction", -4);
+        bundlePriorities.put("servicemix.kernel.filemonitor", -5);
+        bundlePriorities.put("cxfendpoint", -6);
+        bundlePriorities.put("samples.http", -7);
     }
 
     @Override
@@ -65,7 +71,7 @@ public class TargetPlatformOsgiTestCase extends BaseOsgiTestCase {
     }
 
     protected List<Pattern> getExcludeBundlePatterns() {
-        return Arrays.asList(Pattern.compile("org.eclipse.swordfish.samples.cxfendpoint.*"), Pattern.compile("org.eclipse.swordfish.samples.http.*"), Pattern.compile("servicemix-http-.*"),Pattern.compile("org.eclipse.osgi-3.4.2.*"));
+        return Arrays.asList(Pattern.compile("org.eclipse.osgi-3.4.2.*"), Pattern.compile("org.eclipse.swordfish.samples.http.*"));
     }
     private int getIndex(Resource[] bundles, String bundleNamePart) {
         int i = -1;

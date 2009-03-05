@@ -4,7 +4,7 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *     SOPERA GmbH - initial API and implementation
  *******************************************************************************/
@@ -48,6 +48,8 @@ public class BaseOsgiTestCase extends AbstractConfigurableBundleCreatorTests {
             System.setProperty("eclipse.ignoreApp", "true");
             System.setProperty("osgi.clean", "true");
             System.setProperty("osgi.console", "22763");
+            System.setProperty("servicemix.base", ".");
+            System.setProperty("org.osgi.framework.system.packages", "com.sun.jimi.core, com.sun.net.ssl, com.sun.net.ssl.internal.ssl, com.sun.org.apache.xalan.internal, com.sun.org.apache.xalan.internal.res, com.sun.org.apache.xalan.internal.xsltc.trax, com.sun.org.apache.xerces.internal.dom, com.sun.org.apache.xerces.internal.jaxp, com.sun.org.apache.xerces.internal.xni, com.sun.org.apache.xml.internal, com.sun.org.apache.xml.internal.utils, com.sun.org.apache.xpath.internal, com.sun.org.apache.xpath.internal.jaxp, com.sun.org.apache.xpath.internal.objects, com.sun.xml.fastinfoset.dom, com.sun.xml.fastinfoset.sax, com.sun.xml.fastinfoset.stax, javax.annotation, javax.annotation.security, javax.crypto, javax.crypto.interfaces, javax.crypto.spec, javax.imageio, javax.imageio.metadata, javax.imageio.stream, javax.jms, javax.management, javax.management.loading, javax.management.modelmbean, javax.management.remote, javax.naming, javax.naming.directory, javax.naming.spi, javax.net, javax.net.ssl, javax.rmi, javax.security.auth, javax.security.auth.callback, javax.security.auth.login, javax.security.auth.spi, javax.security.auth.x500, javax.security.cert, javax.security.sasl, javax.servlet, javax.sql, javax.swing, javax.swing.event, javax.xml.datatype,  javax.xml.parsers, javax.xml.namespace,javax.xml.transform, javax.xml.transform.dom, javax.xml.transform.sax, javax.xml.transform.stream, javax.xml.validation, javax.xml.xpath, org.jvnet.fastinfoset, org.jvnet.staxex, org.omg.CORBA, org.omg.CosNaming, org.w3c.dom, org.w3c.dom.bootstrap, org.w3c.dom.ls, org.w3c.dom.traversal, org.xml.sax, org.xml.sax.ext, org.xml.sax.helpers, sun.misc, sun.security.provider,javax.activation, org.omg.CORBA.TypeCodePackage, org.omg.CORBA.portable, org.omg.PortableServer, org.omg.PortableServer.POAPackage, javax.swing.border, org.w3c.dom.events, org.w3c.dom.html, org.w3c.dom.ranges, javax.swing.tree, javax.management.remote.rmi");
         } catch (Throwable t) {
         }
     }
