@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?><!--
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
     Copyright (c) 2008, 2009 SOPERA GmbH.
     All rights reserved. This program and the accompanying materials
     are made available under the terms of the Eclipse Public License v1.0
@@ -12,30 +13,42 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+	<url>http://www.eclipse.org/swordfish</url>
 	<parent>
 		<groupId>org.eclipse.swordfish</groupId>
-		 <artifactId>org.eclipse.swordfish.integrationtest</artifactId>
- 		<version>basic</version>
+		<artifactId>org.eclipse.swordfish.integrationtest</artifactId>
+		<version>basic</version>
 	</parent>
 	<groupId>org.eclipse.swordfish</groupId>
 	<packaging>jar</packaging>
-	<artifactId>org.eclipse.swordfish.core.configuration.test 
-	</artifactId>
-	<name>org.eclipse.swordfish.core.configuration.test 
-	</name>
+	<artifactId>org.eclipse.swordfish.core.configuration.test</artifactId>
+	<name>org.eclipse.swordfish.core.configuration.test</name>
 	<version>${swordfishVersion}</version>
-	
+
 	<description />
 	<dependencies>
-		 <dependency>
+		<dependency>
 			<groupId>org.eclipse.swordfish</groupId>
 			<artifactId>org.eclipse.swordfish.core.test.util</artifactId>
 			<version>${swordfishVersion}</version>
-		</dependency> 
+		</dependency>
+		<dependency>
+			<groupId>javax.transaction</groupId>
+			<artifactId>jta</artifactId>
+			<version>1.1</version>
+		</dependency>
 	</dependencies>
+	<issueManagement>
+		<system>Eclipse Bugzilla</system>
+		<url>https://bugs.eclipse.org/bugs</url>
+	</issueManagement>
+	<organization>
+		<name>SOPERA GmbH</name>
+		<url>http://www.eclipse.org</url>
+	</organization>
 	<build>
-		<plugins>			
-			
+		<plugins>
+
 		</plugins>
 	</build>
 </project>
