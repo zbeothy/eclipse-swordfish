@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright (c) 2008, 2009 SOPERA GmbH.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+    
+    Contributors:
+        SOPERA GmbH - initial API and implementation
+ -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.eclipse.swordfish</groupId>
+    <packaging>bundle</packaging>
+    <artifactId>org.eclipse.swordfish.registry</artifactId>
+    <name>org.eclipse.swordfish.registry</name>
+    <version>${swordfishVersion}</version>
+    <parent>
+        <groupId>org.eclipse.swordfish</groupId>
+        <artifactId>parent</artifactId>
+        <version>basic</version>
+    </parent>
+    <description />
+    <dependencies>
+<!--
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.4</version>
+        </dependency>
+-->
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-library</artifactId>
+            <version>1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.easymock</groupId>
+            <artifactId>easymock</artifactId>
+            <version>2.4</version>
+        </dependency>
+ <!--
+        <dependency>
+            <groupId>org.osgi</groupId>
+            <artifactId>osgi_R4_compendium</artifactId>
+            <version>1.0</version>
+        </dependency>
+-->
+        <dependency>
+            <groupId>wsdl4j</groupId>
+            <artifactId>wsdl4j</artifactId>
+            <version>1.5.3</version>
+            <type>bundle</type>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>2.4</version>
+        </dependency>
+    </dependencies>
+    <build>
+        <plugins>
+			<plugin>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>maven-bundle-plugin</artifactId>
+				<extensions>true</extensions>
+				<configuration>
+                    <manifestLocation>META-INF</manifestLocation>
+					<instructions>
+                        <Bundle-Name>org.eclipse.swordfish.registry</Bundle-Name>
+						<Bundle-SymbolicName>org.eclipse.swordfish.registry</Bundle-SymbolicName>
+						<Import-Package>javax.servlet;version="2.4.0",javax.servlet.http;version="2.4.0",javax.wsdl,javax.wsdl.factory,javax.wsdl.xml,javax.xml.namespace,org.xml.sax,org.osgi.service.http;version="1.2.0",org.slf4j;version="1.5.5"</Import-Package>
+					    <Spring-Context>*;create-asynchronously:=true</Spring-Context> 
+					</instructions>
+				</configuration>
+			</plugin>
+        </plugins>
+    </build>
+</project>
